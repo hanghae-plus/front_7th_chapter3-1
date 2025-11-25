@@ -104,6 +104,27 @@ export const Table: React.FC<TableProps> = ({
 
   const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
 
+
+  // TODO: apply status type
+  const renderBadgeByStatus = (status: string) => {
+    if (status === 'published') return <Badge type="success">게시됨</Badge>;
+    if (status === 'draft') return <Badge type="warning">임시저장</Badge>;
+    if (status === 'rejected') return <Badge type="danger">거부됨</Badge>;
+    if (status === 'archived') return <Badge type="primary">보관됨</Badge>;
+    if (status === 'pending') return <Badge type="info">대기중</Badge>;
+    return null;
+  }
+
+  // TODO: apply role type
+  const renderBadgeByRole = (role: string) => {
+    if (role === 'admin') return <Badge type="danger">관리자</Badge>;
+    if (role === 'moderator') return <Badge type="warning">운영자</Badge>;
+    if (role === 'user') return <Badge type="primary">사용자</Badge>;
+    if (role === 'guest') return <Badge type="secondary">게스트</Badge>;
+    return null;
+  }
+
+
   // 🚨 Bad Practice: Table 컴포넌트가 도메인별 렌더링 로직을 알고 있음
   const renderCell = (row: any, columnKey: string) => {
     const value = row[columnKey];
@@ -111,14 +132,14 @@ export const Table: React.FC<TableProps> = ({
     // 도메인별 특수 렌더링
     if (entityType === 'user') {
       if (columnKey === 'role') {
-        return <Badge userRole={value} showIcon />;
+        return renderBadgeByRole(value);
       }
       if (columnKey === 'status') {
         // User status를 Badge status로 변환
         const badgeStatus =
           value === 'active' ? 'published' :
-          value === 'inactive' ? 'draft' : 'rejected';
-        return <Badge status={badgeStatus} showIcon />;
+            value === 'inactive' ? 'draft' : 'rejected';
+        return renderBadgeByStatus(badgeStatus);
       }
       if (columnKey === 'lastLogin') {
         return value || '-';
@@ -141,13 +162,13 @@ export const Table: React.FC<TableProps> = ({
       if (columnKey === 'category') {
         const type =
           value === 'development' ? 'primary' :
-          value === 'design' ? 'info' :
-          value === 'accessibility' ? 'danger' :
-          'secondary';
+            value === 'design' ? 'info' :
+              value === 'accessibility' ? 'danger' :
+                'secondary';
         return <Badge type={type} pill>{value}</Badge>;
       }
       if (columnKey === 'status') {
-        return <Badge status={value} showIcon />;
+        return renderBadgeByStatus(value);
       }
       if (columnKey === 'views') {
         return value?.toLocaleString() || '0';
