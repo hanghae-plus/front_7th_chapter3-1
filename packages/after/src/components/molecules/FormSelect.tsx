@@ -6,53 +6,56 @@ interface Option {
   label: string;
 }
 
-interface FormSelectProps {
-  name: string;
-  value: string;
-  onChange: (value: string) => void;
+interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  id: string;
   options: Option[];
   label?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
-  error?: string;
+  invalid?: boolean;
+  invalidText?: string;
   helpText?: string;
-  size?: 'sm' | 'md' | 'lg';
+  // size?: 'sm' | 'md' | 'lg';
 }
 
 export const FormSelect: React.FC<FormSelectProps> = ({
-  name,
-  value,
-  onChange,
+  id,
+  // value,
+  // onChange,
   options,
   label,
   placeholder = 'Select an option...',
   required = false,
   disabled = false,
-  error,
+
+  invalid,
+  invalidText,
   helpText,
-  size = 'md',
+  // size = 'md',
+  ...props
 }) => {
-  void size; // Keep for API consistency but not used in rendering
-  const selectClasses = ['form-select', error && 'error'].filter(Boolean).join(' ');
-  const helperClasses = ['form-helper-text', error && 'error'].filter(Boolean).join(' ');
+  // void size; // Keep for API consistency but not used in rendering
+  const selectClasses = ['form-select', invalid && 'error'].filter(Boolean).join(' ');
+  const helperClasses = ['form-helper-text', invalid && 'error'].filter(Boolean).join(' ');
+
+  const message = invalid ? invalidText : helpText;
 
   return (
     <div className="form-group">
       {label && (
-        <label className="form-label">
+        <label htmlFor={id} className="form-label">
           {label}
           {required && <span style={{ color: '#d32f2f' }}>*</span>}
         </label>
       )}
 
       <select
-        name={name}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        id={id}
         required={required}
         disabled={disabled}
         className={selectClasses}
+        {...props}
       >
         <option value="" disabled>
           {placeholder}
@@ -63,9 +66,7 @@ export const FormSelect: React.FC<FormSelectProps> = ({
           </option>
         ))}
       </select>
-
-      {error && <span className={helperClasses}>{error}</span>}
-      {helpText && !error && <span className="form-helper-text">{helpText}</span>}
+      {message && <span id={`${id}-helper-text`} className={helperClasses}>{message}</span>}
     </div>
   );
 };
