@@ -470,28 +470,32 @@ export const ManagementPage: React.FC = () => {
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <FormSelect
-                  name="role"
-                  value={formData.role || 'user'}
-                  onChange={(value) => setFormData({ ...formData, role: value })}
+                  id="role"
+                  // value={formData.role || 'user'}
+                  // onChange={(value) => setFormData({ ...formData, role: value })}
                   options={[
                     { value: 'user', label: '사용자' },
                     { value: 'moderator', label: '운영자' },
                     { value: 'admin', label: '관리자' },
                   ]}
                   label="역할"
-                  size="md"
+                  invalid={!!userErrors.role}
+                  invalidText={userErrors.role?.message}
+                  {...userRegister('role')}
                 />
                 <FormSelect
-                  name="status"
-                  value={formData.status || 'active'}
-                  onChange={(value) => setFormData({ ...formData, status: value })}
+                  id="status"
+                  // value={formData.status || 'active'}
+                  // onChange={(value) => setFormData({ ...formData, status: value })}
                   options={[
                     { value: 'active', label: '활성' },
                     { value: 'inactive', label: '비활성' },
                     { value: 'suspended', label: '정지' },
                   ]}
                   label="상태"
-                  size="md"
+                  invalid={!!userErrors.status}
+                  invalidText={userErrors.status?.message}
+                  {...userRegister('status')}
                 />
               </div>
             </>
@@ -524,9 +528,9 @@ export const ManagementPage: React.FC = () => {
                   {...postRegister('author')}
                 />
                 <FormSelect
-                  name="category"
-                  value={formData.category || ''}
-                  onChange={(value) => setFormData({ ...formData, category: value })}
+                  id="category"
+                  // value={formData.category || ''}
+                  // onChange={(value) => setFormData({ ...formData, category: value })}
                   options={[
                     { value: 'development', label: 'Development' },
                     { value: 'design', label: 'Design' },
@@ -534,7 +538,9 @@ export const ManagementPage: React.FC = () => {
                   ]}
                   label="카테고리"
                   placeholder="카테고리 선택"
-                  size="md"
+                  invalid={!!postErrors.category}
+                  invalidText={postErrors.category?.message}
+                  {...postRegister('category')}
                 />
               </div>
               <FormTextarea
@@ -617,28 +623,32 @@ export const ManagementPage: React.FC = () => {
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <FormSelect
-                  name="role"
-                  value={formData.role || 'user'}
-                  onChange={(value) => setFormData({ ...formData, role: value })}
+                  id="role"
+                  // value={formData.role || 'user'}
+                  // onChange={(value) => setFormData({ ...formData, role: value })}
                   options={[
                     { value: 'user', label: '사용자' },
                     { value: 'moderator', label: '운영자' },
                     { value: 'admin', label: '관리자' },
                   ]}
                   label="역할"
-                  size="md"
+                  invalid={!!userErrors.role}
+                  invalidText={userErrors.role?.message}
+                  {...userRegister('role')}
                 />
                 <FormSelect
-                  name="status"
-                  value={formData.status || 'active'}
-                  onChange={(value) => setFormData({ ...formData, status: value })}
+                  id="status"
+                  // value={formData.status || 'active'}
+                  // onChange={(value) => setFormData({ ...formData, status: value })}
                   options={[
                     { value: 'active', label: '활성' },
                     { value: 'inactive', label: '비활성' },
                     { value: 'suspended', label: '정지' },
                   ]}
                   label="상태"
-                  size="md"
+                  invalid={!!userErrors.status}
+                  invalidText={userErrors.status?.message}
+                  {...userRegister('status')}
                 />
               </div>
             </>
@@ -671,9 +681,9 @@ export const ManagementPage: React.FC = () => {
                   {...postRegister('author')}
                 />
                 <FormSelect
-                  name="category"
-                  value={formData.category || ''}
-                  onChange={(value) => setFormData({ ...formData, category: value })}
+                  id="category"
+                  // value={formData.category || ''}
+                  // onChange={(value) => setFormData({ ...formData, category: value })}
                   options={[
                     { value: 'development', label: 'Development' },
                     { value: 'design', label: 'Design' },
@@ -681,7 +691,9 @@ export const ManagementPage: React.FC = () => {
                   ]}
                   label="카테고리"
                   placeholder="카테고리 선택"
-                  size="md"
+                  invalid={!!postErrors.category}
+                  invalidText={postErrors.category?.message}
+                  {...postRegister('category')}
                 />
               </div>
               <FormTextarea
