@@ -14,4 +14,6 @@ export const userSchema = z.object({
             (val) => val.endsWith('@company.com') || val.endsWith('@example.com'),
             '회사 이메일만 사용 가능합니다'
         ),
+    role: z.enum(['user', 'moderator', 'admin']),
+    status: z.enum(['active', 'inactive', 'suspended']),
 });

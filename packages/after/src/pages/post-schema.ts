@@ -8,4 +8,5 @@ export const postSchema = z.object({
         .refine((value) => !['광고', '스팸', '홍보'].includes(value), '제목에 금지된 단어가 포함되어 있습니다'),
     author: z.string(),
     content: z.string(),
+    category: z.enum(['development', 'design', 'accessibility']),
 });
