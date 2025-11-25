@@ -538,12 +538,15 @@ export const ManagementPage: React.FC = () => {
                 />
               </div>
               <FormTextarea
-                name="content"
-                value={formData.content || ''}
-                onChange={(value) => setFormData({ ...formData, content: value })}
+                id="content"
+                // value={formData.content || ''}
+                // onChange={(value) => setFormData({ ...formData, content: value })}
                 label="내용"
                 placeholder="게시글 내용을 입력하세요"
                 rows={6}
+                invalid={!!postErrors.content}
+                invalidText={postErrors.content?.message}
+                {...postRegister('content')}
               />
             </>
           )}
@@ -682,12 +685,15 @@ export const ManagementPage: React.FC = () => {
                 />
               </div>
               <FormTextarea
-                name="content"
-                value={formData.content || ''}
-                onChange={(value) => setFormData({ ...formData, content: value })}
+                id="content"
+                // value={formData.content || ''}
+                // onChange={(value) => setFormData({ ...formData, content: value })}
                 label="내용"
                 placeholder="게시글 내용을 입력하세요"
                 rows={6}
+                invalid={!!postErrors.content}
+                invalidText={postErrors.content?.message}
+                {...postRegister('content')}
               />
             </>
           )}
