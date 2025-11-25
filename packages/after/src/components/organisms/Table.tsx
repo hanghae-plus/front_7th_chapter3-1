@@ -263,7 +263,7 @@ export const Table: React.FC<TableProps> = ({
           gap: '8px',
           justifyContent: 'center',
         }}>
-          <button
+          {/* <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
             style={{
@@ -275,11 +275,12 @@ export const Table: React.FC<TableProps> = ({
             }}
           >
             이전
-          </button>
+          </button> */}
+          <Button size="sm" variant="secondary" disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(1, p - 1))}>이전</Button>
           <span style={{ padding: '6px 12px' }}>
             {currentPage} / {totalPages}
           </span>
-          <button
+          {/* <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
             style={{
@@ -291,7 +292,8 @@ export const Table: React.FC<TableProps> = ({
             }}
           >
             다음
-          </button>
+          </button> */}
+          <Button size="sm" variant="secondary" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}>다음</Button>
         </div>
       )}
     </div>

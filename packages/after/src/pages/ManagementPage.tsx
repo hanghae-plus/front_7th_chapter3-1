@@ -248,7 +248,7 @@ export const ManagementPage: React.FC = () => {
             borderBottom: '2px solid #ccc',
             paddingBottom: '5px'
           }}>
-            <button
+            {/* <button
               onClick={() => setEntityType('post')}
               style={{
                 padding: '8px 16px',
@@ -263,8 +263,9 @@ export const ManagementPage: React.FC = () => {
               }}
             >
               게시글
-            </button>
-            <button
+            </button> */}
+            <Button size='sm' variant={entityType === 'post' ? 'primary' : 'secondary'} onClick={() => setEntityType('post')}>게시글</Button>
+            {/* <button
               onClick={() => setEntityType('user')}
               style={{
                 padding: '8px 16px',
@@ -278,7 +279,8 @@ export const ManagementPage: React.FC = () => {
               }}
             >
               사용자
-            </button>
+            </button> */}
+            <Button size='sm' variant={entityType === 'user' ? 'primary' : 'secondary'} onClick={() => setEntityType('user')}>사용자</Button>
           </div>
 
           <div>
