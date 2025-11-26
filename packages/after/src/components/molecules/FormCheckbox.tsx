@@ -1,29 +1,35 @@
 import React from 'react';
 
-// Checkbox Component - Completely different approach again
 interface FormCheckboxProps {
-  name: string;
+  id: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
   label: string;
   disabled?: boolean;
-  error?: string;
-  hint?: string;
+  invalid?: boolean;
+  invalidText?: string;
+  helpText?: string;
 }
 
 export const FormCheckbox: React.FC<FormCheckboxProps> = ({
-  name,
+  id,
   checked,
   onChange,
   label,
   disabled = false,
-  error,
-  hint,
+  invalid,
+  invalidText,
+  helpText,
 }) => {
   const wrapperClasses = ['checkbox-wrapper', disabled && 'disabled'].filter(Boolean).join(' ');
-  const customClasses = ['checkbox-custom', checked && 'checked', disabled && 'disabled'].filter(Boolean).join(' ');
+  const customClasses = ['checkbox-custom', checked && 'checked', disabled && 'disabled']
+    .filter(Boolean)
+    .join(' ');
   const checkmarkClasses = ['checkbox-checkmark', checked && 'visible'].filter(Boolean).join(' ');
-  const labelClasses = ['checkbox-label', error && 'error', disabled && 'disabled'].filter(Boolean).join(' ');
+  const labelClasses = ['checkbox-label', invalid && 'error', disabled && 'disabled']
+    .filter(Boolean)
+    .join(' ');
+  const helperClasses = ['form-helper-text', invalid && 'error'].filter(Boolean).join(' ');
 
   const handleClick = () => {
     if (!disabled) {
@@ -31,13 +37,16 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
     }
   };
 
+  const message = invalid ? invalidText : helpText;
+
   return (
-    <div>
+    <div className="form-group">
       <div className={wrapperClasses} onClick={handleClick}>
         <div className="checkbox-container">
           <input
             type="checkbox"
-            name={name}
+            id={id}
+            name={id}
             checked={checked}
             onChange={() => {}} // Handled by onClick
             disabled={disabled}
@@ -47,11 +56,16 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
             <span className={checkmarkClasses}>✓</span>
           </div>
         </div>
-        <label className={labelClasses}>{label}</label>
+        <label htmlFor={id} className={labelClasses}>
+          {label}
+        </label>
       </div>
 
-      {error && <span className="checkbox-error">{error}</span>}
-      {hint && !error && <span className="checkbox-hint">{hint}</span>}
+      {message && (
+        <span id={`${id}-helper-text`} className={helperClasses}>
+          {message}
+        </span>
+      )}
     </div>
   );
 };
