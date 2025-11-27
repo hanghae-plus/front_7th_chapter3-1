@@ -8,6 +8,45 @@ export type OverviewData = {
   color: string;
 };
 
+export function OverviewCards({
+  overviewData,
+}: {
+  overviewData: OverviewData[];
+}) {
+  return (
+    <div className="flex gap-2">
+      {overviewData.map((data) => (
+        <Card
+          key={data.label}
+          className={cn(
+            "border rounded-1 w-full p-4 flex flex-col gap-1",
+            getBorderColorClass(data.color),
+            getBgColorClass(data.color)
+          )}
+        >
+          <CardHeader className="p-0">
+            <CardTitle>
+              <span className="text-gray-700 text-xs font-normal">
+                {data.label}
+              </span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <span
+              className={cn(
+                "text-2xl font-bold",
+                getTextColorClass(data.color)
+              )}
+            >
+              {data.value}
+            </span>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
 const getBorderColorClass = (color: string) => {
   switch (color) {
     case "green":
@@ -42,38 +81,19 @@ const getTextColorClass = (color: string) => {
   }
 };
 
-export function OverviewCards({
-  overviewData,
-}: {
-  overviewData: OverviewData[];
-}) {
-  return (
-    <div className="flex gap-2">
-      {overviewData.map((data) => (
-        <Card
-          key={data.label}
-          className={cn(
-            "border rounded-1 w-full",
-            getBorderColorClass(data.color)
-          )}
-        >
-          <CardHeader>
-            <CardTitle>
-              <span className="text-xs font-normal">{data.label}</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <span
-              className={cn(
-                "text-2xl font-bold",
-                getTextColorClass(data.color)
-              )}
-            >
-              {data.value}
-            </span>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-}
+const getBgColorClass = (color: string) => {
+  switch (color) {
+    case "green":
+      return "bg-green-50";
+    case "yellow":
+      return "bg-yellow-50";
+    case "red":
+      return "bg-red-50";
+    case "blue":
+      return "bg-blue-50";
+    case "gray":
+      return "bg-gray-50";
+    default:
+      return "";
+  }
+};

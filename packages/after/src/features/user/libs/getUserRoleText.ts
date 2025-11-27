@@ -8,5 +8,7 @@ export const getUserRoleText = (role: string) => {
       return "사용자";
     case "guest":
       return "게스트";
+    default:
+      return role;
   }
 };

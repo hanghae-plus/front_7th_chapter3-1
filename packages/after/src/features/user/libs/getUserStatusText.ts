@@ -8,5 +8,7 @@ export const getUserStatusText = (
       return "비활성";
     case "suspended":
       return "정지";
+    default:
+      return status;
   }
 };
