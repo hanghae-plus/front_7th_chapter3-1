@@ -1,3 +1,5 @@
+import type { PaginatedResponse } from './types';
+
 export interface User {
   id: number;
   username: string;
@@ -29,7 +31,7 @@ export const userService = {
     return getUsers();
   },
 
-  async getPaginated(page: number, pageSize: number): Promise<{ results: User[]; total: number }> {
+  async getPaginated(page: number, pageSize: number): Promise<PaginatedResponse<User>> {
     const users = getUsers();
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
