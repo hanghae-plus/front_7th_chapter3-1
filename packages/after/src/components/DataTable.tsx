@@ -29,7 +29,7 @@ interface DataTableProps<T> extends VariantProps<typeof tableVariants> {
   pagination?: PaginationProps;
 }
 
-function DataTable<T extends Record<string, unknown>>({
+function DataTable<T extends Record<string, any>>({
   columns,
   data,
   striped,
