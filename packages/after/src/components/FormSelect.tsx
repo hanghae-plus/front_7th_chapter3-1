@@ -56,6 +56,7 @@ const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
           required={required}
           variant={invalid ? 'error' : 'default'}
           size={size}
+          aria-label={!label ? placeholder : undefined}
           aria-invalid={invalid || undefined}
           aria-describedby={descriptionId}
           {...props}

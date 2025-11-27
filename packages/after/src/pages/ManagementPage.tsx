@@ -10,7 +10,7 @@ import { userService } from '../services/userService';
 import { postService } from '../services/postService';
 import type { User } from '../services/userService';
 import type { Post } from '../services/postService';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { userSchema } from './user-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -403,8 +403,8 @@ export const ManagementPage: React.FC = () => {
     defaultValues: {
       username: '',
       email: '',
-      role: '',
-      status: '',
+      role: 'user',
+      status: 'active',
     },
   });
 
@@ -421,7 +421,7 @@ export const ManagementPage: React.FC = () => {
       title: '',
       content: '',
       author: '',
-      category: '',
+      category: 'development',
     },
   });
 

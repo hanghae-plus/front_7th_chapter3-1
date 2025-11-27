@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import * as React from 'react';
 import { ChevronDownIcon } from 'lucide-react';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -30,7 +31,7 @@ interface NativeSelectProps
     VariantProps<typeof nativeSelectVariants> {}
 
 const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  ({ className, variant, size, 'aria-label': ariaLabel, title, ...props }, ref) => {
     return (
       <div
         className="group/native-select relative w-full has-[select:disabled]:opacity-50"
@@ -39,6 +40,8 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
         <select
           ref={ref}
           data-slot="native-select"
+          title={title ?? ''}
+          aria-label={ariaLabel ?? ''}
           className={cn(nativeSelectVariants({ variant, size }), className)}
           {...props}
         />

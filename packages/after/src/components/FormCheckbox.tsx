@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { Checkbox, type checkboxVariants } from './ui/checkbox';
 import { Field, FieldDescription, FieldError, getFieldDescriptionId } from './ui/field';
 import { Label } from './ui/label';
