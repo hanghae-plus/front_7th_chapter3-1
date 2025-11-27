@@ -8,18 +8,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui";
-import { getPostStatusText } from "@/features/post/libs";
+import { getPostActionText, getPostStatusText } from "@/features/post/libs";
 import type { Post } from "@/shared/api/postService";
+import { useCallback } from "react";
 
 export function PostTable({
   postList,
   onEdit,
   onDelete,
+  onRestore,
+  onPublish,
+  onArchive,
 }: {
   postList: Post[];
   onEdit: (post: Post) => void;
   onDelete: (id: number) => void;
+  onRestore: (id: number) => void;
+  onPublish: (id: number) => void;
+  onArchive: (id: number) => void;
 }) {
+  const handleStatusAction = useCallback(
+    async (id: number, status: "draft" | "published" | "archived") => {
+      if (status === "draft") {
+        await onPublish(id);
+      } else if (status === "published") {
+        await onArchive(id);
+      } else if (status === "archived") {
+        await onRestore(id);
+      }
+    },
+    [onPublish, onArchive, onRestore]
+  );
+
   return (
     <Table>
       <TableHeader>
@@ -51,6 +71,12 @@ export function PostTable({
             <TableCell className="flex gap-2 items-center">
               <Button size="sm" onClick={() => onEdit(post)}>
                 수정
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => handleStatusAction(post.id, post.status)}
+              >
+                {getPostActionText(post.status)}
               </Button>
               <Button size="sm" onClick={() => onDelete(post.id)}>
                 삭제

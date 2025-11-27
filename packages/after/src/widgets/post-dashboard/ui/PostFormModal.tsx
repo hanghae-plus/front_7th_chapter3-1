@@ -16,7 +16,7 @@ import type { Post } from "@/shared/api/postService";
 type PostFormModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  post?: Post;
+  post?: Post | null;
   onSubmit: (formData: PostFormData) => void;
 };
 
