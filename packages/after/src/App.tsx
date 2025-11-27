@@ -1,15 +1,35 @@
-import React from 'react'
-import { Header } from './components/organisms'
-import { ManagementPage } from './pages/ManagementPage'
-import './styles/components.css'
+import { ThemeProvider } from '@/hooks';
+import { Header } from '@/components/layout';
+import { Toaster } from '@/components/ui';
+import { ManagementPage } from '@/pages/ManagementPage';
 
-export const App: React.FC = () => {
+export const App = () => {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f7fafc' }}>
-      <Header />
-      <main>
-        <ManagementPage />
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-background">
+        <Header>
+          <Header.Logo
+            logo={{
+              text: 'L',
+              companyName: 'Hanghae Company',
+              projectName: 'Design System Migration Project',
+            }}
+          />
+          <Header.User
+            userInfo={{
+              name: 'Demo User',
+              email: 'demo@example.com',
+            }}
+            avatar={{
+              children: 'DU',
+            }}
+          />
+        </Header>
+        <main>
+          <ManagementPage />
+        </main>
+        <Toaster />
+      </div>
+    </ThemeProvider>
   );
 };
