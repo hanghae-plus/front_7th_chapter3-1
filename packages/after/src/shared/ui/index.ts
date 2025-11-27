@@ -35,5 +35,7 @@ export {
   DialogTrigger,
   DialogHeader,
   DialogFooter,
+  DialogClose,
 } from "./Dialog";
 export { Alert } from "./Alert";
+export { Textarea } from "./Textarea";
