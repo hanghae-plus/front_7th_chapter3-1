@@ -12,8 +12,8 @@ import {
   type FieldValues,
 } from "react-hook-form";
 
-import { cn } from "../utils/cn";
-import { Label } from "./Label";
+import { cn } from "../../utils/cn";
+import { Label } from "../Label";
 
 const Form = FormProvider;
 
@@ -179,3 +179,4 @@ export {
   FormMessage,
   FormField,
 };
+
