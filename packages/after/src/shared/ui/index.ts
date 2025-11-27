@@ -50,3 +50,4 @@ export {
   TableRow,
 } from "./Table";
 export { Textarea } from "./Textarea";
+export { DarkModeToggle } from "./DarkModeToggle";
