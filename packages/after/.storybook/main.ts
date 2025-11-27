@@ -1,6 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 import { mergeConfig } from "vite";
-import path from "path";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -13,11 +12,16 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
+  ...(process.env.STORYBOOK_BASE_PATH && {
+    base: process.env.STORYBOOK_BASE_PATH,
+  }),
   async viteFinal(config) {
     return mergeConfig(config, {
-      resolve: {
-        alias: {
-          "@": path.resolve(__dirname, "../src"),
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: undefined,
+          },
         },
       },
     });
@@ -25,4 +29,3 @@ const config: StorybookConfig = {
 };
 
 export default config;
-
