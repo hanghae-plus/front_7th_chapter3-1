@@ -1,2 +1,2 @@
 export { UserDashboard } from "./UserDashboard";
-export { CreateUserModal } from "./CreateUserModal";
+export { UserFormModal } from "./UserFormModal";
