@@ -40,14 +40,14 @@
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 
-	--color-primary: var(--color-atomic-neutral-30);
-	--color-primary-foreground: var(--color-atomic-neutral-99);
-	--color-primary-hover: var(--color-atomic-neutral-90);
-	--color-primary-hover-foreground: var(--color-atomic-neutral-90);
-	--color-secondary: var(--color-atomic-neutral-50);
-	--color-secondary-foreground: var(--color-atomic-neutral-90);
-	--color-secondary-hover: var(--color-atomic-neutral-80);
-	--color-secondary-hover-foreground: var(--color-atomic-neutral-80);
+	--color-primary: var(--color-atomic-lightBlue-40);
+	--color-primary-foreground: var(--color-atomic-lightBlue-99);
+	--color-primary-hover: var(--color-atomic-lightBlue-90);
+	--color-primary-hover-foreground: var(--color-atomic-lightBlue-90);
+	--color-secondary: var(--color-atomic-lightBlue-99);
+	--color-secondary-foreground: var(--color-atomic-lightBlue-30);
+	--color-secondary-hover: var(--color-atomic-lightBlue-60);
+	--color-secondary-hover-foreground: var(--color-atomic-lightBlue-70);
 	--color-success: var(--color-atomic-green-50);
 	--color-success-foreground: var(--color-atomic-green-99);
 	--color-success-hover: var(--color-atomic-green-90);
@@ -56,7 +56,7 @@
 	--color-warning-foreground: var(--color-atomic-orange-99);
 	--color-warning-hover: var(--color-atomic-orange-90);
 	--color-warning-hover-foreground: var(--color-atomic-orange-90);
-	--color-info: var(--color-atomic-lightBlue-50);
+	--color-info: var(--color-atomic-lightBlue-99);
 	--color-info-foreground: var(--color-atomic-lightBlue-99);
 	--color-info-hover: var(--color-atomic-lightBlue-90);
 	--color-info-hover-foreground: var(--color-atomic-lightBlue-90);
@@ -129,7 +129,7 @@
 
 	/* L (밝기)는 9.34%에서 97.89%까지 지각적으로 균일하게 변화합니다. */
 	--color-atomic-neutral-99: oklch(0.9789 0.0039 276.47); /* #F7F7F7 */
-	--color-atomic-neutral-90: oklch(0.757 0.0049 261.26); /* #C4C4C4 */
+	--color-atomic-neutral-90: oklch(0.89 0.0029 264.54); /* #C4C4C4 */
 	--color-atomic-neutral-80: oklch(0.6865 0.0051 259.9); /* #B0B0B0 */
 	--color-atomic-neutral-70: oklch(0.6138 0.0052 258.97); /* #9B9B9B */
 	--color-atomic-neutral-60: oklch(0.5562 0.0053 258.91); /* #8A8A8A */

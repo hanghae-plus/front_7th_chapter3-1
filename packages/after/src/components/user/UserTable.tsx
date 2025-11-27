@@ -1,6 +1,6 @@
 import type { User } from '@/services/userService';
 import { Badge } from '../ui/Badge';
-import { Button } from '../atoms/Button';
+import { Button } from '../ui/button';
 import Table from '../ui/Table';
 
 const UserTable = ({

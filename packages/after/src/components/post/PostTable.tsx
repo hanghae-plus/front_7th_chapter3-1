@@ -1,6 +1,6 @@
 import Table from '../ui/Table';
 import { Badge } from '../ui/Badge';
-import { Button } from '../atoms/Button';
+import { Button } from '../ui/button';
 
 import type { Post } from '@/services/postService';
 
