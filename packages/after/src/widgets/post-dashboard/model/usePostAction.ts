@@ -14,7 +14,7 @@ export function usePostAction() {
       setPostList(posts);
     } catch (error) {
       setAlert({
-        type: "실패",
+        type: "error",
         message: "게시글을 불러오는데 실패했습니다",
       });
     }
@@ -28,12 +28,12 @@ export function usePostAction() {
         await postService.delete(id);
         await loadPosts();
         setAlert({
-          type: "성공",
+          type: "success",
           message: "삭제되었습니다",
         });
       } catch (error) {
         setAlert({
-          type: "실패",
+          type: "error",
           message: "게시글 삭제에 실패했습니다",
         });
       }
@@ -47,12 +47,12 @@ export function usePostAction() {
         await postService.restore(id);
         await loadPosts();
         setAlert({
-          type: "성공",
+          type: "success",
           message: "복원되었습니다",
         });
       } catch (error) {
         setAlert({
-          type: "실패",
+          type: "error",
           message: "게시글 복원에 실패했습니다",
         });
       }
@@ -66,12 +66,12 @@ export function usePostAction() {
         await postService.publish(id);
         await loadPosts();
         setAlert({
-          type: "성공",
+          type: "success",
           message: "게시되었습니다",
         });
       } catch (error) {
         setAlert({
-          type: "실패",
+          type: "error",
           message: "게시글 게시에 실패했습니다",
         });
       }
@@ -85,12 +85,12 @@ export function usePostAction() {
         await postService.archive(id);
         await loadPosts();
         setAlert({
-          type: "성공",
+          type: "success",
           message: "보관되었습니다",
         });
       } catch (error) {
         setAlert({
-          type: "실패",
+          type: "error",
           message: "게시글 보관에 실패했습니다",
         });
       }

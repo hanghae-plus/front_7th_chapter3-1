@@ -77,11 +77,13 @@ export function PostDashboard() {
       </Button>
       {alert && (
         <Alert
-          variant={alert.type === "성공" ? "success" : "error"}
+          variant={alert.type as "success" | "error"}
           className="flex justify-between items-start"
         >
           <div>
-            <span className="font-bold block">{alert.type}</span>
+            <span className="font-bold block">
+              {alert.type === "success" ? "성공" : "실패"}
+            </span>
             <p>{alert.message}</p>
           </div>
           <button className="cursor-pointer" onClick={closeAlert}>
