@@ -1,0 +1,21 @@
+/* eslint-disable react-refresh/only-export-components */
+import type { ComponentProps } from "react"
+
+import { cn } from "@/lib/utils"
+
+export type TableFooterProps = ComponentProps<"tfoot">
+
+function TableFooter({ className, ...props }: TableFooterProps) {
+  return (
+    <tfoot
+      data-slot="table-footer"
+      className={cn(
+        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { TableFooter }
