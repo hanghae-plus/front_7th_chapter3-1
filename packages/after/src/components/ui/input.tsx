@@ -8,8 +8,7 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+        default: 'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
         error:
           'border-destructive ring-destructive/20 dark:ring-destructive/40 focus-visible:border-destructive focus-visible:ring-destructive/30 focus-visible:ring-[3px]',
       },
@@ -20,9 +19,7 @@ const inputVariants = cva(
   }
 );
 
-interface InputProps
-  extends React.ComponentProps<'input'>,
-    VariantProps<typeof inputVariants> {}
+interface InputProps extends React.ComponentProps<'input'>, VariantProps<typeof inputVariants> {}
 
 function Input({ className, type, variant, ...props }: InputProps) {
   return (
