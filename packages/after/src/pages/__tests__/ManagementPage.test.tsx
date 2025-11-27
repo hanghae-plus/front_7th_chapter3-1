@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ManagementPage } from '../ManagementPage';
 
@@ -20,20 +20,24 @@ describe('ManagementPage - User Management', () => {
     const createButton = screen.getByRole('button', { name: '새로 만들기' });
     await user.click(createButton);
 
-    // name으로 input과 select 직접 찾기
-    await waitFor(() => {
-      expect(document.querySelector('input[name="username"]')).toBeInTheDocument();
-    });
+    // 모달이 열릴 때까지 대기
+    const dialog = await screen.findByRole('dialog');
 
-    const usernameInput = document.querySelector('input[name="username"]') as HTMLInputElement;
-    const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
-    const roleSelect = document.querySelector('select[name="role"]') as HTMLSelectElement;
+    // Input 필드 입력 (dialog 내에서 찾기)
+    const usernameInput = within(dialog).getByLabelText(/사용자명/);
+    const emailInput = within(dialog).getByLabelText(/이메일/);
 
     await user.type(usernameInput, 'testuser');
     await user.type(emailInput, 'test@example.com');
-    await user.selectOptions(roleSelect, 'user');
 
-    const createBtn = screen.getByRole('button', { name: '생성' });
+    // Native Select 필드 선택
+    const roleSelect = within(dialog).getByLabelText(/역할/);
+    const statusSelect = within(dialog).getByLabelText(/상태/);
+
+    await user.selectOptions(roleSelect, 'user');
+    await user.selectOptions(statusSelect, 'active');
+
+    const createBtn = within(dialog).getByRole('button', { name: '생성' });
     await user.click(createBtn);
 
     // 생성 확인
@@ -47,15 +51,14 @@ describe('ManagementPage - User Management', () => {
     const editButtons = await screen.findAllByRole('button', { name: /수정/i });
     await user.click(editButtons[editButtons.length - 1]);
 
-    await waitFor(() => {
-      expect(document.querySelector('input[name="email"]')).toBeInTheDocument();
-    });
+    // 수정 모달이 열릴 때까지 대기
+    const editDialog = await screen.findByRole('dialog');
 
-    const emailInputEdit = document.querySelector('input[name="email"]') as HTMLInputElement;
+    const emailInputEdit = within(editDialog).getByLabelText(/이메일/);
     await user.clear(emailInputEdit);
     await user.type(emailInputEdit, 'updated@example.com');
 
-    const updateBtn = screen.getByRole('button', { name: '수정 완료' });
+    const updateBtn = within(editDialog).getByRole('button', { name: '수정 완료' });
     await user.click(updateBtn);
 
     // 수정 확인
