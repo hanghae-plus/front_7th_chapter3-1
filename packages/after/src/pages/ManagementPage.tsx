@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { Alert } from '../components/organisms';
+import { Alert } from '../components/ui/alert';
+import { DismissibleAlert } from '../components/DismissibleAlert';
 import { FormInput } from '../components/FormInput';
 import { FormTextarea } from '../components/FormTextarea';
 import { FormSelect } from '../components/FormSelect';
@@ -21,6 +22,7 @@ import { type BadgeProps } from '../components/ui/badge';
 import { USER_ROLE, USER_STATUS } from '../constants/user-constants';
 import { POST_CATEGORY, POST_STATUS } from '../constants/post-constants';
 import type { PaginatedResponse } from '../services/types';
+import { StatCard } from '../components/StatCard';
 
 type EntityType = 'user' | 'post';
 type Entity = User | Post;
@@ -455,105 +457,34 @@ export const ManagementPage: React.FC = () => {
 
             {showSuccessAlert && (
               <div style={{ marginBottom: '10px' }}>
-                <Alert variant="success" title="성공" onClose={() => setShowSuccessAlert(false)}>
+                <DismissibleAlert
+                  variant="success"
+                  title="성공"
+                  onClose={() => setShowSuccessAlert(false)}
+                >
                   {alertMessage}
-                </Alert>
+                </DismissibleAlert>
               </div>
             )}
 
             {showErrorAlert && (
               <div style={{ marginBottom: '10px' }}>
-                <Alert variant="error" title="오류" onClose={() => setShowErrorAlert(false)}>
+                <DismissibleAlert
+                  variant="error"
+                  title="오류"
+                  onClose={() => setShowErrorAlert(false)}
+                >
                   {errorMessage}
-                </Alert>
+                </DismissibleAlert>
               </div>
             )}
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-                gap: '10px',
-                marginBottom: '15px',
-              }}
-            >
-              <div
-                style={{
-                  padding: '12px 15px',
-                  background: '#e3f2fd',
-                  border: '1px solid #90caf9',
-                  borderRadius: '3px',
-                }}
-              >
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>전체</div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1976d2' }}>
-                  {stats.total}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  padding: '12px 15px',
-                  background: '#e8f5e9',
-                  border: '1px solid #81c784',
-                  borderRadius: '3px',
-                }}
-              >
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
-                  {stats.stat1.label}
-                </div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#388e3c' }}>
-                  {stats.stat1.value}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  padding: '12px 15px',
-                  background: '#fff3e0',
-                  border: '1px solid #ffb74d',
-                  borderRadius: '3px',
-                }}
-              >
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
-                  {stats.stat2.label}
-                </div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#f57c00' }}>
-                  {stats.stat2.value}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  padding: '12px 15px',
-                  background: '#ffebee',
-                  border: '1px solid #e57373',
-                  borderRadius: '3px',
-                }}
-              >
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
-                  {stats.stat3.label}
-                </div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#d32f2f' }}>
-                  {stats.stat3.value}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  padding: '12px 15px',
-                  background: '#f5f5f5',
-                  border: '1px solid #bdbdbd',
-                  borderRadius: '3px',
-                }}
-              >
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
-                  {stats.stat4.label}
-                </div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#424242' }}>
-                  {stats.stat4.value}
-                </div>
-              </div>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-2.5 mb-4">
+              <StatCard variant="info" label="전체" value={stats.total} />
+              <StatCard variant="success" label={stats.stat1.label} value={stats.stat1.value} />
+              <StatCard variant="warning" label={stats.stat2.label} value={stats.stat2.value} />
+              <StatCard variant="error" label={stats.stat3.label} value={stats.stat3.value} />
+              <StatCard variant="default" label={stats.stat4.label} value={stats.stat4.value} />
             </div>
 
             <div style={{ border: '1px solid #ddd', background: 'white', overflow: 'auto' }}>
