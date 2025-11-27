@@ -8,29 +8,31 @@ import {
   DialogClose,
   Alert,
 } from "@/shared/ui";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PostForm } from "@/features/post/ui/PostForm";
 import type { PostFormData } from "@/features/post/types";
 import type { Post } from "@/shared/api/postService";
 
 type PostFormModalProps = {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  toggleModal: (isOpen: boolean) => void;
   post?: Post | null;
-  onSubmit: (formData: PostFormData) => void;
+  onCreate: (formData: PostFormData) => void;
+  onUpdate: (formData: PostFormData) => void;
 };
 
 export function PostFormModal({
   isOpen,
-  setIsOpen,
+  toggleModal,
   post,
-  onSubmit,
+  onCreate,
+  onUpdate,
 }: PostFormModalProps) {
   const [formData, setFormData] = useState({
-    title: post?.title || "",
-    author: post?.author || "",
-    category: post?.category || "",
-    content: post?.content || "",
+    title: "",
+    author: "",
+    category: "",
+    content: "",
   });
   const isValidForm = formData.title && formData.author && formData.category;
   const isEdit = !!post;
@@ -41,16 +43,32 @@ export function PostFormModal({
 
   const handleSubmit = useCallback(async () => {
     try {
-      await onSubmit(formData);
+      if (isEdit) {
+        await onUpdate(formData);
+      } else {
+        await onCreate(formData);
+      }
+
       setFormData({ title: "", author: "", category: "", content: "" });
-      setIsOpen(false);
+      toggleModal(false);
     } catch (error) {
       console.error(error);
     }
-  }, [formData, onSubmit]);
+  }, [isEdit, formData, onCreate, onUpdate]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        title: post?.title || "",
+        author: post?.author || "",
+        category: post?.category || "",
+        content: post?.content || "",
+      });
+    }
+  }, [isOpen, post]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={toggleModal}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>

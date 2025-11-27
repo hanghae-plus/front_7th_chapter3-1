@@ -98,23 +98,12 @@ export function usePostAction() {
 
   const createPost = useCallback(
     async (formData: PostFormData, onComplete?: () => void) => {
-      try {
-        await postService.create({
-          ...formData,
-          status: "draft",
-        });
-        await loadPosts();
-        onComplete?.();
-        setAlertMessage({
-          type: "success",
-          message: "게시글이 생성되었습니다",
-        });
-      } catch (error) {
-        setAlertMessage({
-          type: "error",
-          message: "게시글 생성에 실패했습니다",
-        });
-      }
+      await postService.create({
+        ...formData,
+        status: "draft",
+      });
+      await loadPosts();
+      onComplete?.();
     },
     [loadPosts]
   );
@@ -126,23 +115,12 @@ export function usePostAction() {
       status: Post["status"],
       onComplete?: () => void
     ) => {
-      try {
-        await postService.update(id, {
-          ...formData,
-          status,
-        });
-        await loadPosts();
-        onComplete?.();
-        setAlertMessage({
-          type: "success",
-          message: "게시글이 수정되었습니다",
-        });
-      } catch (error) {
-        setAlertMessage({
-          type: "error",
-          message: "게시글 수정에 실패했습니다",
-        });
-      }
+      await postService.update(id, {
+        ...formData,
+        status,
+      });
+      await loadPosts();
+      onComplete?.();
     },
     [loadPosts]
   );
