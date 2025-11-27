@@ -32,13 +32,20 @@ export const postService = {
     return getPosts();
   },
 
+  async getPaginated(page: number, pageSize: number): Promise<{ results: Post[]; total: number }> {
+    const posts = getPosts();
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const data = posts.slice(start, end);
+    return { results: data, total: posts.length };
+  },
+
   async getById(id: number): Promise<Post | null> {
     const posts = getPosts();
     return posts.find(p => p.id === id) || null;
   },
 
   async create(postData: Omit<Post, 'id' | 'createdAt' | 'views'>): Promise<Post> {
-
     const posts = getPosts();
 
     if (postData.title.length < 5) {

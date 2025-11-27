@@ -29,13 +29,20 @@ export const userService = {
     return getUsers();
   },
 
+  async getPaginated(page: number, pageSize: number): Promise<{ results: User[]; total: number }> {
+    const users = getUsers();
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const data = users.slice(start, end);
+    return { results: data, total: users.length };
+  },
+
   async getById(id: number): Promise<User | null> {
     const users = getUsers();
     return users.find(u => u.id === id) || null;
   },
 
   async create(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
-
     const users = getUsers();
 
     if (users.some(u => u.username === userData.username)) {
