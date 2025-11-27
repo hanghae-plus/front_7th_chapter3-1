@@ -1,0 +1,100 @@
+import { type FC } from "react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectOption } from "@/components/ui/select";
+import type { SubmitHandler, UseFormReturn } from "react-hook-form";
+import type { TUserFormValues } from "@/utils/userSchema";
+
+interface IProps {
+  form: UseFormReturn<TUserFormValues>;
+  handleClick: SubmitHandler<TUserFormValues>;
+}
+
+const UserForm: FC<IProps> = ({ form, handleClick }) => {
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleClick)}>
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>사용자명</FormLabel>
+              <FormControl>
+                <Input placeholder="사용자명을 입력하세요" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>이메일</FormLabel>
+              <FormControl>
+                <Input placeholder="이메일을 입력하세요" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>역할</FormLabel>
+                <FormControl>
+                  <Select {...field}>
+                    <SelectOption value="" disabled>
+                      역할 선택
+                    </SelectOption>
+                    <SelectOption value="user">사용자</SelectOption>
+                    <SelectOption value="moderator">운영자</SelectOption>
+                    <SelectOption value="admin">관리자</SelectOption>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>상태</FormLabel>
+                <FormControl>
+                  <Select {...field}>
+                    <SelectOption value="" disabled>
+                      상태 선택
+                    </SelectOption>
+                    <SelectOption value="active">활성</SelectOption>
+                    <SelectOption value="inactive">비활성</SelectOption>
+                    <SelectOption value="suspended">정지</SelectOption>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+      </form>
+    </Form>
+  );
+};
+
+export default UserForm;
