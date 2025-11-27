@@ -8,7 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui";
-import { getPostActionText, getPostStatusText } from "@/features/post/libs";
+import {
+  getPostActionText,
+  getPostCategoryColor,
+  getPostStatusColor,
+  getPostStatusText,
+} from "@/features/post/libs";
 import type { Post } from "@/shared/api/postService";
 import { useCallback } from "react";
 
@@ -61,10 +66,14 @@ export function PostTable({
             <TableCell>{post.title}</TableCell>
             <TableCell>{post.author}</TableCell>
             <TableCell>
-              <Badge>{post.category}</Badge>
+              <Badge variant={getPostCategoryColor(post.category)}>
+                {post.category}
+              </Badge>
             </TableCell>
             <TableCell>
-              <Badge>{getPostStatusText(post.status)}</Badge>
+              <Badge variant={getPostStatusColor(post.status)}>
+                {getPostStatusText(post.status)}
+              </Badge>
             </TableCell>
             <TableCell>{post.views}</TableCell>
             <TableCell>{post.createdAt}</TableCell>
@@ -74,11 +83,16 @@ export function PostTable({
               </Button>
               <Button
                 size="sm"
+                variant="secondary"
                 onClick={() => handleStatusAction(post.id, post.status)}
               >
                 {getPostActionText(post.status)}
               </Button>
-              <Button size="sm" onClick={() => onDelete(post.id)}>
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() => onDelete(post.id)}
+              >
                 삭제
               </Button>
             </TableCell>

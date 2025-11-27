@@ -1,5 +1,11 @@
 import { PostTable } from "@/features/post/ui/PostTable";
-import { Alert, Button, OverviewCards } from "@/shared/ui";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  OverviewCards,
+} from "@/shared/ui";
 import { useCallback, useMemo, useState } from "react";
 import type { Post } from "@/shared/api/postService";
 import { getPostCountStats } from "../libs";
@@ -81,10 +87,10 @@ export function PostDashboard() {
           className="flex justify-between items-start"
         >
           <div>
-            <span className="font-bold block">
+            <AlertTitle>
               {alert.type === "success" ? "성공" : "실패"}
-            </span>
-            <p>{alert.message}</p>
+            </AlertTitle>
+            <AlertDescription>{alert.message}</AlertDescription>
           </div>
           <button className="cursor-pointer" onClick={closeAlert}>
             ✕

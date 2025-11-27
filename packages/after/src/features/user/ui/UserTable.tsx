@@ -9,7 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui";
-import { getUserRoleText, getUserStatusText } from "../libs";
+import {
+  getUserRoleColor,
+  getUserRoleText,
+  getUserStatusColor,
+  getUserStatusText,
+} from "../libs";
 
 export function UserTable({
   userList,
@@ -41,10 +46,14 @@ export function UserTable({
             <TableCell>{user.username}</TableCell>
             <TableCell>{user.email}</TableCell>
             <TableCell>
-              <Badge>{getUserRoleText(user.role)}</Badge>
+              <Badge variant={getUserRoleColor(user.role)}>
+                {getUserRoleText(user.role)}
+              </Badge>
             </TableCell>
             <TableCell>
-              <Badge>{getUserStatusText(user.status)}</Badge>
+              <Badge variant={getUserStatusColor(user.status)}>
+                {getUserStatusText(user.status)}
+              </Badge>
             </TableCell>
             <TableCell>{user.createdAt}</TableCell>
             <TableCell>{user.lastLogin || "-"}</TableCell>
@@ -52,7 +61,11 @@ export function UserTable({
               <Button size="sm" onClick={() => onEdit(user)}>
                 수정
               </Button>
-              <Button size="sm" onClick={() => onDelete(user.id)}>
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() => onDelete(user.id)}
+              >
                 삭제
               </Button>
             </TableCell>

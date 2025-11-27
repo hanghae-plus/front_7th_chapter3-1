@@ -1,4 +1,10 @@
-import { Alert, Button, OverviewCards } from "@/shared/ui";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  OverviewCards,
+} from "@/shared/ui";
 import { useCallback, useMemo, useState } from "react";
 import type { User } from "@/shared/api/userService";
 import { getUserCountStats } from "../libs";
@@ -70,12 +76,14 @@ export function UserDashboard() {
       </Button>
       {alert && (
         <Alert
-          variant={alert.type === "success" ? "success" : "error"}
+          variant={alert.type as "success" | "error"}
           className="flex justify-between items-start"
         >
           <div>
-            <span className="font-bold block">{alert.type}</span>
-            <p>{alert.message}</p>
+            <AlertTitle>
+              {alert.type === "success" ? "성공" : "실패"}
+            </AlertTitle>
+            <AlertDescription>{alert.message}</AlertDescription>
           </div>
           <button className="cursor-pointer" onClick={closeAlert}>
             ✕
