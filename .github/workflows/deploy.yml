@@ -35,9 +35,18 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Main App
-        env:
-          VITE_BASE_PATH: /
-        run: pnpm run build:after
+        run: |
+          # GitHub Pages project repository는 /repository-name/ 경로에 배포됨
+          # github.repository은 'owner/repo-name' 형식이므로 리포지토리 이름만 추출
+          if [ "${{ github.repository }}" = "kimfriendship/kimfriendship.github.io" ]; then
+            export VITE_BASE_PATH="/"
+          else
+            REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+            export VITE_BASE_PATH="/${REPO_NAME}/"
+          fi
+          echo "Repository: ${{ github.repository }}"
+          echo "Building with VITE_BASE_PATH: $VITE_BASE_PATH"
+          pnpm run build:after
 
       - name: Build Storybook
         env:
@@ -96,9 +105,23 @@ jobs:
 
       - name: Prepare deployment
         run: |
+          # Verify main app build
+          echo "=== Main App Build Files ==="
+          ls -la packages/after/dist/
+          ls -la packages/after/dist/assets/ || echo "No assets directory"
+          echo ""
+          echo "=== Main App index.html ==="
+          cat packages/after/dist/index.html
+          echo ""
+
+          # Copy files
           cp packages/after/dist/index.html packages/after/dist/404.html
           mkdir -p packages/after/dist/storybook
           cp -r packages/after/storybook-static/* packages/after/dist/storybook/
+
+          # Verify final deployment structure
+          echo "=== Final Deployment Structure ==="
+          find packages/after/dist -type f -name "*.js" -o -name "*.css" | head -20
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
