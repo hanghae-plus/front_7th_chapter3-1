@@ -3,6 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: {
     index: "src/index.ts",
+    "foundations/index": "src/foundations/index.css",
     "primitives/alert": "src/primitives/alert/index.ts",
     "primitives/badge": "src/primitives/badge/index.ts",
     "primitives/button": "src/primitives/button/index.ts",
