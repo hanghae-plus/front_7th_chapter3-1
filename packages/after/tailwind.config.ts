@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { tokens } from "./src/styles/tokens";
+import { tokens } from "./src/shared/tokens";
 
 const config: Config = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
