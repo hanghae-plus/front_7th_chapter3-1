@@ -5,9 +5,11 @@ import { cn } from '@/lib/utils';
 
 const tableVariants = cva('w-full caption-bottom text-sm', {
   variants: {
-    variant: {
-      default: '',
-      striped: '[&_tbody_tr:nth-child(odd)]:bg-muted/50',
+    striped: {
+      true: '[&_tbody_tr:nth-child(odd)]:bg-muted/50',
+    },
+    bordered: {
+      true: 'border [&_th]:border [&_td]:border',
     },
     size: {
       sm: '[&_th]:h-8 [&_th]:px-2 [&_td]:p-1.5',
@@ -16,19 +18,20 @@ const tableVariants = cva('w-full caption-bottom text-sm', {
     },
   },
   defaultVariants: {
-    variant: 'default',
+    striped: false,
+    bordered: false,
     size: 'md',
   },
 });
 
 interface TableProps extends React.ComponentProps<'table'>, VariantProps<typeof tableVariants> {}
 
-function Table({ className, variant, size, ...props }: TableProps) {
+function Table({ className, striped, bordered, size, ...props }: TableProps) {
   return (
     <div data-slot="table-container" className="relative w-full overflow-x-auto">
       <table
         data-slot="table"
-        className={cn(tableVariants({ variant, size }), className)}
+        className={cn(tableVariants({ striped, bordered, size }), className)}
         {...props}
       />
     </div>

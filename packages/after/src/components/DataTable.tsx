@@ -32,7 +32,8 @@ interface DataTableProps<T> extends VariantProps<typeof tableVariants> {
 function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
-  variant,
+  striped,
+  bordered,
   size,
   pagination,
   keyExtractor,
@@ -59,7 +60,7 @@ function DataTable<T extends Record<string, unknown>>({
 
   return (
     <div className="space-y-2">
-      <Table variant={variant} size={size}>
+      <Table striped={striped} bordered={bordered} size={size}>
         <TableHeader>
           <TableRow>
             {columns.map(column => (
