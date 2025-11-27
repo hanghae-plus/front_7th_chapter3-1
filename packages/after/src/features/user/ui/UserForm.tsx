@@ -4,11 +4,6 @@ import { z } from "zod";
 import { useEffect, forwardRef } from "react";
 import {
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Form,
   FormField,
   FormItem,
@@ -117,18 +112,17 @@ export const UserForm = forwardRef<HTMLFormElement, UserFormProps>(
                 <FormLabel className="after:content-['*'] after:block after:text-red-500 after:-ml-1">
                   역할
                 </FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="역할" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="user">사용자</SelectItem>
-                    <SelectItem value="moderator">운영자</SelectItem>
-                    <SelectItem value="admin">관리자</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <select
+                    {...field}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="">역할을 선택하세요</option>
+                    <option value="user">사용자</option>
+                    <option value="moderator">운영자</option>
+                    <option value="admin">관리자</option>
+                  </select>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -139,18 +133,17 @@ export const UserForm = forwardRef<HTMLFormElement, UserFormProps>(
             render={({ field }) => (
               <FormItem>
                 <FormLabel>상태</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="상태" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="active">활성</SelectItem>
-                    <SelectItem value="inactive">비활성</SelectItem>
-                    <SelectItem value="suspended">정지</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <select
+                    {...field}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="">상태를 선택하세요</option>
+                    <option value="active">활성</option>
+                    <option value="inactive">비활성</option>
+                    <option value="suspended">정지</option>
+                  </select>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

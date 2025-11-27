@@ -4,11 +4,6 @@ import { z } from "zod";
 import { useEffect, forwardRef } from "react";
 import {
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Textarea,
   Form,
   FormField,
@@ -108,18 +103,17 @@ export const PostForm = forwardRef<HTMLFormElement, PostFormProps>(
                 <FormLabel className="after:content-['*'] after:block after:text-red-500 after:-ml-1">
                   카테고리
                 </FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="카테고리" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="development">Development</SelectItem>
-                    <SelectItem value="design">Design</SelectItem>
-                    <SelectItem value="accessibility">Accessibility</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <select
+                    {...field}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="">카테고리를 선택하세요</option>
+                    <option value="development">Development</option>
+                    <option value="design">Design</option>
+                    <option value="accessibility">Accessibility</option>
+                  </select>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
