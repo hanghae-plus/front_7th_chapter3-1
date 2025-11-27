@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Badge } from '../atoms/Badge';
-import { Button } from '../atoms/Button';
+import { Badge } from './Badge';
+import { Button } from './Button';
+import { cn } from '@/lib/utils';
 
 interface Column {
   key: string;
@@ -9,7 +10,6 @@ interface Column {
   sortable?: boolean;
 }
 
-// 🚨 Bad Practice: UI 컴포넌트가 도메인 타입을 알고 있음
 interface TableProps {
   columns?: Column[];
   data?: any[];
@@ -20,8 +20,6 @@ interface TableProps {
   searchable?: boolean;
   sortable?: boolean;
   onRowClick?: (row: any) => void;
-
-  // 🚨 도메인 관심사 추가
   entityType?: 'user' | 'post';
   onEdit?: (item: any) => void;
   onDelete?: (id: number) => void;
@@ -30,7 +28,7 @@ interface TableProps {
   onRestore?: (id: number) => void;
 }
 
-export const Table: React.FC<TableProps> = ({
+export const DataTable: React.FC<TableProps> = ({
   columns,
   data = [],
   striped = false,
@@ -95,41 +93,41 @@ export const Table: React.FC<TableProps> = ({
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  const tableClasses = [
-    'table',
-    striped && 'table-striped',
-    bordered && 'table-bordered',
-    hover && 'table-hover',
-  ].filter(Boolean).join(' ');
-
   const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
 
-  // 🚨 Bad Practice: Table 컴포넌트가 도메인별 렌더링 로직을 알고 있음
   const renderCell = (row: any, columnKey: string) => {
     const value = row[columnKey];
 
-    // 도메인별 특수 렌더링
     if (entityType === 'user') {
       if (columnKey === 'role') {
-        return <Badge userRole={value} showIcon />;
+        const roleMap: Record<string, { variant: any; label: string }> = {
+          admin: { variant: 'danger', label: '관리자' },
+          moderator: { variant: 'warning', label: '운영자' },
+          user: { variant: 'primary', label: '사용자' },
+          guest: { variant: 'secondary', label: '게스트' },
+        };
+        const config = roleMap[value] || { variant: 'default', label: value };
+        return <Badge variant={config.variant}>{config.label}</Badge>;
       }
       if (columnKey === 'status') {
-        // User status를 Badge status로 변환
-        const badgeStatus =
-          value === 'active' ? 'published' :
-          value === 'inactive' ? 'draft' : 'rejected';
-        return <Badge status={badgeStatus} showIcon />;
+        const statusMap: Record<string, { variant: any; label: string }> = {
+          active: { variant: 'success', label: '활성' },
+          inactive: { variant: 'warning', label: '비활성' },
+          suspended: { variant: 'danger', label: '정지' },
+        };
+        const config = statusMap[value] || { variant: 'default', label: value };
+        return <Badge variant={config.variant}>{config.label}</Badge>;
       }
       if (columnKey === 'lastLogin') {
         return value || '-';
       }
       if (columnKey === 'actions') {
         return (
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
+          <div className="flex gap-2">
+            <Button size="sm" variant="default" onClick={() => onEdit?.(row)}>
               수정
             </Button>
-            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
+            <Button size="sm" variant="destructive" onClick={() => onDelete?.(row.id)}>
               삭제
             </Button>
           </div>
@@ -139,29 +137,37 @@ export const Table: React.FC<TableProps> = ({
 
     if (entityType === 'post') {
       if (columnKey === 'category') {
-        const type =
+        const variant =
           value === 'development' ? 'primary' :
           value === 'design' ? 'info' :
           value === 'accessibility' ? 'danger' :
           'secondary';
-        return <Badge type={type} pill>{value}</Badge>;
+        return <Badge variant={variant} shape="pill">{value}</Badge>;
       }
       if (columnKey === 'status') {
-        return <Badge status={value} showIcon />;
+        const statusMap: Record<string, { variant: any; label: string }> = {
+          published: { variant: 'success', label: '게시됨' },
+          draft: { variant: 'warning', label: '임시저장' },
+          archived: { variant: 'secondary', label: '보관됨' },
+          pending: { variant: 'info', label: '대기중' },
+          rejected: { variant: 'danger', label: '거부됨' },
+        };
+        const config = statusMap[value] || { variant: 'default', label: value };
+        return <Badge variant={config.variant}>{config.label}</Badge>;
       }
       if (columnKey === 'views') {
         return value?.toLocaleString() || '0';
       }
       if (columnKey === 'actions') {
         return (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
+          <div className="flex gap-2 flex-wrap">
+            <Button size="sm" variant="default" onClick={() => onEdit?.(row)}>
               수정
             </Button>
             {row.status === 'draft' && (
               <Button
                 size="sm"
-                variant="success"
+                variant="default"
                 onClick={() => onPublish?.(row.id)}
               >
                 게시
@@ -179,13 +185,13 @@ export const Table: React.FC<TableProps> = ({
             {row.status === 'archived' && (
               <Button
                 size="sm"
-                variant="primary"
+                variant="default"
                 onClick={() => onRestore?.(row.id)}
               >
                 복원
               </Button>
             )}
-            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
+            <Button size="sm" variant="destructive" onClick={() => onDelete?.(row.id)}>
               삭제
             </Button>
           </div>
@@ -193,7 +199,6 @@ export const Table: React.FC<TableProps> = ({
       }
     }
 
-    // React Element면 그대로 렌더링
     if (React.isValidElement(value)) {
       return value;
     }
@@ -202,34 +207,33 @@ export const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="table-container">
+    <div className="w-full">
       {searchable && (
-        <div style={{ marginBottom: '16px' }}>
+        <div className="mb-4">
           <input
             type="text"
             placeholder="검색..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              width: '300px',
-            }}
+            className="px-3 py-2 border border-gray-300 rounded w-[300px]"
           />
         </div>
       )}
 
-      <table className={tableClasses}>
-        <thead>
+      <table className={cn("w-full text-sm", bordered && "border border-gray-300")}>
+        <thead className="bg-gray-50">
           <tr>
             {actualColumns.map((column) => (
               <th
                 key={column.key}
                 style={column.width ? { width: column.width } : undefined}
                 onClick={() => sortable && handleSort(column.key)}
+                className={cn(
+                  "px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider",
+                  sortable && "cursor-pointer hover:bg-gray-100"
+                )}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
+                <div className="flex items-center gap-1">
                   {column.header}
                   {sortable && sortColumn === column.key && (
                     <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
@@ -239,15 +243,19 @@ export const Table: React.FC<TableProps> = ({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-white divide-y divide-gray-200">
           {paginatedData.map((row, rowIndex) => (
             <tr
               key={rowIndex}
               onClick={() => onRowClick?.(row)}
-              style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+              className={cn(
+                onRowClick && "cursor-pointer",
+                hover && "hover:bg-gray-50",
+                striped && rowIndex % 2 === 1 && "bg-gray-50"
+              )}
             >
               {actualColumns.map((column) => (
-                <td key={column.key}>
+                <td key={column.key} className="px-4 py-3 whitespace-nowrap">
                   {entityType ? renderCell(row, column.key) : row[column.key]}
                 </td>
               ))}
@@ -257,38 +265,31 @@ export const Table: React.FC<TableProps> = ({
       </table>
 
       {totalPages > 1 && (
-        <div style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-        }}>
+        <div className="mt-4 flex gap-2 justify-center">
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            }}
+            className={cn(
+              "px-3 py-1.5 border border-gray-300 bg-white rounded",
+              currentPage === 1
+                ? "cursor-not-allowed opacity-50"
+                : "cursor-pointer hover:bg-gray-50"
+            )}
           >
             이전
           </button>
-          <span style={{ padding: '6px 12px' }}>
+          <span className="px-3 py-1.5">
             {currentPage} / {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            }}
+            className={cn(
+              "px-3 py-1.5 border border-gray-300 bg-white rounded",
+              currentPage === totalPages
+                ? "cursor-not-allowed opacity-50"
+                : "cursor-pointer hover:bg-gray-50"
+            )}
           >
             다음
           </button>
