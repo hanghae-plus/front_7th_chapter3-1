@@ -1,11 +1,13 @@
-import { Badge, Button, Table } from "@/shared/ui";
 import {
+  Badge,
+  Button,
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shared/ui/Table";
+} from "@/shared/ui";
 import { getPostStatusText } from "@/features/post/libs";
 import type { Post } from "@/shared/api/postService";
 

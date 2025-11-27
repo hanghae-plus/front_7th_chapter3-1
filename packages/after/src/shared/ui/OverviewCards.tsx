@@ -1,5 +1,4 @@
-import { Card } from "@/shared/ui";
-import { CardContent, CardHeader, CardTitle } from "@/shared/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui";
 import { cn } from "@/shared/utils/cn";
 
 export type OverviewData = {
@@ -19,19 +18,19 @@ export function OverviewCards({
         <Card
           key={data.label}
           className={cn(
-            "border rounded-1 w-full p-4 flex flex-col gap-1",
+            "border rounded-1 w-full p-4",
             getBorderColorClass(data.color),
             getBgColorClass(data.color)
           )}
         >
-          <CardHeader className="p-0">
-            <CardTitle>
-              <span className="text-gray-700 text-xs font-normal">
-                {data.label}
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="p-0 flex flex-col gap-1">
+            <CardHeader className="p-0">
+              <CardTitle>
+                <span className="text-gray-700 text-xs font-normal">
+                  {data.label}
+                </span>
+              </CardTitle>
+            </CardHeader>
             <span
               className={cn(
                 "text-2xl font-bold",
