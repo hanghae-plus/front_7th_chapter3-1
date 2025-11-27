@@ -4,15 +4,17 @@ import type { PostFormData } from "@/features/post/types";
 
 export function usePostAction() {
   const [postList, setPostList] = useState<Post[]>([]);
-  const [alertMessage, setAlertMessage] = useState({ type: "", message: "" });
+  const [alert, setAlert] = useState<{ type: string; message: string } | null>(
+    null
+  );
 
   const loadPosts = useCallback(async () => {
     try {
       const posts = await postService.getAll();
       setPostList(posts);
     } catch (error) {
-      setAlertMessage({
-        type: "error",
+      setAlert({
+        type: "실패",
         message: "게시글을 불러오는데 실패했습니다",
       });
     }
@@ -25,13 +27,13 @@ export function usePostAction() {
       try {
         await postService.delete(id);
         await loadPosts();
-        setAlertMessage({
-          type: "success",
+        setAlert({
+          type: "성공",
           message: "삭제되었습니다",
         });
       } catch (error) {
-        setAlertMessage({
-          type: "error",
+        setAlert({
+          type: "실패",
           message: "게시글 삭제에 실패했습니다",
         });
       }
@@ -44,13 +46,13 @@ export function usePostAction() {
       try {
         await postService.restore(id);
         await loadPosts();
-        setAlertMessage({
-          type: "success",
+        setAlert({
+          type: "성공",
           message: "복원되었습니다",
         });
       } catch (error) {
-        setAlertMessage({
-          type: "error",
+        setAlert({
+          type: "실패",
           message: "게시글 복원에 실패했습니다",
         });
       }
@@ -63,13 +65,13 @@ export function usePostAction() {
       try {
         await postService.publish(id);
         await loadPosts();
-        setAlertMessage({
-          type: "success",
+        setAlert({
+          type: "성공",
           message: "게시되었습니다",
         });
       } catch (error) {
-        setAlertMessage({
-          type: "error",
+        setAlert({
+          type: "실패",
           message: "게시글 게시에 실패했습니다",
         });
       }
@@ -82,13 +84,13 @@ export function usePostAction() {
       try {
         await postService.archive(id);
         await loadPosts();
-        setAlertMessage({
-          type: "success",
+        setAlert({
+          type: "성공",
           message: "보관되었습니다",
         });
       } catch (error) {
-        setAlertMessage({
-          type: "error",
+        setAlert({
+          type: "실패",
           message: "게시글 보관에 실패했습니다",
         });
       }
@@ -125,6 +127,10 @@ export function usePostAction() {
     [loadPosts]
   );
 
+  const closeAlert = useCallback(() => {
+    setAlert(null);
+  }, []);
+
   useEffect(() => {
     loadPosts();
   }, [loadPosts]);
@@ -137,6 +143,7 @@ export function usePostAction() {
     archivePost,
     createPost,
     updatePost,
-    alertMessage,
+    alert,
+    closeAlert,
   };
 }

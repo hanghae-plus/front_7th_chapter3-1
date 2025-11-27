@@ -1,5 +1,5 @@
 import { PostTable } from "@/features/post/ui/PostTable";
-import { Button, OverviewCards } from "@/shared/ui";
+import { Alert, Button, OverviewCards } from "@/shared/ui";
 import { useCallback, useMemo, useState } from "react";
 import type { Post } from "@/shared/api/postService";
 import { getPostCountStats } from "../libs";
@@ -16,7 +16,8 @@ export function PostDashboard() {
     archivePost,
     createPost,
     updatePost,
-    alertMessage,
+    alert,
+    closeAlert,
   } = usePostAction();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -74,6 +75,20 @@ export function PostDashboard() {
       <Button className="flex w-fit self-end" onClick={handleOpenCreateModal}>
         새로 만들기
       </Button>
+      {alert && (
+        <Alert
+          variant={alert.type === "성공" ? "success" : "error"}
+          className="flex justify-between items-start"
+        >
+          <div>
+            <span className="font-bold block">{alert.type}</span>
+            <p>{alert.message}</p>
+          </div>
+          <button className="cursor-pointer" onClick={closeAlert}>
+            ✕
+          </button>
+        </Alert>
+      )}
       <OverviewCards overviewData={overviewData} />
       <PostTable
         postList={postList}
