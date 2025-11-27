@@ -25,4 +25,8 @@ export default defineConfig({
   treeshake: true,
   clean: true,
   external: ["react", "react-dom"],
+  esbuildOptions(options) {
+    console.log(options);
+    options.chunkNames = "chunks/[name]-[hash]";
+  },
 });
