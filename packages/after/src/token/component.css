@@ -1,0 +1,56 @@
+/**
+ * Component tokens
+ * -----------------
+ * These tokens sit closest to the UI and map semantic tokens to concrete
+ * component states (button, input, card, etc.).
+ * Naming format: --namespace-component--surface/state-property-size-modifier
+ */
+:root {
+  /* Button */
+  --after-button--surface-primary-default: var(--color-bg-button-primary);
+  --after-button--surface-primary-hover: var(--color-bg-button-primary-hover);
+  --after-button--surface-secondary-default: var(--color-bg-button-secondary);
+  --after-button--surface-secondary-hover: var(--color-bg-button-secondary-hover);
+  --after-button--surface-danger-default: var(--color-bg-button-danger);
+  --after-button--surface-danger-hover: var(--color-bg-button-danger-hover);
+  --after-button--surface-success-default: var(--color-bg-button-success);
+  --after-button--surface-success-hover: var(--color-bg-button-success-hover);
+
+  --after-button--content-primary: var(--color-text-inverse);
+  --after-button--content-secondary: var(--color-text-default);
+
+  --after-button--border-primary: var(--color-border-button-primary);
+  --after-button--border-secondary: var(--color-border-button-secondary);
+  --after-button--border-danger: var(--color-border-button-danger);
+  --after-button--border-success: var(--color-border-button-success);
+
+  --after-button--radius-sm: var(--radius-control-sm);
+  --after-button--radius-md: var(--radius-control-md);
+
+  --after-button--spacing-sm-inline: var(--space-button-padding-sm);
+  --after-button--spacing-md-inline: var(--space-button-padding-md);
+  --after-button--spacing-lg-inline: var(--space-button-padding-lg);
+
+  /* Input */
+  --after-input--surface-default: var(--color-bg-input);
+  --after-input--surface-disabled: var(--color-bg-input-disabled);
+  --after-input--border-default: var(--color-border-input);
+  --after-input--border-focus: var(--color-border-focus);
+  --after-input--border-error: var(--color-border-danger);
+  --after-input--content-placeholder: var(--color-text-placeholder);
+  --after-input--radius: var(--radius-control-md);
+  --after-input--spacing-block: var(--space-form-control-padding-block);
+  --after-input--spacing-inline: var(--space-form-control-padding-inline);
+
+  /* Card */
+  --after-card--surface-default: var(--color-bg-card);
+  --after-card--surface-contrast: var(--color-bg-card-contrast);
+  --after-card--border: var(--color-border-card);
+  --after-card--shadow-default: var(--shadow-card-default);
+  --after-card--shadow-elevated: var(--shadow-card-elevated);
+  --after-card--radius: var(--radius-control-md);
+  --after-card--padding: var(--space-card-padding);
+  --after-card--gap: var(--space-card-gap);
+  --after-card--header-padding: var(--space-card-header-padding);
+}
+
