@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { Alert, Table, Modal } from '../components/organisms';
-import { FormSelect } from '../components/molecules';
-import { FormInput } from '../components/ui/input';
-import { FormTextarea } from '../components/ui/textarea';
+import { Alert, Table } from '../components/organisms';
+import { FormInput } from '../components/FormInput';
+import { FormTextarea } from '../components/FormTextarea';
+import { FormSelect } from '../components/FormSelect';
 import { userService } from '../services/userService';
 import { postService } from '../services/postService';
 import type { User } from '../services/userService';
@@ -15,6 +15,7 @@ import { userSchema } from './user-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { postSchema } from './post-schema';
+import { FormModal } from '../components/FormModal';
 
 type EntityType = 'user' | 'post';
 type Entity = User | Post;
@@ -608,32 +609,18 @@ export const ManagementPage: React.FC = () => {
         </div>
       </div>
 
-      <Modal
-        isOpen={isCreateModalOpen}
-        onClose={() => {
+      <FormModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+        title={`새 ${entityType === 'user' ? '사용자' : '게시글'} 만들기`}
+        size="lg"
+        onSubmit={handleCreate}
+        onCancel={() => {
           setIsCreateModalOpen(false);
           setFormData({});
         }}
-        title={`새 ${entityType === 'user' ? '사용자' : '게시글'} 만들기`}
-        size="large"
-        showFooter
-        footerContent={
-          <>
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => {
-                setIsCreateModalOpen(false);
-                setFormData({});
-              }}
-            >
-              취소
-            </Button>
-            <Button variant="primary" size="md" onClick={handleCreate}>
-              생성
-            </Button>
-          </>
-        }
+        submitText="생성"
+        cancelText="취소"
       >
         <div>
           {entityType === 'user' ? (
@@ -752,36 +739,25 @@ export const ManagementPage: React.FC = () => {
             </>
           )}
         </div>
-      </Modal>
+      </FormModal>
 
-      <Modal
-        isOpen={isEditModalOpen}
-        onClose={() => {
+      <FormModal
+        open={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        onCancel={() => {
           setIsEditModalOpen(false);
           setFormData({});
           setSelectedItem(null);
         }}
+        onSubmit={() => {
+          setIsEditModalOpen(false);
+          setFormData({});
+          setSelectedItem(null);
+        }}
+        submitText="수정 완료"
+        cancelText="취소"
         title={`${entityType === 'user' ? '사용자' : '게시글'} 수정`}
-        size="large"
-        showFooter
-        footerContent={
-          <>
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => {
-                setIsEditModalOpen(false);
-                setFormData({});
-                setSelectedItem(null);
-              }}
-            >
-              취소
-            </Button>
-            <Button variant="primary" size="md" onClick={handleUpdate}>
-              수정 완료
-            </Button>
-          </>
-        }
+        size="lg"
       >
         <div>
           {selectedItem && (
@@ -909,7 +885,7 @@ export const ManagementPage: React.FC = () => {
             </>
           )}
         </div>
-      </Modal>
+      </FormModal>
     </div>
   );
 };
