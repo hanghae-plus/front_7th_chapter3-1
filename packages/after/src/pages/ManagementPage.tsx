@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { Alert, Table } from '../components/organisms';
+import { Alert } from '../components/organisms';
 import { FormInput } from '../components/FormInput';
 import { FormTextarea } from '../components/FormTextarea';
 import { FormSelect } from '../components/FormSelect';
@@ -16,13 +16,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { postSchema } from './post-schema';
 import { FormModal } from '../components/FormModal';
+import { DataTable, type Column } from '../components/DataTable';
+import { type BadgeProps } from '../components/ui/badge';
+import { USER_ROLE, USER_STATUS } from '../constants/user-constants';
+import { POST_CATEGORY, POST_STATUS } from '../constants/post-constants';
+import type { PaginatedResponse } from '../services/types';
 
 type EntityType = 'user' | 'post';
 type Entity = User | Post;
 
 export const ManagementPage: React.FC = () => {
   const [entityType, setEntityType] = useState<EntityType>('post');
-  const [data, setData] = useState<Entity[]>([]);
+  const [data, setData] = useState<PaginatedResponse<Entity>>({ results: [], total: 0 });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Entity | null>(null);
@@ -30,25 +35,26 @@ export const ManagementPage: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [formData, setFormData] = useState<any>({});
 
   useEffect(() => {
-    loadData();
+    loadData(currentPage);
     setFormData({});
     setIsCreateModalOpen(false);
     setIsEditModalOpen(false);
     setSelectedItem(null);
-  }, [entityType]);
+  }, [entityType, currentPage]);
 
-  const loadData = async () => {
+  const loadData = async (page: number) => {
     try {
-      let result: Entity[];
+      let result: PaginatedResponse<Entity>;
 
       if (entityType === 'user') {
-        result = await userService.getAll();
+        result = await userService.getPaginated(page, 10);
       } else {
-        result = await postService.getAll();
+        result = await postService.getPaginated(page, 10);
       }
 
       setData(result);
@@ -77,7 +83,7 @@ export const ManagementPage: React.FC = () => {
         });
       }
 
-      await loadData();
+      await loadData(currentPage);
       setIsCreateModalOpen(false);
       setFormData({});
       setAlertMessage(`${entityType === 'user' ? '사용자' : '게시글'}가 생성되었습니다`);
@@ -123,7 +129,7 @@ export const ManagementPage: React.FC = () => {
         await postService.update(selectedItem.id, formData);
       }
 
-      await loadData();
+      await loadData(currentPage);
       setIsEditModalOpen(false);
       setFormData({});
       setSelectedItem(null);
@@ -145,7 +151,7 @@ export const ManagementPage: React.FC = () => {
         await postService.delete(id);
       }
 
-      await loadData();
+      await loadData(currentPage);
       setAlertMessage('삭제되었습니다');
       setShowSuccessAlert(true);
     } catch (error: any) {
@@ -166,7 +172,7 @@ export const ManagementPage: React.FC = () => {
         await postService.restore(id);
       }
 
-      await loadData();
+      await loadData(currentPage);
       const message = action === 'publish' ? '게시' : action === 'archive' ? '보관' : '복원';
       setAlertMessage(`${message}되었습니다`);
       setShowSuccessAlert(true);
@@ -178,7 +184,7 @@ export const ManagementPage: React.FC = () => {
 
   const getStats = () => {
     if (entityType === 'user') {
-      const users = data as User[];
+      const users = data.results as User[];
       return {
         total: users.length,
         stat1: {
@@ -203,7 +209,7 @@ export const ManagementPage: React.FC = () => {
         },
       };
     } else {
-      const posts = data as Post[];
+      const posts = data.results as Post[];
       return {
         total: posts.length,
         stat1: {
@@ -230,160 +236,145 @@ export const ManagementPage: React.FC = () => {
     }
   };
 
-  // 🚨 Table 컴포넌트에 로직을 위임하여 간소화
-  const renderTableColumns = () => {
-    if (entityType === 'user') {
-      return [
-        { key: 'id', header: 'ID', width: '60px' },
-        { key: 'username', header: '사용자명', width: '150px' },
-        { key: 'email', header: '이메일' },
-        { key: 'role', header: '역할', width: '120px' },
-        { key: 'status', header: '상태', width: '120px' },
-        { key: 'createdAt', header: '생성일', width: '120px' },
-        { key: 'lastLogin', header: '마지막 로그인', width: '140px' },
-        { key: 'actions', header: '관리', width: '200px' },
-      ];
-    } else {
-      return [
-        { key: 'id', header: 'ID', width: '60px' },
-        { key: 'title', header: '제목' },
-        { key: 'author', header: '작성자', width: '120px' },
-        { key: 'category', header: '카테고리', width: '140px' },
-        { key: 'status', header: '상태', width: '120px' },
-        { key: 'views', header: '조회수', width: '100px' },
-        { key: 'createdAt', header: '작성일', width: '120px' },
-        { key: 'actions', header: '관리', width: '250px' },
-      ];
-    }
-  };
+  const userTableColumns: Column<User>[] = [
+    { key: 'id', label: 'ID', width: '60px' },
+    { key: 'username', label: '사용자명', width: '150px' },
+    { key: 'email', label: '이메일' },
+    {
+      key: 'role',
+      label: '역할',
+      width: '120px',
+      render: (row: User, _: unknown) => {
+        let type: BadgeProps['variant'] = 'primary';
+        if (row.role === 'admin') type = 'danger';
+        if (row.role === 'moderator') type = 'warning';
+        if (row.role === 'user') type = 'primary';
+        // if (row.role === 'guest') type = 'secondary';
+        return <Badge variant={type}>{USER_ROLE[row.role]}</Badge>;
+      },
+    },
+    {
+      key: 'status',
+      label: '상태',
+      width: '120px',
 
-  // TODO: apply status type
-  const renderBadgeByStatus = (status: string) => {
-    if (status === 'published') return <Badge variant="success">게시됨</Badge>;
-    if (status === 'draft') return <Badge variant="warning">임시저장</Badge>;
-    if (status === 'rejected') return <Badge variant="danger">거부됨</Badge>;
-    if (status === 'archived') return <Badge variant="primary">보관됨</Badge>;
-    if (status === 'pending') return <Badge variant="info">대기중</Badge>;
-    return null;
-  };
-
-  // TODO: apply role type
-  const renderBadgeByRole = (role: string) => {
-    if (role === 'admin') return <Badge variant="danger">관리자</Badge>;
-    if (role === 'moderator') return <Badge variant="warning">운영자</Badge>;
-    if (role === 'user') return <Badge variant="primary">사용자</Badge>;
-    if (role === 'guest') return <Badge variant="secondary">게스트</Badge>;
-    return null;
-  };
-
-  const renderUserTableCell = (row: any, columnKey: string): React.ReactNode => {
-    const value = row[columnKey];
-    if (columnKey === 'role') {
-      return renderBadgeByRole(value);
-    }
-    if (columnKey === 'status') {
-      const badgeStatus =
-        value === 'active' ? 'published' : value === 'inactive' ? 'draft' : 'rejected';
-      return renderBadgeByStatus(badgeStatus);
-    }
-    if (columnKey === 'lastLogin') {
-      return value || '-';
-    }
-    if (columnKey === 'actions') {
-      return (
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <Button size="sm" variant="primary" onClick={() => handleEdit(row)}>
-            수정
-          </Button>
-          <Button size="sm" variant="danger" onClick={() => handleDelete(row.id)}>
-            삭제
-          </Button>
-        </div>
-      );
-    }
-  };
-
-  const renderPostTableCell = (row: any, columnKey: string): React.ReactNode => {
-    const value = row[columnKey];
-    if (columnKey === 'category') {
-      const type =
-        value === 'development'
-          ? 'primary'
-          : value === 'design'
-            ? 'info'
-            : value === 'accessibility'
-              ? 'danger'
-              : 'secondary';
-      return (
-        <Badge variant={type} shape="pill">
-          {value}
-        </Badge>
-      );
-    }
-    if (columnKey === 'status') {
-      return renderBadgeByStatus(value);
-    }
-    if (columnKey === 'views') {
-      return value?.toLocaleString() || '0';
-    }
-    if (columnKey === 'actions') {
-      return (
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <Button size="sm" variant="primary" onClick={() => handleEdit(row)}>
-            수정
-          </Button>
-          {row.status === 'draft' && (
-            <Button
-              size="sm"
-              variant="success"
-              onClick={() => handleStatusAction(row.id, 'publish')}
-            >
-              게시
+      render: (row: User, _: unknown) => {
+        let type: BadgeProps['variant'] = 'primary';
+        if (row.status === 'active') type = 'success';
+        if (row.status === 'inactive') type = 'warning';
+        if (row.status === 'suspended') type = 'danger';
+        return <Badge variant={type}>{USER_STATUS[row.status]}</Badge>;
+      },
+    },
+    { key: 'createdAt', label: '생성일', width: '120px' },
+    { key: 'lastLogin', label: '마지막 로그인', width: '140px' },
+    {
+      key: 'actions',
+      label: '관리',
+      width: '200px',
+      render: (row: User, _: unknown) => {
+        return (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button size="sm" variant="primary" onClick={() => handleEdit(row)}>
+              수정
             </Button>
-          )}
-          {row.status === 'published' && (
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => handleStatusAction(row.id, 'archive')}
-            >
-              보관
+            <Button size="sm" variant="danger" onClick={() => handleDelete(row.id)}>
+              삭제
             </Button>
-          )}
-          {row.status === 'archived' && (
-            <Button
-              size="sm"
-              variant="primary"
-              onClick={() => handleStatusAction(row.id, 'restore')}
-            >
-              복원
+          </div>
+        );
+      },
+    },
+  ];
+
+  const postTableColumns: Column<Post>[] = [
+    { key: 'id', label: 'ID', width: '60px' },
+    { key: 'title', label: '제목' },
+    { key: 'author', label: '작성자', width: '120px' },
+    {
+      key: 'category',
+      label: '카테고리',
+      width: '140px',
+      render: (row: Post, _: unknown) => {
+        let type: BadgeProps['variant'] = 'secondary';
+        if (row.category === 'development') type = 'primary';
+        if (row.category === 'design') type = 'info';
+        if (row.category === 'accessibility') type = 'danger';
+        return (
+          <Badge variant={type} shape="pill">
+            {POST_CATEGORY[row.category as keyof typeof POST_CATEGORY]}
+          </Badge>
+        );
+      },
+    },
+    {
+      key: 'status',
+      label: '상태',
+      width: '120px',
+      render: (row: Post, _: unknown) => {
+        let type: BadgeProps['variant'] = 'primary';
+        if (row.status === 'published') type = 'success';
+        if (row.status === 'draft') type = 'warning';
+        if (row.status === 'archived') type = 'primary';
+        // if (row.status === 'pending') type = 'info';
+        // if (row.status === 'rejected') type = 'danger';
+        return <Badge variant={type}>{POST_STATUS[row.status]}</Badge>;
+      },
+    },
+    {
+      key: 'views',
+      label: '조회수',
+      width: '100px',
+      render: (row: Post, _: unknown) => {
+        return <>{row.views?.toLocaleString() || '0'}</>;
+      },
+    },
+    { key: 'createdAt', label: '작성일', width: '120px' },
+    {
+      key: 'actions',
+      label: '관리',
+      width: '250px',
+      render: (row: Post, _: unknown) => {
+        return (
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <Button size="sm" variant="primary" onClick={() => handleEdit(row)}>
+              수정
             </Button>
-          )}
-          <Button size="sm" variant="danger" onClick={() => handleDelete(row.id)}>
-            삭제
-          </Button>
-        </div>
-      );
-    }
-  };
-
-  const renderTableCell = (row: any, columnKey: string): React.ReactNode => {
-    const value = row[columnKey];
-    if (entityType === 'user') {
-      const userCell = renderUserTableCell(row, columnKey);
-      if (userCell) return userCell;
-    }
-
-    if (entityType === 'post') {
-      const postCell = renderPostTableCell(row, columnKey);
-      if (postCell) return postCell;
-    }
-
-    if (React.isValidElement(value)) {
-      return value;
-    }
-    return value;
-  };
+            {row.status === 'draft' && (
+              <Button
+                size="sm"
+                variant="success"
+                onClick={() => handleStatusAction(row.id, 'publish')}
+              >
+                게시
+              </Button>
+            )}
+            {row.status === 'published' && (
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => handleStatusAction(row.id, 'archive')}
+              >
+                보관
+              </Button>
+            )}
+            {row.status === 'archived' && (
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => handleStatusAction(row.id, 'restore')}
+              >
+                복원
+              </Button>
+            )}
+            <Button size="sm" variant="danger" onClick={() => handleDelete(row.id)}>
+              삭제
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
 
   const stats = getStats();
 
@@ -439,22 +430,6 @@ export const ManagementPage: React.FC = () => {
               paddingBottom: '5px',
             }}
           >
-            {/* <button
-              onClick={() => setEntityType('post')}
-              style={{
-                padding: '8px 16px',
-                marginRight: '5px',
-                fontSize: '14px',
-                fontWeight: entityType === 'post' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'post' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'post' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px'
-              }}
-            >
-              게시글
-            </button> */}
             <Button
               size="sm"
               variant={entityType === 'post' ? 'primary' : 'secondary'}
@@ -462,21 +437,6 @@ export const ManagementPage: React.FC = () => {
             >
               게시글
             </Button>
-            {/* <button
-              onClick={() => setEntityType('user')}
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: entityType === 'user' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'user' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'user' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px'
-              }}
-            >
-              사용자
-            </button> */}
             <Button
               size="sm"
               variant={entityType === 'user' ? 'primary' : 'secondary'}
@@ -597,13 +557,35 @@ export const ManagementPage: React.FC = () => {
             </div>
 
             <div style={{ border: '1px solid #ddd', background: 'white', overflow: 'auto' }}>
-              <Table
-                columns={renderTableColumns()}
-                data={data}
-                striped
-                hover
-                renderCell={renderTableCell}
-              />
+              {entityType === 'user' ? (
+                <DataTable<User>
+                  columns={userTableColumns}
+                  data={data.results as User[]}
+                  striped
+                  pagination={{
+                    page: currentPage,
+                    pageSize: 10,
+                    totalCount: data.total,
+                    onPageChange: (page: number) => {
+                      setCurrentPage(page);
+                    },
+                  }}
+                />
+              ) : (
+                <DataTable<Post>
+                  columns={postTableColumns}
+                  data={data.results as Post[]}
+                  striped
+                  pagination={{
+                    page: currentPage,
+                    pageSize: 10,
+                    totalCount: data.total,
+                    onPageChange: (page: number) => {
+                      setCurrentPage(page);
+                    },
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -753,6 +735,7 @@ export const ManagementPage: React.FC = () => {
           setIsEditModalOpen(false);
           setFormData({});
           setSelectedItem(null);
+          handleUpdate();
         }}
         submitText="수정 완료"
         cancelText="취소"

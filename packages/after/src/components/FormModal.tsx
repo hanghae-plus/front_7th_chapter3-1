@@ -10,6 +10,7 @@ import {
 } from './ui/dialog';
 import { Button } from './ui/button';
 import type { VariantProps } from 'class-variance-authority';
+import { Separator } from './ui/separator';
 
 interface FormModalProps extends VariantProps<typeof dialogContentVariants> {
   open: boolean;
@@ -53,10 +54,11 @@ function FormModal({
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
 
+        <Separator />
         {children}
+        <Separator />
 
         {showCustomFooter && <DialogFooter>{footer}</DialogFooter>}
-
         {showDefaultFooter && (
           <DialogFooter>
             {onCancel && (
