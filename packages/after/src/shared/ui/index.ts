@@ -7,3 +7,5 @@ export { Select } from "./Select";
 export { Label } from "./Label";
 export { Badge } from "./Badge";
 export { OverviewCards } from "./OverviewCards";
+export { Dialog } from "./dialog";
+export { Alert } from "./alert";
