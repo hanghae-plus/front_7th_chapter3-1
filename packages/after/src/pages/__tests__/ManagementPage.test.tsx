@@ -36,11 +36,14 @@ describe("ManagementPage - User Management", () => {
     const roleSelect = document.querySelector(
       'select[name="role"]'
     ) as HTMLSelectElement;
+    const statusSelect = document.querySelector(
+      'select[name="status"]'
+    ) as HTMLSelectElement;
 
     await user.type(usernameInput, "testuser");
     await user.type(emailInput, "test@example.com");
     await user.selectOptions(roleSelect, "user");
-    await user.selectOptions(roleSelect, "active");
+    await user.selectOptions(statusSelect, "active");
 
     const createBtn = screen.getByRole("button", { name: "생성" });
     await user.click(createBtn);
