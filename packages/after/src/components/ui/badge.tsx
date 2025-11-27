@@ -34,6 +34,9 @@ const badgeVariants = cva(
   }
 );
 
+interface BadgeProps extends VariantProps<typeof badgeVariants> {
+  asChild?: boolean;
+}
 function Badge({
   className,
   variant,
@@ -52,4 +55,4 @@ function Badge({
   );
 }
 
-export { Badge, badgeVariants };
+export { Badge, badgeVariants, type BadgeProps };
