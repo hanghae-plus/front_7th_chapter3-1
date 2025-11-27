@@ -10,7 +10,7 @@ import { userService } from '../services/userService';
 import { postService } from '../services/postService';
 import type { User } from '../services/userService';
 import type { Post } from '../services/postService';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { userSchema } from './user-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -400,6 +400,12 @@ export const ManagementPage: React.FC = () => {
   } = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     mode: 'onChange',
+    defaultValues: {
+      username: '',
+      email: '',
+      role: '',
+      status: '',
+    },
   });
 
   type PostFormData = z.infer<typeof postSchema>;
@@ -411,6 +417,12 @@ export const ManagementPage: React.FC = () => {
   } = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
     mode: 'onChange',
+    defaultValues: {
+      title: '',
+      content: '',
+      author: '',
+      category: '',
+    },
   });
 
   return (
@@ -586,6 +598,7 @@ export const ManagementPage: React.FC = () => {
                     { value: 'admin', label: '관리자' },
                   ]}
                   label="역할"
+                  placeholder="역할 선택"
                   invalid={!!userErrors.role}
                   invalidText={userErrors.role?.message}
                   {...userRegister('role')}
@@ -598,6 +611,7 @@ export const ManagementPage: React.FC = () => {
                     { value: 'suspended', label: '정지' },
                   ]}
                   label="상태"
+                  placeholder="상태 선택"
                   invalid={!!userErrors.status}
                   invalidText={userErrors.status?.message}
                   {...userRegister('status')}
