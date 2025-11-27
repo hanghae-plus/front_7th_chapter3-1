@@ -35,6 +35,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Main App
+        env:
+          VITE_BASE_PATH: /
         run: pnpm run build:after
 
       - name: Build Storybook
