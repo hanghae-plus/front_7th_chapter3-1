@@ -1,0 +1,80 @@
+:root {
+  /* blue */
+  --color-blue-50: #f0f7ff;
+  --color-blue-100: #d6e4ff;
+  --color-blue-200: #adc8ff;
+  --color-blue-300: #84a9ff;
+  --color-blue-400: #6690ff;
+  --color-blue-500: #3366ff;
+  --color-blue-600: #254edb;
+  --color-blue-700: #1939b7;
+  --color-blue-800: #102693;
+  --color-blue-900: #091a7a;
+
+  /* yellow */
+  --color-yellow-50: #fff9e6;
+  --color-yellow-100: #ffeeb3;
+  --color-yellow-200: #ffe380;
+  --color-yellow-300: #ffd94d;
+  --color-yellow-400: #ffcf1a;
+  --color-yellow-500: #e2b700;
+  --color-yellow-600: #b29000;
+  --color-yellow-700: #806800;
+  --color-yellow-800: #4f4100;
+  --color-yellow-900: #1e1a00;
+
+  /* green */
+  --color-green-50: #f0fff4;
+  --color-green-100: #c6f6d5;
+  --color-green-200: #9ae6b4;
+  --color-green-300: #68d391;
+  --color-green-400: #48bb78;
+  --color-green-500: #38a169;
+  --color-green-600: #25855a;
+  --color-green-700: #276749;
+  --color-green-800: #005246;
+  --color-green-900: #1c4532;
+
+  /* red */
+  --color-red-50: #fff5f5;
+  --color-red-100: #fed7d7;
+  --color-red-200: #feb2b2;
+  --color-red-300: #fc8181;
+  --color-red-400: #f56565;
+  --color-red-500: #e53e3e;
+  --color-red-600: #c53030;
+  --color-red-700: #9b2c2c;
+  --color-red-800: #822727;
+  --color-red-900: #63171b;
+
+  /* gray */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-300: #d4d4d8;
+  --color-gray-400: #a1a1aa;
+  --color-gray-500: #71717a;
+  --color-gray-600: #52525b;
+  --color-gray-700: #3f3f46;
+  --color-gray-800: #27272a;
+  --color-gray-900: #18181b;
+
+  /* semantic */
+  --color-primary: #3366ff;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #71717a;
+  --color-secondary-foreground: #ffffff;
+
+  --color-success: #38a169;
+  --color-success-foreground: #ffffff;
+
+  --color-warning: #e2b700;
+  --color-warning-foreground: #000000;
+
+  --color-danger: #e53e3e;
+  --color-danger-foreground: #ffffff;
+
+  --color-info: #6690ff;
+  --color-info-foreground: #ffffff;
+}
