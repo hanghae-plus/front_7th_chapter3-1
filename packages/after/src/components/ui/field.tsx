@@ -187,6 +187,50 @@ function FieldError({
   );
 }
 
+// FormField - convenience wrapper for common form field pattern
+interface FormFieldProps {
+  children: React.ReactNode;
+  id?: string;
+  label?: string;
+  helpText?: string;
+  invalid?: boolean;
+  invalidText?: string;
+  required?: boolean;
+  className?: string;
+}
+
+function FormField({
+  children,
+  id,
+  label,
+  helpText,
+  invalid,
+  invalidText,
+  required,
+  className,
+}: FormFieldProps) {
+  const descriptionId = (helpText || invalidText) && id ? `${id}-description` : undefined;
+
+  return (
+    <Field className={className} data-invalid={invalid || undefined}>
+      {label && (
+        <FieldLabel htmlFor={id}>
+          {label}
+          {required && <span className="text-destructive ml-1">*</span>}
+        </FieldLabel>
+      )}
+      {children}
+      {!invalid && helpText && <FieldDescription id={descriptionId}>{helpText}</FieldDescription>}
+      {invalid && invalidText && <FieldError id={descriptionId}>{invalidText}</FieldError>}
+    </Field>
+  );
+}
+
+// Helper to get description id for aria-describedby
+function getFieldDescriptionId(id?: string, hasDescription?: boolean): string | undefined {
+  return hasDescription && id ? `${id}-description` : undefined;
+}
+
 export {
   Field,
   FieldLabel,
@@ -197,4 +241,6 @@ export {
   FieldSet,
   FieldContent,
   FieldTitle,
+  FormField,
+  getFieldDescriptionId,
 };
