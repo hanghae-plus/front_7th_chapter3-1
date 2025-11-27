@@ -18,8 +18,8 @@ import { postSchema } from './post-schema';
 import { FormModal } from '../components/FormModal';
 import { DataTable, type Column } from '../components/DataTable';
 import { type BadgeProps } from '../components/ui/badge';
-import { USER_ROLE, USER_STATUS } from '../constants/user-constants';
-import { POST_CATEGORY, POST_STATUS } from '../constants/post-constants';
+import { USER_ROLE, USER_STATUS } from '../services/user-constants';
+import { POST_CATEGORY, POST_STATUS } from '../services/post-constants';
 import type { PaginatedResponse } from '../services/types';
 import { StatCard } from '../components/StatCard';
 
@@ -38,11 +38,8 @@ export const ManagementPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [formData, setFormData] = useState<any>({});
-
   useEffect(() => {
     loadData(currentPage);
-    setFormData({});
     setIsCreateModalOpen(false);
     setIsEditModalOpen(false);
     setSelectedItem(null);
@@ -65,29 +62,39 @@ export const ManagementPage: React.FC = () => {
     }
   };
 
-  const handleCreate = async () => {
+  const handleUserCreate = async (data: UserFormData) => {
     try {
-      if (entityType === 'user') {
-        await userService.create({
-          username: formData.username,
-          email: formData.email,
-          role: formData.role || 'user',
-          status: formData.status || 'active',
-        });
-      } else {
-        await postService.create({
-          title: formData.title,
-          content: formData.content || '',
-          author: formData.author,
-          category: formData.category,
-          status: formData.status || 'draft',
-        });
-      }
+      await userService.create({
+        username: data.username,
+        email: data.email,
+        role: data.role || 'user',
+        status: data.status || 'active',
+      });
 
       await loadData(currentPage);
       setIsCreateModalOpen(false);
-      setFormData({});
-      setAlertMessage(`${entityType === 'user' ? '사용자' : '게시글'}가 생성되었습니다`);
+      userReset();
+      setAlertMessage('사용자가 생성되었습니다');
+      setShowSuccessAlert(true);
+    } catch (error: any) {
+      setErrorMessage(error.message || '생성에 실패했습니다');
+      setShowErrorAlert(true);
+    }
+  };
+
+  const handlePostCreate = async (data: PostFormData) => {
+    try {
+      await postService.create({
+        title: data.title,
+        content: data.content || '',
+        author: data.author,
+        category: data.category,
+      });
+
+      await loadData(currentPage);
+      setIsCreateModalOpen(false);
+      postReset();
+      setAlertMessage('게시글이 생성되었습니다');
       setShowSuccessAlert(true);
     } catch (error: any) {
       setErrorMessage(error.message || '생성에 실패했습니다');
@@ -100,7 +107,7 @@ export const ManagementPage: React.FC = () => {
 
     if (entityType === 'user') {
       const user = item as User;
-      setFormData({
+      userReset({
         username: user.username,
         email: user.email,
         role: user.role,
@@ -108,33 +115,46 @@ export const ManagementPage: React.FC = () => {
       });
     } else {
       const post = item as Post;
-      setFormData({
+      postReset({
         title: post.title,
         content: post.content,
         author: post.author,
         category: post.category,
-        status: post.status,
       });
     }
 
     setIsEditModalOpen(true);
   };
 
-  const handleUpdate = async () => {
+  const handleUserUpdate = async (data: UserFormData) => {
     if (!selectedItem) return;
 
     try {
-      if (entityType === 'user') {
-        await userService.update(selectedItem.id, formData);
-      } else {
-        await postService.update(selectedItem.id, formData);
-      }
+      await userService.update(selectedItem.id, data);
 
       await loadData(currentPage);
       setIsEditModalOpen(false);
-      setFormData({});
+      userReset();
       setSelectedItem(null);
-      setAlertMessage(`${entityType === 'user' ? '사용자' : '게시글'}가 수정되었습니다`);
+      setAlertMessage('사용자가 수정되었습니다');
+      setShowSuccessAlert(true);
+    } catch (error: any) {
+      setErrorMessage(error.message || '수정에 실패했습니다');
+      setShowErrorAlert(true);
+    }
+  };
+
+  const handlePostUpdate = async (data: PostFormData) => {
+    if (!selectedItem) return;
+
+    try {
+      await postService.update(selectedItem.id, data);
+
+      await loadData(currentPage);
+      setIsEditModalOpen(false);
+      postReset();
+      setSelectedItem(null);
+      setAlertMessage('게시글이 수정되었습니다');
       setShowSuccessAlert(true);
     } catch (error: any) {
       setErrorMessage(error.message || '수정에 실패했습니다');
@@ -371,12 +391,12 @@ export const ManagementPage: React.FC = () => {
 
   const stats = getStats();
 
-  // Temporarily hook form
   type UserFormData = z.infer<typeof userSchema>;
   const {
     register: userRegister,
-    handleSubmit: userSubmit,
-    formState: { errors: userErrors },
+    handleSubmit: userHandleSubmit,
+    formState: { errors: userErrors, isSubmitting: isUserSubmitting },
+    reset: userReset,
   } = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     mode: 'onChange',
@@ -385,8 +405,9 @@ export const ManagementPage: React.FC = () => {
   type PostFormData = z.infer<typeof postSchema>;
   const {
     register: postRegister,
-    handleSubmit: postSubmit,
-    formState: { errors: postErrors },
+    handleSubmit: postHandleSubmit,
+    formState: { errors: postErrors, isSubmitting: isPostSubmitting },
+    reset: postReset,
   } = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
     mode: 'onChange',
@@ -518,21 +539,25 @@ export const ManagementPage: React.FC = () => {
         onOpenChange={setIsCreateModalOpen}
         title={`새 ${entityType === 'user' ? '사용자' : '게시글'} 만들기`}
         size="lg"
-        onSubmit={handleCreate}
+        onSubmit={
+          entityType === 'user'
+            ? userHandleSubmit(handleUserCreate)
+            : postHandleSubmit(handlePostCreate)
+        }
         onCancel={() => {
           setIsCreateModalOpen(false);
-          setFormData({});
+          if (entityType === 'user') userReset();
+          if (entityType === 'post') postReset();
         }}
         submitText="생성"
         cancelText="취소"
+        isSubmitting={entityType === 'user' ? isUserSubmitting : isPostSubmitting}
       >
         <div>
           {entityType === 'user' ? (
             <>
               <FormInput
                 id="username"
-                // value={formData.username || ''}
-                // onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 label="사용자명"
                 placeholder="사용자명을 입력하세요"
                 required
@@ -543,8 +568,6 @@ export const ManagementPage: React.FC = () => {
               />
               <FormInput
                 id="email"
-                // value={formData.email || ''}
-                // onChange={(value) => setFormData({ ...formData, email: value })}
                 label="이메일"
                 placeholder="이메일을 입력하세요"
                 type="email"
@@ -557,8 +580,6 @@ export const ManagementPage: React.FC = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <FormSelect
                   id="role"
-                  // value={formData.role || 'user'}
-                  // onChange={(value) => setFormData({ ...formData, role: value })}
                   options={[
                     { value: 'user', label: '사용자' },
                     { value: 'moderator', label: '운영자' },
@@ -571,8 +592,6 @@ export const ManagementPage: React.FC = () => {
                 />
                 <FormSelect
                   id="status"
-                  // value={formData.status || 'active'}
-                  // onChange={(value) => setFormData({ ...formData, status: value })}
                   options={[
                     { value: 'active', label: '활성' },
                     { value: 'inactive', label: '비활성' },
@@ -589,8 +608,6 @@ export const ManagementPage: React.FC = () => {
             <>
               <FormInput
                 id="title"
-                // value={formData.title || ''}
-                // onChange={(value) => setFormData({ ...formData, title: value })}
                 label="제목"
                 placeholder="게시글 제목을 입력하세요"
                 required
@@ -598,13 +615,10 @@ export const ManagementPage: React.FC = () => {
                 invalid={!!postErrors.title}
                 invalidText={postErrors.title?.message}
                 {...postRegister('title')}
-                // fieldType="postTitle"
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <FormInput
                   id="author"
-                  // value={formData.author || ''}
-                  // onChange={(value) => setFormData({ ...formData, author: value })}
                   label="작성자"
                   placeholder="작성자명"
                   required
@@ -615,8 +629,6 @@ export const ManagementPage: React.FC = () => {
                 />
                 <FormSelect
                   id="category"
-                  // value={formData.category || ''}
-                  // onChange={(value) => setFormData({ ...formData, category: value })}
                   options={[
                     { value: 'development', label: 'Development' },
                     { value: 'design', label: 'Design' },
@@ -631,8 +643,6 @@ export const ManagementPage: React.FC = () => {
               </div>
               <FormTextarea
                 id="content"
-                // value={formData.content || ''}
-                // onChange={(value) => setFormData({ ...formData, content: value })}
                 label="내용"
                 placeholder="게시글 내용을 입력하세요"
                 rows={6}
@@ -650,19 +660,20 @@ export const ManagementPage: React.FC = () => {
         onOpenChange={setIsEditModalOpen}
         onCancel={() => {
           setIsEditModalOpen(false);
-          setFormData({});
+          if (entityType === 'user') userReset();
+          if (entityType === 'post') postReset();
           setSelectedItem(null);
         }}
-        onSubmit={() => {
-          setIsEditModalOpen(false);
-          setFormData({});
-          setSelectedItem(null);
-          handleUpdate();
-        }}
+        onSubmit={
+          entityType === 'user'
+            ? userHandleSubmit(handleUserUpdate)
+            : postHandleSubmit(handlePostUpdate)
+        }
         submitText="수정 완료"
         cancelText="취소"
         title={`${entityType === 'user' ? '사용자' : '게시글'} 수정`}
         size="lg"
+        isSubmitting={entityType === 'user' ? isUserSubmitting : isPostSubmitting}
       >
         <div>
           {selectedItem && (
@@ -676,8 +687,6 @@ export const ManagementPage: React.FC = () => {
             <>
               <FormInput
                 id="username"
-                // value={formData.username || ''}
-                // onChange={(value) => setFormData({ ...formData, username: value })}
                 label="사용자명"
                 placeholder="사용자명을 입력하세요"
                 required
@@ -685,12 +694,9 @@ export const ManagementPage: React.FC = () => {
                 invalid={!!userErrors.username}
                 invalidText={userErrors.username?.message}
                 {...userRegister('username')}
-                // fieldType="username"
               />
               <FormInput
                 id="email"
-                // value={formData.email || ''}
-                // onChange={(value) => setFormData({ ...formData, email: value })}
                 label="이메일"
                 placeholder="이메일을 입력하세요"
                 type="email"
@@ -699,13 +705,10 @@ export const ManagementPage: React.FC = () => {
                 invalid={!!userErrors.email}
                 invalidText={userErrors.email?.message}
                 {...userRegister('email')}
-                // fieldType="email"
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <FormSelect
                   id="role"
-                  // value={formData.role || 'user'}
-                  // onChange={(value) => setFormData({ ...formData, role: value })}
                   options={[
                     { value: 'user', label: '사용자' },
                     { value: 'moderator', label: '운영자' },
@@ -718,8 +721,6 @@ export const ManagementPage: React.FC = () => {
                 />
                 <FormSelect
                   id="status"
-                  // value={formData.status || 'active'}
-                  // onChange={(value) => setFormData({ ...formData, status: value })}
                   options={[
                     { value: 'active', label: '활성' },
                     { value: 'inactive', label: '비활성' },
@@ -736,8 +737,6 @@ export const ManagementPage: React.FC = () => {
             <>
               <FormInput
                 id="title"
-                // value={formData.title || ''}
-                // onChange={(value) => setFormData({ ...formData, title: value })}
                 label="제목"
                 placeholder="게시글 제목을 입력하세요"
                 required
@@ -745,13 +744,10 @@ export const ManagementPage: React.FC = () => {
                 invalid={!!postErrors.title}
                 invalidText={postErrors.title?.message}
                 {...postRegister('title')}
-                // fieldType="postTitle"
               />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <FormInput
                   id="author"
-                  // value={formData.author || ''}
-                  // onChange={(value) => setFormData({ ...formData, author: value })}
                   label="작성자"
                   placeholder="작성자명"
                   required
@@ -762,8 +758,6 @@ export const ManagementPage: React.FC = () => {
                 />
                 <FormSelect
                   id="category"
-                  // value={formData.category || ''}
-                  // onChange={(value) => setFormData({ ...formData, category: value })}
                   options={[
                     { value: 'development', label: 'Development' },
                     { value: 'design', label: 'Design' },
@@ -778,8 +772,6 @@ export const ManagementPage: React.FC = () => {
               </div>
               <FormTextarea
                 id="content"
-                // value={formData.content || ''}
-                // onChange={(value) => setFormData({ ...formData, content: value })}
                 label="내용"
                 placeholder="게시글 내용을 입력하세요"
                 rows={6}
