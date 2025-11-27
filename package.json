@@ -11,6 +11,7 @@
     "build": "pnpm -r build",
     "build:before": "pnpm --filter @front_lite_chapter3-1/before build",
     "build:after": "pnpm --filter @front_lite_chapter3-1/after build",
+    "build:bento": "pnpm --filter @bento build",
     "storybook": "pnpm --filter @front_lite_chapter3-1/after storybook",
     "build-storybook": "pnpm --filter @front_lite_chapter3-1/after build-storybook",
     "lint": "pnpm -r lint",
