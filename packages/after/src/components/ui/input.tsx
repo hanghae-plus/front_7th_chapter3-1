@@ -60,7 +60,7 @@ function FormInput({
         id={id}
         type={type}
         required={required}
-        aria-invalid={invalid || undefined}
+        aria-invalid={invalid}
         aria-describedby={descriptionId}
         data-slot="input"
         className={cn(
