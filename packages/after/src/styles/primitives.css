@@ -1,0 +1,238 @@
+:root {
+  /* ========================================
+     TIER 1: VALUES (Primitive Tokens)
+     Raw color values - the foundation
+     ======================================== */
+
+  /* Blue Values */
+  --value-blue-50: #e3f2fd;
+  --value-blue-200: #90caf9;
+  --value-blue-600: #1976d2;
+  --value-blue-700: #1565c0;
+  --value-blue-900: #0d47a1;
+
+  /* Green Values */
+  --value-green-50: #e8f5e9;
+  --value-green-200: #81c784;
+  --value-green-600: #388e3c;
+  --value-green-700: #2e7d32;
+  --value-green-900: #1b5e20;
+
+  /* Red Values */
+  --value-red-50: #ffebee;
+  --value-red-200: #e57373;
+  --value-red-600: #d32f2f;
+  --value-red-700: #c62828;
+  --value-red-900: #b71c1c;
+
+  /* Orange Values */
+  --value-orange-50: #fff3e0;
+  --value-orange-200: #ffb74d;
+  --value-orange-600: #f57c00;
+  --value-orange-900: #e65100;
+
+  /* Cyan Values */
+  --value-cyan-600: #0288d1;
+
+  /* Gray Values */
+  --value-gray-50: #f7fafc;
+  --value-gray-100: #f5f5f5;
+  --value-gray-200: #e0e0e0;
+  --value-gray-300: #ccc;
+  --value-gray-400: #bdbdbd;
+  --value-gray-500: #757575;
+  --value-gray-600: #666;
+  --value-gray-700: #424242;
+  --value-gray-800: #333;
+  --value-gray-900: #121212;
+
+  /* Cool Gray Values (Legacy) */
+  --value-cool-gray-500: #718096;
+  --value-cool-gray-900: #1a202c;
+
+  /* Base Values */
+  --value-white: #ffffff;
+  --value-black: #000000;
+
+  /* ========================================
+     TIER 2: BASE VARIABLES (Semantic Tokens)
+     Named colors that reference primitive values
+     ======================================== */
+
+  /* Blue Scale */
+  --blue-50: var(--value-blue-50);
+  --blue-200: var(--value-blue-200);
+  --blue-600: var(--value-blue-600);
+  --blue-700: var(--value-blue-700);
+  --blue-900: var(--value-blue-900);
+
+  /* Green Scale */
+  --green-50: var(--value-green-50);
+  --green-200: var(--value-green-200);
+  --green-600: var(--value-green-600);
+  --green-700: var(--value-green-700);
+  --green-900: var(--value-green-900);
+
+  /* Red Scale */
+  --red-50: var(--value-red-50);
+  --red-200: var(--value-red-200);
+  --red-600: var(--value-red-600);
+  --red-700: var(--value-red-700);
+  --red-900: var(--value-red-900);
+
+  /* Orange Scale */
+  --orange-50: var(--value-orange-50);
+  --orange-200: var(--value-orange-200);
+  --orange-600: var(--value-orange-600);
+  --orange-900: var(--value-orange-900);
+
+  /* Cyan Scale */
+  --cyan-600: var(--value-cyan-600);
+
+  /* Gray Scale */
+  --gray-50: var(--value-gray-50);
+  --gray-100: var(--value-gray-100);
+  --gray-200: var(--value-gray-200);
+  --gray-300: var(--value-gray-300);
+  --gray-400: var(--value-gray-400);
+  --gray-500: var(--value-gray-500);
+  --gray-600: var(--value-gray-600);
+  --gray-700: var(--value-gray-700);
+  --gray-800: var(--value-gray-800);
+  --gray-900: var(--value-gray-900);
+
+  /* Cool Gray (Legacy) */
+  --cool-gray-500: var(--value-cool-gray-500);
+  --cool-gray-900: var(--value-cool-gray-900);
+
+  /* Base Colors */
+  --white: var(--value-white);
+  --black: var(--value-black);
+
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+
+  /* Font Family */
+  --font-sans: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-mono: 'Courier New', monospace;
+
+  /* Font Size - px values from before package */
+  --font-size-xs: 0.625rem; /* 10px - checkbox checkmark */
+  --font-size-sm: 0.75rem; /* 12px - helper text, hints */
+  --font-size-base: 0.875rem; /* 14px - body text, inputs */
+  --font-size-md: 0.9375rem; /* 15px - alert title, buttons */
+  --font-size-lg: 1rem; /* 16px - textarea */
+  --font-size-xl: 1.125rem; /* 18px - card title */
+  --font-size-2xl: 1.25rem; /* 20px - alert icon, modal close */
+  --font-size-3xl: 1.75rem; /* 28px - modal close */
+
+  /* Font Weight */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Height */
+  --line-height-tight: 1;
+  --line-height-snug: 1.1876;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.43;
+  --line-height-loose: 1.5;
+  --line-height-extra-loose: 1.6;
+
+  /* ========================================
+     SPACING
+     ======================================== */
+
+  --spacing-0: 0;
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /* 48px */
+
+  /* ========================================
+     BORDER RADIUS
+     ======================================== */
+
+  --radius-none: 0;
+  --radius-sm: 0.125rem; /* 2px - checkbox */
+  --radius-base: 0.1875rem; /* 3px - buttons, badges, alerts */
+  --radius-md: 0.25rem; /* 4px - cards, modals, textarea */
+  --radius-lg: 0.625rem; /* 10px - badge pill */
+  --radius-xl: 1rem; /* 16px */
+  --radius-full: 9999px; /* circle - close button */
+
+  /* ========================================
+     SHADOWS
+     ======================================== */
+
+  /* Card Default */
+  --shadow-sm: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
+  /* Card Elevated */
+  --shadow-md: 0px 2px 4px -1px rgba(0, 0, 0, 0.12),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08);
+
+  /* Modal */
+  --shadow-lg: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+
+  /* Extra Large (for future use) */
+  --shadow-xl: 0px 24px 48px -12px rgba(0, 0, 0, 0.25);
+
+  --shadow-none: none;
+
+  /* ========================================
+     BREAKPOINTS (Tailwind Standard)
+     ======================================== */
+
+  --screen-sm: 640px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1280px;
+  --screen-2xl: 1536px;
+
+  /* ========================================
+     TRANSITIONS
+     ======================================== */
+
+  /* Duration */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  /* Easing */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-sharp: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Combined Transitions (commonly used) */
+  --transition-fast: all var(--duration-fast) var(--ease-in-out);
+  --transition-base: all var(--duration-base) var(--ease-sharp);
+  --transition-colors: background-color var(--duration-fast) var(--ease-in-out);
+
+  /* ========================================
+     Z-INDEX SCALE
+     ======================================== */
+
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-modal: 1000;
+  --z-dropdown: 1000;
+  --z-tooltip: 1500;
+  --z-notification: 2000;
+}
