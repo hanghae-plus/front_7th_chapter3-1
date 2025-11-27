@@ -16,11 +16,13 @@
 ### 개편 목표
 
 **디자인 시스템**
+
 - TailwindCSS 기반 일관된 디자인 토큰 정의
 - 하드코딩 제거, 재사용 가능한 스타일 시스템 구축
 - dark mode, 반응형 등 확장 가능한 구조
 
 **컴포넌트 아키텍처**
+
 - UI 컴포넌트는 순수하게 UI만 담당
 - 도메인 로직은 적절히 분리
 - 일관된 컴포넌트 API 설계
@@ -28,21 +30,25 @@
 ### 사용할 도구
 
 **TailwindCSS 4.x**
+
 - 디자인 토큰 기반 스타일링
 - 유틸리티 클래스 활용
 - dark mode, 반응형 내장 지원
 
 **shadcn/ui**
+
 - Radix UI 기반, 접근성 내장
 - 복사 가능한 컴포넌트 (라이브러리가 아닌 소스코드)
 - 자유로운 커스터마이징
 
 **CVA (Class Variance Authority)**
+
 - 선언적 variants 패턴
 - 타입 안전한 스타일 조합
 - 조건부 스타일링 처리
 
 **React Hook Form + Zod**
+
 - 선언적 폼 검증
 - 타입 안전한 스키마
 - 최소 리렌더링 최적화
@@ -52,20 +58,23 @@
 ## 필수 과제
 
 ### 1. 디자인 시스템 구축
+
 - [ ] TailwindCSS 설정 및 디자인 토큰 정의
 - [ ] shadcn/ui 컴포넌트 설치 (Button, Input, Select, Card, Table 등)
 - [ ] CVA를 활용한 variants 패턴 적용
 - [ ] 일관된 스타일 시스템 구축
 
 ### 2. Before 패키지 분석
+
 - [ ] Before 패키지 실행 및 전체 코드 탐색
 - [ ] 스타일링, 컴포넌트 설계, 폼 관리 측면에서 문제점 파악
 - [ ] 개선이 필요한 부분과 그 이유 정리
 
 ### 3. 컴포넌트 개편
+
 - [ ] UI와 비즈니스 로직 분리
 - [ ] 순수한 UI 컴포넌트로 재구성
-- [ ] 일관된 컴포넌트 API 설계
+- [ ] 일관된 컴포넌트 API 설계 => 무슨 뜻?
 - [ ] 적절한 컴포넌트 구조 설계
 
 ---
@@ -74,7 +83,20 @@
 
 - [ ] Dark Mode 완전 지원 (CSS Variables + Tailwind)
 - [ ] Design Token 시스템 고도화 (색상 팔레트, 타이포그래피 스케일)
-- [ ] 뷰와 비즈니스로직이 분리되도록 
+- [ ] 뷰와 비즈니스로직이 분리되도록
+
+---
+
+## 추가 과제
+
+- [ ] figma 디자인 토큰 추출 후 적용
+- [ ] figma Design to Code 플러그인 혹은 MCP 사용해보기
+- [ ] figma Icon to SVG + deploy to CDN 시스템 구축 해보기
+- [ ] 복잡한 컴포넌트 직접 구현 (token, variants, 접근성) 포함
+  - ex) AutoComplete, DatePicker
+- [ ] Monorepo 디자인 시스템 패키지 구축 및 배포
+- [ ] Storybook Interaction Tests 또는 A11y addon으로 컴포넌트 품질 검증
+- [ ] React Hook Form + Zod로 Form 구현
 
 ---
 
@@ -91,3 +113,13 @@
 ### 어려웠던 점과 해결 방법
 
 ### 리뷰받고 싶거나 질문하고 싶은 내용
+
+- Base가 되는 Badge 컴포넌트를 만들고 이를 wrapping 해서 CategoryBadge, UserRoleBadge 등을 만들어 사용하기 vs Badge 컴포넌트 하나 두고 type prop으로 general, category, userRole 등을 받아 Badge 컴포넌트 내부에서 처리하기
+
+---
+
+Button 컴포넌트의 문제점
+
+- UI 컴포넌트에 도메인과 관련된 정보들이 들어있음.
+
+기존 Button의 스타일이 무너지지 않도록 스토리북을 먼저 만들어 놓고 shadcn & tailwind로 수정
