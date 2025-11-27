@@ -1,19 +1,7 @@
 import * as React from 'react';
-import {
-	Pagination,
-	PaginationContent,
-	PaginationItem,
-	PaginationNext,
-	PaginationPrevious,
-} from './Pagination';
-
 import { cn } from '@/lib/utils';
-import useTable from '../../hooks/useTable';
 
-function TableContainer({
-	className,
-	...props
-}: React.ComponentProps<'table'>) {
+function Table({ className, ...props }: React.ComponentProps<'table'>) {
 	return (
 		<div
 			data-slot='table-container'
@@ -87,81 +75,4 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
 	);
 }
 
-function Table({
-	tableData,
-	columns,
-	pageSize,
-}: {
-	tableData: any[];
-	columns: {
-		key: string;
-		header: string;
-		width?: string;
-		render?: (row: any) => React.ReactNode;
-	}[];
-	pageSize: number;
-}) {
-	const { pageTableData, currentPage, setCurrentPage, totalPages } = useTable({
-		tableData,
-		pageSize,
-	});
-
-	return (
-		<div className='table-container'>
-			<TableContainer>
-				<TableHeader>
-					<TableRow>
-						{columns.map((column) => (
-							<TableHead
-								key={column.key}
-								className={column.width ? `w-[${column.width}]` : ''}
-							>
-								{column.header}
-							</TableHead>
-						))}
-					</TableRow>
-				</TableHeader>
-
-				<TableBody>
-					{pageTableData.map((row, index) => (
-						<TableRow key={index}>
-							{columns.map((column) => {
-								const value = row[column.key as keyof typeof row];
-
-								return (
-									<TableCell key={column.key}>
-										{column.render ? column.render(row) : value || '-'}
-									</TableCell>
-								);
-							})}
-						</TableRow>
-					))}
-				</TableBody>
-			</TableContainer>
-
-			{totalPages > 1 && (
-				<Pagination>
-					<PaginationContent>
-						<PaginationItem>
-							<PaginationPrevious
-								onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-							/>
-						</PaginationItem>
-						<PaginationItem>
-							{currentPage} / {totalPages}
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationNext
-								onClick={() =>
-									setCurrentPage((p) => Math.min(totalPages, p + 1))
-								}
-							/>
-						</PaginationItem>
-					</PaginationContent>
-				</Pagination>
-			)}
-		</div>
-	);
-}
-
-export default Table;
+export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell };

@@ -56,7 +56,7 @@
 	--color-warning-foreground: var(--color-atomic-orange-99);
 	--color-warning-hover: var(--color-atomic-orange-90);
 	--color-warning-hover-foreground: var(--color-atomic-orange-90);
-	--color-info: var(--color-atomic-lightBlue-99);
+	--color-info: var(--color-atomic-lightBlue-40);
 	--color-info-foreground: var(--color-atomic-lightBlue-99);
 	--color-info-hover: var(--color-atomic-lightBlue-90);
 	--color-info-hover-foreground: var(--color-atomic-lightBlue-90);
@@ -64,6 +64,21 @@
 	--color-error-foreground: var(--color-atomic-red-99);
 	--color-error-hover: var(--color-atomic-red-90);
 	--color-error-hover-foreground: var(--color-atomic-red-90);
+
+	--text-xs: var(--font-size-xs) var(--font-weight-light);
+	--text-sm: var(--font-size-sm) var(--font-weight-normal);
+	--text-base: var(--font-size-base) var(--font-weight-normal);
+	--text-lg: var(--font-size-lg) var(--font-weight-normal);
+	--text-xl: var(--font-size-xl) var(--font-weight-medium);
+	--text-2xl: var(--font-size-2xl) var(--font-weight-medium);
+	--text-3xl: var(--font-size-3xl) var(--font-weight-semibold);
+	--text-4xl: var(--font-size-4xl) var(--font-weight-bold);
+	--text-5xl: var(--font-size-5xl) var(--font-weight-black);
+
+	--text-input-error: var(--color-error-foreground) var(--text-sm);
+	--text-input-warning: var(--color-warning-foreground) var(--text-sm);
+	--text-input-info: var(--color-info-foreground) var(--text-sm);
+	--text-input-success: var(--color-success-foreground) var(--text-sm);
 }
 
 :root {
@@ -193,6 +208,24 @@
 	--color-atomic-lightBlue-30: oklch(0.5404 0.1472 231.3735);
 	--color-atomic-lightBlue-20: oklch(0.4514 0.1169 231.6067);
 	--color-atomic-lightBlue-10: oklch(0.3594 0.0833 233.3213);
+
+	/* Typography */
+	--font-weight-thin: 100;
+	--font-weight-extralight: 200;
+	--font-weight-light: 300;
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+	--font-weight-black: 900;
+
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-lg: 1.125rem;
+	--font-size-xl: 1.25rem;
+	--font-size-2xl: 1.5rem;
+	--font-size-3xl: 1.75rem;
 }
 
 .dark {
@@ -258,5 +291,25 @@
 	}
 	body {
 		@apply bg-background text-foreground;
+	}
+
+	.text-input-error {
+		color: var(--color-error);
+		font: var(--text-sm);
+	}
+
+	.text-input-warning {
+		color: var(--color-warning);
+		font: var(--text-sm);
+	}
+
+	.text-input-info {
+		color: var(--color-info);
+		font: var(--text-sm);
+	}
+
+	.text-input-success {
+		color: var(--color-success);
+		font: var(--text-sm);
 	}
 }

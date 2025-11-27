@@ -93,7 +93,7 @@ function Alert({
 }: {
 	variant?: 'info' | 'success' | 'warning' | 'error' | 'default';
 	title?: string;
-	children: React.ReactNode;
+	children?: React.ReactNode;
 	onClose?: () => void;
 	showIcon?: boolean;
 }) {
@@ -118,7 +118,9 @@ function Alert({
 		<AlertContainer variant={variant}>
 			{showIcon && alertIcon(variant)}
 			{title && <AlertTitle>{title}</AlertTitle>}
-			<AlertDescription variant={variant}>{children}</AlertDescription>
+			{children && (
+				<AlertDescription variant={variant}>{children}</AlertDescription>
+			)}
 			{onClose && (
 				<button
 					onClick={onClose}

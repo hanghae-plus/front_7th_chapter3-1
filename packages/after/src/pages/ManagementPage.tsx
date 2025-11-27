@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import Alert from '../components/ui/alert';
-import { Modal } from '../components/ui/Modal';
-import { FormInput, FormSelect, FormTextarea } from '../components/molecules';
 import { userService } from '../services/userService';
 import { postService } from '../services/postService';
 import type { User } from '../services/userService';
 import type { Post } from '../services/postService';
 import UserTable from '@/components/domain/user/UserTable';
 import PostTable from '@/components/domain/post/PostTable';
+import { useDialog } from '@/hooks/useDialog';
+import UserDialogContent from '@/components/domain/user/UserDialogContent';
+import PostDialogContent from '@/components/domain/post/PostDialogContent';
 
 type EntityType = 'user' | 'post';
 type Entity = User | Post;
 
 export const ManagementPage: React.FC = () => {
+	const { openDialog, closeDialog } = useDialog();
+
 	const [entityType, setEntityType] = useState<EntityType>('post');
 	const [data, setData] = useState<Entity[]>([]);
-	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<Entity | null>(null);
 	const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState('');
@@ -28,10 +29,6 @@ export const ManagementPage: React.FC = () => {
 
 	useEffect(() => {
 		loadData();
-		setFormData({});
-		setIsCreateModalOpen(false);
-		setIsEditModalOpen(false);
-		setSelectedItem(null);
 	}, [entityType]);
 
 	const loadData = async () => {
@@ -71,7 +68,6 @@ export const ManagementPage: React.FC = () => {
 			}
 
 			await loadData();
-			setIsCreateModalOpen(false);
 			setFormData({});
 			setAlertMessage(
 				`${entityType === 'user' ? '사용자' : '게시글'}가 생성되었습니다`
@@ -83,54 +79,156 @@ export const ManagementPage: React.FC = () => {
 		}
 	};
 
-	const handleEdit = (item: Entity) => {
-		setSelectedItem(item);
-
-		if (entityType === 'user') {
-			const user = item as User;
-			setFormData({
-				username: user.username,
-				email: user.email,
-				role: user.role,
-				status: user.status,
-			});
-		} else {
-			const post = item as Post;
-			setFormData({
-				title: post.title,
-				content: post.content,
-				author: post.author,
-				category: post.category,
-				status: post.status,
-			});
-		}
-
-		setIsEditModalOpen(true);
+	// USER
+	const handleCreateUser = () => {
+		openDialog({
+			title: '새 사용자 만들기',
+			content: (
+				<UserDialogContent
+					type='create'
+					onClose={() => closeDialog()}
+					onCreate={(data) => createUser(data)}
+				/>
+			),
+		});
 	};
 
-	const handleUpdate = async () => {
+	const createUser = async (data: Omit<User, 'id' | 'createdAt'>) => {
+		try {
+			await userService.create(data);
+			await loadData();
+			setAlertMessage('사용자가 생성되었습니다');
+			setShowSuccessAlert(true);
+			closeDialog();
+		} catch (error: any) {
+			setErrorMessage(error.message || '사용자 생성에 실패했습니다');
+			setShowErrorAlert(true);
+			closeDialog();
+		}
+	};
+
+	const handleEditUser = (item: User) => {
+		openDialog({
+			title: '사용자 수정',
+			content: (
+				<UserDialogContent
+					type='edit'
+					onClose={() => closeDialog()}
+					onEdit={(data) => handleUpdateUser(data, item.id)}
+					initialData={item}
+				/>
+			),
+		});
+	};
+
+	const handleUpdateUser = async (
+		{ username, email, role, status }: Partial<Omit<User, 'id' | 'createdAt'>>,
+		userId: number
+	) => {
+		try {
+			await userService.update(userId, {
+				username,
+				email,
+				role,
+				status,
+			});
+			await loadData();
+
+			setAlertMessage(`사용자가 수정되었습니다`);
+			setShowSuccessAlert(true);
+			closeDialog();
+		} catch (error: any) {
+			setErrorMessage(error.message || '사용자 수정에 실패했습니다');
+			setShowErrorAlert(true);
+			closeDialog();
+		}
+	};
+
+	// POST
+	const handleCreatePost = () => {
+		openDialog({
+			title: '게시글 생성',
+			content: (
+				<PostDialogContent
+					type='create'
+					onClose={() => closeDialog()}
+					onCreate={(data) => {}}
+				/>
+			),
+		});
+	};
+
+	const handleEditPost = (item: Post) => {
+		setSelectedItem(item);
+		openDialog({
+			title: '게시글 수정',
+			content: (
+				<PostDialogContent
+					type='edit'
+					onClose={() => closeDialog()}
+					onEdit={handleUpdatePost}
+					initialData={item}
+				/>
+			),
+		});
+	};
+	// const handleEdit = (item: Entity) => {
+	// 	setSelectedItem(item);
+
+	// 	if (entityType === 'user') {
+	// 		const user = item as User;
+	// 		openDialog({
+	// 			title: '사용자 수정',
+	// 			content: (
+	// 				<UserDialogContent
+	// 					type='edit'
+	// 					onClose={() => closeDialog()}
+	// 					onEdit={handleUpdateUser}
+	// 					initialData={user}
+	// 				/>
+	// 			),
+	// 		});
+	// 	} else {
+	// 		const post = item as Post;
+	// 		setFormData({
+	// 			title: post.title,
+	// 			content: post.content,
+	// 			author: post.author,
+	// 			category: post.category,
+	// 			status: post.status,
+	// 		});
+	// 	}
+	// };
+
+	const handleUpdatePost = async (data: {}) => {
 		if (!selectedItem) return;
 
-		try {
-			if (entityType === 'user') {
-				await userService.update(selectedItem.id, formData);
-			} else {
-				await postService.update(selectedItem.id, formData);
-			}
-
-			await loadData();
-			setIsEditModalOpen(false);
-			setFormData({});
-			setSelectedItem(null);
-			setAlertMessage(
-				`${entityType === 'user' ? '사용자' : '게시글'}가 수정되었습니다`
-			);
-			setShowSuccessAlert(true);
-		} catch (error: any) {
-			setErrorMessage(error.message || '수정에 실패했습니다');
-			setShowErrorAlert(true);
-		}
+		await userService.update(selectedItem.id, data);
 	};
+
+	// const handleUpdate = async () => {
+	// 	if (!selectedItem) return;
+
+	// 	try {
+	// 		if (entityType === 'user') {
+	// 			await userService.update(selectedItem.id, formData);
+	// 		} else {
+	// 			await postService.update(selectedItem.id, formData);
+	// 		}
+
+	// 		await loadData();
+	// 		setIsEditModalOpen(false);
+	// 		setFormData({});
+	// 		setSelectedItem(null);
+	// 		setAlertMessage(
+	// 			`${entityType === 'user' ? '사용자' : '게시글'}가 수정되었습니다`
+	// 		);
+	// 		setShowSuccessAlert(true);
+	// 	} catch (error: any) {
+	// 		setErrorMessage(error.message || '수정에 실패했습니다');
+	// 		setShowErrorAlert(true);
+	// 	}
+	// };
 
 	const handleDelete = async (id: number) => {
 		if (!confirm('정말 삭제하시겠습니까?')) return;
@@ -266,37 +364,20 @@ export const ManagementPage: React.FC = () => {
 							paddingBottom: '5px',
 						}}
 					>
-						<button
+						<Button
 							onClick={() => setEntityType('post')}
-							style={{
-								padding: '8px 16px',
-								marginRight: '5px',
-								fontSize: '14px',
-								fontWeight: entityType === 'post' ? 'bold' : 'normal',
-								border: '1px solid #999',
-								background: entityType === 'post' ? '#1976d2' : '#f5f5f5',
-								color: entityType === 'post' ? 'white' : '#333',
-								cursor: 'pointer',
-								borderRadius: '3px',
-							}}
+							variant={entityType === 'post' ? 'primary' : 'secondary'}
+							size='lg'
 						>
 							게시글
-						</button>
-						<button
+						</Button>
+						<Button
 							onClick={() => setEntityType('user')}
-							style={{
-								padding: '8px 16px',
-								fontSize: '14px',
-								fontWeight: entityType === 'user' ? 'bold' : 'normal',
-								border: '1px solid #999',
-								background: entityType === 'user' ? '#1976d2' : '#f5f5f5',
-								color: entityType === 'user' ? 'white' : '#333',
-								cursor: 'pointer',
-								borderRadius: '3px',
-							}}
+							variant={entityType === 'user' ? 'primary' : 'secondary'}
+							size='lg'
 						>
 							사용자
-						</button>
+						</Button>
 					</div>
 
 					<div>
@@ -304,7 +385,9 @@ export const ManagementPage: React.FC = () => {
 							<Button
 								variant='primary'
 								size='md'
-								onClick={() => setIsCreateModalOpen(true)}
+								onClick={
+									entityType === 'user' ? handleCreateUser : handleCreatePost
+								}
 							>
 								새로 만들기
 							</Button>
@@ -493,14 +576,14 @@ export const ManagementPage: React.FC = () => {
 							{entityType === 'user' && (
 								<UserTable
 									data={data as User[]}
-									onEdit={handleEdit}
+									onEdit={handleEditUser}
 									onDelete={handleDelete}
 								/>
 							)}
 							{entityType === 'post' && (
 								<PostTable
 									data={data as Post[]}
-									onEdit={handleEdit}
+									onEdit={handleEditPost}
 									onDelete={handleDelete}
 									onArchive={(id) => handleStatusAction(id, 'archive')}
 									onPublish={(id) => handleStatusAction(id, 'publish')}
@@ -512,7 +595,7 @@ export const ManagementPage: React.FC = () => {
 				</div>
 			</div>
 
-			<Modal
+			{/* <Modal
 				isOpen={isCreateModalOpen}
 				onClose={() => {
 					setIsCreateModalOpen(false);
@@ -661,9 +744,9 @@ export const ManagementPage: React.FC = () => {
 						</>
 					)}
 				</div>
-			</Modal>
+			</Modal> */}
 
-			<Modal
+			{/* <Modal
 				isOpen={isEditModalOpen}
 				onClose={() => {
 					setIsEditModalOpen(false);
@@ -824,7 +907,7 @@ export const ManagementPage: React.FC = () => {
 						</>
 					)}
 				</div>
-			</Modal>
+			</Modal> */}
 		</div>
 	);
 };
