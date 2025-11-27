@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../components/ui/button';
-import Alert from '../components/ui/Alert';
+import Alert from '../components/ui/alert';
 import { Modal } from '../components/ui/Modal';
 import { FormInput, FormSelect, FormTextarea } from '../components/molecules';
 import { userService } from '../services/userService';
 import { postService } from '../services/postService';
 import type { User } from '../services/userService';
 import type { Post } from '../services/postService';
-import UserTable from '@/components/user/UserTable';
-import PostTable from '@/components/post/PostTable';
+import UserTable from '@/components/domain/user/UserTable';
+import PostTable from '@/components/domain/post/PostTable';
 
 type EntityType = 'user' | 'post';
 type Entity = User | Post;

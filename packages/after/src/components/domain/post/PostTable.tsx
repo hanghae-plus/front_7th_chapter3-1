@@ -1,6 +1,6 @@
-import Table from '../ui/Table';
-import { Badge } from '../ui/Badge';
-import { Button } from '../ui/button';
+import DataTable from '../../composed/DataTable';
+import { Badge } from '../../ui/badge';
+import { Button } from '../../ui/button';
 
 import type { Post } from '@/services/postService';
 
@@ -105,7 +105,7 @@ const PostTable = ({
 		},
 	];
 
-	return <Table tableData={data} columns={columns} pageSize={10} />;
+	return <DataTable tableData={data} columns={columns} pageSize={10} />;
 };
 
 export default PostTable;

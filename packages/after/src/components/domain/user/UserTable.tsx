@@ -1,7 +1,7 @@
 import type { User } from '@/services/userService';
-import { Badge } from '../ui/Badge';
-import { Button } from '../ui/button';
-import Table from '../ui/Table';
+import { Badge } from '../../ui/badge';
+import { Button } from '../../ui/button';
+import DataTable from '../../composed/DataTable';
 
 const UserTable = ({
 	data,
@@ -68,7 +68,7 @@ const UserTable = ({
 		},
 	];
 
-	return <Table tableData={data} columns={columns} pageSize={10} />;
+	return <DataTable tableData={data} columns={columns} pageSize={10} />;
 };
 
 export default UserTable;
