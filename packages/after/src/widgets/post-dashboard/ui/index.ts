@@ -1,2 +1,2 @@
 export { PostDashboard } from "./PostDashboard";
-export { CreatePostModal } from "./CreatePostModal";
+export { PostFormModal } from "./PostFormModal";
