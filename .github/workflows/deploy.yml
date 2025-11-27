@@ -35,12 +35,73 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Main App
-        run: pnpm run build:after
+        run: |
+          # GitHub Pages project repository는 /repository-name/ 경로에 배포됨
+          # github.repository은 'owner/repo-name' 형식이므로 리포지토리 이름만 추출
+          if [ "${{ github.repository }}" = "kimfriendship/kimfriendship.github.io" ]; then
+            export VITE_BASE_PATH="/"
+          else
+            REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+            export VITE_BASE_PATH="/${REPO_NAME}/"
+          fi
+          echo "Repository: ${{ github.repository }}"
+          echo "Building with VITE_BASE_PATH: $VITE_BASE_PATH"
+          pnpm run build:after
 
       - name: Build Storybook
         env:
           STORYBOOK_BASE_PATH: /storybook/
-        run: pnpm run build:storybook
+        working-directory: packages/after
+        run: |
+          echo "Starting Storybook build..."
+          echo "Current directory: $(pwd)"
+          echo "Node version: $(node --version)"
+          echo "pnpm version: $(pnpm --version)"
+
+          # Run build and capture output
+          set +e
+          pnpm run build-storybook > /tmp/storybook-build.log 2>&1
+          BUILD_EXIT_CODE=$?
+          set -e
+
+          # Always show the log
+          echo "=== Storybook Build Log ==="
+          cat /tmp/storybook-build.log
+          echo "=== End of Build Log ==="
+          echo ""
+          echo "Build exit code: $BUILD_EXIT_CODE"
+
+          # Check if storybook-static was created
+          if [ -d "storybook-static" ]; then
+            echo "✓ storybook-static directory found"
+            ls -la storybook-static | head -10
+          else
+            echo "✗ storybook-static directory NOT found"
+            echo "Current directory contents:"
+            ls -la
+            echo ""
+            echo "Checking parent directory:"
+            ls -la .. | grep -E "storybook|after" || echo "No storybook directories in parent"
+          fi
+
+          # Exit with error if build failed or directory not found
+          if [ $BUILD_EXIT_CODE -ne 0 ] || [ ! -d "storybook-static" ]; then
+            echo ""
+            echo "Storybook build failed or output directory not found"
+            exit 1
+          fi
+
+      - name: Verify Storybook build
+        run: |
+          if [ ! -d "packages/after/storybook-static" ]; then
+            echo "Error: storybook-static directory not found after build"
+            echo "Checking packages/after directory:"
+            ls -la packages/after/ | head -20
+            echo "Checking for any storybook-related files:"
+            find packages/after -name "*storybook*" -type d 2>/dev/null || echo "No storybook directories found"
+            exit 1
+          fi
+          echo "Storybook build verified: $(du -sh packages/after/storybook-static | cut -f1)"
 
       - name: Prepare deployment
         run: |
