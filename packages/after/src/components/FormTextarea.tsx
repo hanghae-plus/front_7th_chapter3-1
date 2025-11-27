@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Textarea, type textareaVariants } from './ui/textarea';
-import { Field, FieldLabel, FieldDescription, FieldError } from './ui/field';
+import { FormField, getFieldDescriptionId } from './ui/field';
 import type { VariantProps } from 'class-variance-authority';
 
 interface FormTextareaProps
@@ -23,16 +23,17 @@ function FormTextarea({
   required,
   ...props
 }: FormTextareaProps) {
-  const descriptionId = (helpText || invalidText) && id ? `${id}-description` : undefined;
+  const descriptionId = getFieldDescriptionId(id, !!(helpText || invalidText));
 
   return (
-    <Field>
-      {label && (
-        <FieldLabel htmlFor={id}>
-          {label}
-          {required && <span className="text-destructive ml-1">*</span>}
-        </FieldLabel>
-      )}
+    <FormField
+      id={id}
+      label={label}
+      helpText={helpText}
+      invalid={invalid}
+      invalidText={invalidText}
+      required={required}
+    >
       <Textarea
         id={id}
         required={required}
@@ -41,9 +42,7 @@ function FormTextarea({
         aria-describedby={descriptionId}
         {...props}
       />
-      {!invalid && helpText && <FieldDescription id={descriptionId}>{helpText}</FieldDescription>}
-      {invalid && <FieldError id={descriptionId}>{invalidText}</FieldError>}
-    </Field>
+    </FormField>
   );
 }
 

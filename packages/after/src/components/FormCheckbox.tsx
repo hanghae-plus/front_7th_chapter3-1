@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Checkbox, type checkboxVariants } from './checkbox';
-import { Field, FieldDescription, FieldError } from './field';
-import { Label } from './label';
+import { Checkbox, type checkboxVariants } from './ui/checkbox';
+import { Field, FieldDescription, FieldError, getFieldDescriptionId } from './ui/field';
+import { Label } from './ui/label';
 import type { VariantProps } from 'class-variance-authority';
 
 interface FormCheckboxProps extends VariantProps<typeof checkboxVariants> {
@@ -26,7 +26,7 @@ function FormCheckbox({
   invalidText,
   helpText,
 }: FormCheckboxProps) {
-  const descriptionId = (helpText || invalidText) && id ? `${id}-description` : undefined;
+  const descriptionId = getFieldDescriptionId(id, !!(helpText || invalidText));
 
   return (
     <Field orientation="horizontal">
@@ -47,7 +47,7 @@ function FormCheckbox({
           {label}
         </Label>
         {!invalid && helpText && <FieldDescription id={descriptionId}>{helpText}</FieldDescription>}
-        {invalid && <FieldError id={descriptionId}>{invalidText}</FieldError>}
+        {invalid && invalidText && <FieldError id={descriptionId}>{invalidText}</FieldError>}
       </div>
     </Field>
   );
