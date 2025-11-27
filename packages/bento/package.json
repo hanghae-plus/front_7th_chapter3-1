@@ -5,6 +5,52 @@
   "main": "./dist/index.js",
   "sideEffects": false,
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "table": [
+        "./dist/primitives/table.d.ts"
+      ],
+      "button": [
+        "./dist/primitives/button.d.ts"
+      ],
+      "badge": [
+        "./dist/primitives/badge.d.ts"
+      ],
+      "alert": [
+        "./dist/primitives/alert.d.ts"
+      ],
+      "card": [
+        "./dist/primitives/card.d.ts"
+      ],
+      "checkbox": [
+        "./dist/primitives/checkbox.d.ts"
+      ],
+      "dialog": [
+        "./dist/primitives/dialog.d.ts"
+      ],
+      "field": [
+        "./dist/primitives/field.d.ts"
+      ],
+      "input": [
+        "./dist/primitives/input.d.ts"
+      ],
+      "label": [
+        "./dist/primitives/label.d.ts"
+      ],
+      "native-select": [
+        "./dist/primitives/native-select.d.ts"
+      ],
+      "separator": [
+        "./dist/primitives/separator.d.ts"
+      ],
+      "textarea": [
+        "./dist/primitives/textarea.d.ts"
+      ],
+      "utils/cn": [
+        "./dist/utils/cn.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -12,56 +58,60 @@
     },
     "./styles.css": "./dist/foundations/index.css",
     "./alert": {
-      "import": "./dist/primitives/alert/index.js",
-      "types": "./dist/primitives/alert/index.d.ts"
+      "import": "./dist/primitives/alert.js",
+      "types": "./dist/primitives/alert.d.ts"
     },
     "./badge": {
-      "import": "./dist/primitives/badge/index.js",
-      "types": "./dist/primitives/badge/index.d.ts"
+      "import": "./dist/primitives/badge.js",
+      "types": "./dist/primitives/badge.d.ts"
     },
     "./button": {
-      "import": "./dist/primitives/button/index.js",
-      "types": "./dist/primitives/button/index.d.ts"
+      "import": "./dist/primitives/button.js",
+      "types": "./dist/primitives/button.d.ts"
     },
     "./card": {
-      "import": "./dist/primitives/card/index.js",
-      "types": "./dist/primitives/card/index.d.ts"
+      "import": "./dist/primitives/card.js",
+      "types": "./dist/primitives/card.d.ts"
     },
     "./checkbox": {
-      "import": "./dist/primitives/checkbox/index.js",
-      "types": "./dist/primitives/checkbox/index.d.ts"
+      "import": "./dist/primitives/checkbox.js",
+      "types": "./dist/primitives/checkbox.d.ts"
     },
     "./dialog": {
-      "import": "./dist/primitives/dialog/index.js",
-      "types": "./dist/primitives/dialog/index.d.ts"
+      "import": "./dist/primitives/dialog.js",
+      "types": "./dist/primitives/dialog.d.ts"
     },
     "./field": {
-      "import": "./dist/primitives/field/index.js",
-      "types": "./dist/primitives/field/index.d.ts"
+      "import": "./dist/primitives/field.js",
+      "types": "./dist/primitives/field.d.ts"
     },
     "./input": {
-      "import": "./dist/primitives/input/index.js",
-      "types": "./dist/primitives/input/index.d.ts"
+      "import": "./dist/primitives/input.js",
+      "types": "./dist/primitives/input.d.ts"
     },
     "./label": {
-      "import": "./dist/primitives/label/index.js",
-      "types": "./dist/primitives/label/index.d.ts"
+      "import": "./dist/primitives/label.js",
+      "types": "./dist/primitives/label.d.ts"
     },
     "./native-select": {
-      "import": "./dist/primitives/native-select/index.js",
-      "types": "./dist/primitives/native-select/index.d.ts"
+      "import": "./dist/primitives/native-select.js",
+      "types": "./dist/primitives/native-select.d.ts"
     },
     "./separator": {
-      "import": "./dist/primitives/separator/index.js",
-      "types": "./dist/primitives/separator/index.d.ts"
+      "import": "./dist/primitives/separator.js",
+      "types": "./dist/primitives/separator.d.ts"
     },
     "./table": {
-      "import": "./dist/primitives/table/index.js",
-      "types": "./dist/primitives/table/index.d.ts"
+      "import": "./dist/primitives/table.js",
+      "types": "./dist/primitives/table.d.ts"
     },
     "./textarea": {
-      "import": "./dist/primitives/textarea/index.js",
-      "types": "./dist/primitives/textarea/index.d.ts"
+      "import": "./dist/primitives/textarea.js",
+      "types": "./dist/primitives/textarea.d.ts"
+    },
+    "./utils/cn": {
+      "import": "./dist/utils/cn.js",
+      "types": "./dist/utils/cn.d.ts"
     }
   },
   "scripts": {
