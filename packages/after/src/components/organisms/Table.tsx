@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
 interface Column {
@@ -9,7 +8,6 @@ interface Column {
   sortable?: boolean;
 }
 
-// 🚨 Bad Practice: UI 컴포넌트가 도메인 타입을 알고 있음
 interface TableProps {
   columns?: Column[];
   data?: any[];
@@ -20,14 +18,7 @@ interface TableProps {
   searchable?: boolean;
   sortable?: boolean;
   onRowClick?: (row: any) => void;
-
-  // 🚨 도메인 관심사 추가
-  entityType?: 'user' | 'post';
-  onEdit?: (item: any) => void;
-  onDelete?: (id: number) => void;
-  onPublish?: (id: number) => void;
-  onArchive?: (id: number) => void;
-  onRestore?: (id: number) => void;
+  renderCell?: (row: any, columnKey: string) => React.ReactNode;
 }
 
 export const Table: React.FC<TableProps> = ({
@@ -40,12 +31,7 @@ export const Table: React.FC<TableProps> = ({
   searchable = false,
   sortable = false,
   onRowClick,
-  entityType,
-  onEdit,
-  onDelete,
-  onPublish,
-  onArchive,
-  onRestore,
+  renderCell,
 }) => {
   const [tableData, setTableData] = useState<any[]>(data);
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,18 +66,16 @@ export const Table: React.FC<TableProps> = ({
     setTableData(sorted);
   };
 
-  const filteredData = searchable && searchTerm
-    ? tableData.filter(row =>
-        Object.values(row).some(val =>
-          String(val).toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData =
+    searchable && searchTerm
+      ? tableData.filter(row =>
+          Object.values(row).some(val =>
+            String(val).toLowerCase().includes(searchTerm.toLowerCase())
+          )
         )
-      )
-    : tableData;
+      : tableData;
 
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  const paginatedData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
@@ -100,127 +84,15 @@ export const Table: React.FC<TableProps> = ({
     striped && 'table-striped',
     bordered && 'table-bordered',
     hover && 'table-hover',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
-
-
-  // TODO: apply status type
-  const renderBadgeByStatus = (status: string) => {
-    if (status === 'published') return <Badge type="success">게시됨</Badge>;
-    if (status === 'draft') return <Badge type="warning">임시저장</Badge>;
-    if (status === 'rejected') return <Badge type="danger">거부됨</Badge>;
-    if (status === 'archived') return <Badge type="primary">보관됨</Badge>;
-    if (status === 'pending') return <Badge type="info">대기중</Badge>;
-    return null;
-  }
-
-  // TODO: apply role type
-  const renderBadgeByRole = (role: string) => {
-    if (role === 'admin') return <Badge type="danger">관리자</Badge>;
-    if (role === 'moderator') return <Badge type="warning">운영자</Badge>;
-    if (role === 'user') return <Badge type="primary">사용자</Badge>;
-    if (role === 'guest') return <Badge type="secondary">게스트</Badge>;
-    return null;
-  }
-
-
-  // 🚨 Bad Practice: Table 컴포넌트가 도메인별 렌더링 로직을 알고 있음
-  const renderCell = (row: any, columnKey: string) => {
-    const value = row[columnKey];
-
-    // 도메인별 특수 렌더링
-    if (entityType === 'user') {
-      if (columnKey === 'role') {
-        return renderBadgeByRole(value);
-      }
-      if (columnKey === 'status') {
-        // User status를 Badge status로 변환
-        const badgeStatus =
-          value === 'active' ? 'published' :
-            value === 'inactive' ? 'draft' : 'rejected';
-        return renderBadgeByStatus(badgeStatus);
-      }
-      if (columnKey === 'lastLogin') {
-        return value || '-';
-      }
-      if (columnKey === 'actions') {
-        return (
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
-              수정
-            </Button>
-            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
-              삭제
-            </Button>
-          </div>
-        );
-      }
-    }
-
-    if (entityType === 'post') {
-      if (columnKey === 'category') {
-        const type =
-          value === 'development' ? 'primary' :
-            value === 'design' ? 'info' :
-              value === 'accessibility' ? 'danger' :
-                'secondary';
-        return <Badge type={type} pill>{value}</Badge>;
-      }
-      if (columnKey === 'status') {
-        return renderBadgeByStatus(value);
-      }
-      if (columnKey === 'views') {
-        return value?.toLocaleString() || '0';
-      }
-      if (columnKey === 'actions') {
-        return (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
-              수정
-            </Button>
-            {row.status === 'draft' && (
-              <Button
-                size="sm"
-                variant="success"
-                onClick={() => onPublish?.(row.id)}
-              >
-                게시
-              </Button>
-            )}
-            {row.status === 'published' && (
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => onArchive?.(row.id)}
-              >
-                보관
-              </Button>
-            )}
-            {row.status === 'archived' && (
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={() => onRestore?.(row.id)}
-              >
-                복원
-              </Button>
-            )}
-            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
-              삭제
-            </Button>
-          </div>
-        );
-      }
-    }
-
-    // React Element면 그대로 렌더링
-    if (React.isValidElement(value)) {
-      return value;
-    }
-
-    return value;
-  };
+  const actualColumns =
+    columns ||
+    (tableData[0]
+      ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined }))
+      : []);
 
   return (
     <div className="table-container">
@@ -230,7 +102,7 @@ export const Table: React.FC<TableProps> = ({
             type="text"
             placeholder="검색..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             style={{
               padding: '8px 12px',
               border: '1px solid #ddd',
@@ -244,13 +116,20 @@ export const Table: React.FC<TableProps> = ({
       <table className={tableClasses}>
         <thead>
           <tr>
-            {actualColumns.map((column) => (
+            {actualColumns.map(column => (
               <th
                 key={column.key}
                 style={column.width ? { width: column.width } : undefined}
                 onClick={() => sortable && handleSort(column.key)}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    cursor: sortable ? 'pointer' : 'default',
+                  }}
+                >
                   {column.header}
                   {sortable && sortColumn === column.key && (
                     <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
@@ -267,9 +146,9 @@ export const Table: React.FC<TableProps> = ({
               onClick={() => onRowClick?.(row)}
               style={{ cursor: onRowClick ? 'pointer' : 'default' }}
             >
-              {actualColumns.map((column) => (
+              {actualColumns.map(column => (
                 <td key={column.key}>
-                  {entityType ? renderCell(row, column.key) : row[column.key]}
+                  {renderCell ? renderCell(row, column.key) : row[column.key]}
                 </td>
               ))}
             </tr>
@@ -278,43 +157,33 @@ export const Table: React.FC<TableProps> = ({
       </table>
 
       {totalPages > 1 && (
-        <div style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-        }}>
-          {/* <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+        <div
+          style={{
+            marginTop: '16px',
+            display: 'flex',
+            gap: '8px',
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            size="sm"
+            variant="secondary"
             disabled={currentPage === 1}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            }}
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
           >
             이전
-          </button> */}
-          <Button size="sm" variant="secondary" disabled={currentPage === 1} onClick={() => setCurrentPage(p => Math.max(1, p - 1))}>이전</Button>
+          </Button>
           <span style={{ padding: '6px 12px' }}>
             {currentPage} / {totalPages}
           </span>
-          {/* <button
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+          <Button
+            size="sm"
+            variant="secondary"
             disabled={currentPage === totalPages}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            }}
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
           >
             다음
-          </button> */}
-          <Button size="sm" variant="secondary" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}>다음</Button>
+          </Button>
         </div>
       )}
     </div>
