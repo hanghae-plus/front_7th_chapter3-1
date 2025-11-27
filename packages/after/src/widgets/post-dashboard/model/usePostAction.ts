@@ -111,15 +111,9 @@ export function usePostAction() {
   );
 
   const updatePost = useCallback(
-    async (
-      id: number,
-      formData: PostFormData,
-      status: Post["status"],
-      onComplete?: () => void
-    ) => {
+    async (id: number, formData: PostFormData, onComplete?: () => void) => {
       await postService.update(id, {
         ...formData,
-        status,
       });
       await loadPosts();
       onComplete?.();

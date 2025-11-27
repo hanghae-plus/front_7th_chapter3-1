@@ -8,7 +8,7 @@ import {
   DialogClose,
   Alert,
 } from "@/shared/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useRef } from "react";
 import { UserForm } from "@/features/user/ui/UserForm";
 import type { UserFormData } from "@/features/user/types";
 import type { User } from "@/shared/api/userService";
@@ -28,20 +28,17 @@ export function UserFormModal({
   onCreate,
   onUpdate,
 }: UserFormModalProps) {
-  const [formData, setFormData] = useState<UserFormData>({
-    username: "",
-    email: "",
-    role: "",
-    status: "",
-  });
-  const isValidForm = formData.username && formData.email;
+  const formRef = useRef<HTMLFormElement>(null);
   const isEdit = !!user;
 
-  const handleChange = useCallback((key: keyof UserFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  const defaultFormData: UserFormData = {
+    username: user?.username || "",
+    email: user?.email || "",
+    role: user?.role || "",
+    status: user?.status || "",
+  };
 
-  const handleSubmit = useCallback(
+  const handleFormSubmit = useCallback(
     async (formData: UserFormData) => {
       try {
         if (isEdit) {
@@ -49,7 +46,6 @@ export function UserFormModal({
         } else {
           await onCreate(formData);
         }
-        setFormData({ username: "", email: "", role: "", status: "" });
         toggleModal(false);
       } catch (error) {
         console.error(error);
@@ -58,16 +54,9 @@ export function UserFormModal({
     [isEdit, onCreate, onUpdate, toggleModal]
   );
 
-  useEffect(() => {
-    if (isOpen) {
-      setFormData({
-        username: user?.username || "",
-        email: user?.email || "",
-        role: user?.role || "",
-        status: user?.status || "",
-      });
-    }
-  }, [isOpen, user]);
+  const handleSubmit = useCallback(() => {
+    formRef.current?.requestSubmit();
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={toggleModal}>
@@ -86,18 +75,15 @@ export function UserFormModal({
           </Alert>
         )}
         <UserForm
-          formData={formData}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
+          ref={formRef}
+          formData={defaultFormData}
+          onSubmit={handleFormSubmit}
         />
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">취소</Button>
           </DialogClose>
-          <Button
-            disabled={!isValidForm}
-            onClick={() => handleSubmit(formData)}
-          >
+          <Button onClick={handleSubmit}>
             {isEdit ? "수정 완료" : "생성"}
           </Button>
         </DialogFooter>

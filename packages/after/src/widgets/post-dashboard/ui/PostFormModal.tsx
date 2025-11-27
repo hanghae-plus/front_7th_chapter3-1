@@ -8,7 +8,7 @@ import {
   DialogClose,
   Alert,
 } from "@/shared/ui";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useRef } from "react";
 import { PostForm } from "@/features/post/ui/PostForm";
 import type { PostFormData } from "@/features/post/types";
 import type { Post } from "@/shared/api/postService";
@@ -28,44 +28,35 @@ export function PostFormModal({
   onCreate,
   onUpdate,
 }: PostFormModalProps) {
-  const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    category: "",
-    content: "",
-  });
-  const isValidForm = formData.title && formData.author && formData.category;
+  const formRef = useRef<HTMLFormElement>(null);
   const isEdit = !!post;
 
-  const handleChange = useCallback((key: keyof PostFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  const defaultFormData: PostFormData = {
+    title: post?.title || "",
+    author: post?.author || "",
+    category: post?.category || "",
+    content: post?.content || "",
+  };
 
-  const handleSubmit = useCallback(async () => {
-    try {
-      if (isEdit) {
-        await onUpdate(formData);
-      } else {
-        await onCreate(formData);
+  const handleFormSubmit = useCallback(
+    async (formData: PostFormData) => {
+      try {
+        if (isEdit) {
+          await onUpdate(formData);
+        } else {
+          await onCreate(formData);
+        }
+        toggleModal(false);
+      } catch (error) {
+        console.error(error);
       }
+    },
+    [isEdit, onCreate, onUpdate, toggleModal]
+  );
 
-      setFormData({ title: "", author: "", category: "", content: "" });
-      toggleModal(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [isEdit, formData, onCreate, onUpdate]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setFormData({
-        title: post?.title || "",
-        author: post?.author || "",
-        category: post?.category || "",
-        content: post?.content || "",
-      });
-    }
-  }, [isOpen, post]);
+  const handleSubmit = useCallback(() => {
+    formRef.current?.requestSubmit();
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={toggleModal}>
@@ -84,15 +75,15 @@ export function PostFormModal({
           </Alert>
         )}
         <PostForm
-          formData={formData}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
+          ref={formRef}
+          formData={defaultFormData}
+          onSubmit={handleFormSubmit}
         />
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline">취소</Button>
           </DialogClose>
-          <Button disabled={!isValidForm} onClick={handleSubmit}>
+          <Button onClick={handleSubmit}>
             {isEdit ? "수정 완료" : "생성"}
           </Button>
         </DialogFooter>

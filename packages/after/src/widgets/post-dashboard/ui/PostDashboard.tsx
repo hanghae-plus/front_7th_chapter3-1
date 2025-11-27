@@ -63,12 +63,12 @@ export function PostDashboard() {
     async (formData: PostFormData) => {
       if (!selectedPost) return;
 
-      await updatePost(selectedPost.id, formData, selectedPost.status, () => {
+      await updatePost(selectedPost.id, formData, () => {
         setIsModalOpen(false);
         setSelectedPost(null);
       });
     },
-    [updatePost]
+    [updatePost, selectedPost]
   );
 
   const toggleModal = useCallback((isOpen: boolean) => {
