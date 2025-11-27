@@ -196,6 +196,7 @@ interface FormFieldProps {
   invalid?: boolean;
   invalidText?: string;
   required?: boolean;
+  spacing?: boolean;
   className?: string;
 }
 
@@ -207,12 +208,13 @@ function FormField({
   invalid,
   invalidText,
   required,
+  spacing = true,
   className,
 }: FormFieldProps) {
   const descriptionId = (helpText || invalidText) && id ? `${id}-description` : undefined;
 
   return (
-    <Field className={className} data-invalid={invalid || undefined}>
+    <Field className={cn(spacing && 'mb-4 last:mb-0', className)} data-invalid={invalid || undefined}>
       {label && (
         <FieldLabel htmlFor={id}>
           {label}
