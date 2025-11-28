@@ -6,9 +6,12 @@ import { fileURLToPath } from "url";
 import tailwindcss from "@tailwindcss/vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const base: string = process.env.NODE_ENV === "production" ? "/front_7th_chapter3-1/" : "";
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  base,
+
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
