@@ -1,0 +1,196 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-primary: var(--color-primary-base);
+  --color-primary-foreground: var(--color-primary-foreground-base);
+  --color-secondary: var(--color-secondary-base);
+  --color-secondary-foreground: var(--color-secondary-foreground-base);
+  --color-success: var(--color-success-base);
+  --color-success-foreground: var(--color-success-foreground-base);
+  --color-warning: var(--color-warning-base);
+  --color-warning-foreground: var(--color-warning-foreground-base);
+  --color-info: var(--color-info-base);
+  --color-info-foreground: var(--color-info-foreground-base);
+  --color-error: var(--color-error-base);
+  --color-error-foreground: var(--color-error-foreground-base);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  --color-primary-base: var(--color-atomic-lightBlue-40);
+  --color-primary-foreground-base: var(--color-atomic-lightBlue-99);
+  --color-secondary-base: var(--color-atomic-lightBlue-99);
+  --color-secondary-foreground-base: var(--color-atomic-lightBlue-30);
+  --color-success-base: var(--color-atomic-green-50);
+  --color-success-foreground-base: var(--color-atomic-green-99);
+  --color-warning-base: var(--color-atomic-orange-60);
+  --color-warning-foreground-base: var(--color-atomic-orange-99);
+  --color-info-base: var(--color-atomic-lightBlue-40);
+  --color-info-foreground-base: var(--color-atomic-lightBlue-99);
+  --color-error-base: var(--color-atomic-red-50);
+  --color-error-foreground-base: var(--color-atomic-red-99);
+
+  --color-atomic-neutral-99: oklch(0.9789 0.0039 276.47);
+  --color-atomic-neutral-90: oklch(0.89 0.0029 264.54);
+  --color-atomic-neutral-80: oklch(0.6865 0.0051 259.9);
+  --color-atomic-neutral-70: oklch(0.6138 0.0052 258.97);
+  --color-atomic-neutral-60: oklch(0.5562 0.0053 258.91);
+  --color-atomic-neutral-50: oklch(0.4795 0.0054 258.46);
+  --color-atomic-neutral-40: oklch(0.3957 0.0055 258.18);
+  --color-atomic-neutral-30: oklch(0.3207 0.0056 257.65);
+  --color-atomic-neutral-20: oklch(0.2112 0.0057 256.76);
+  --color-atomic-neutral-10: oklch(0.1345 0.0056 255.88);
+
+  --color-atomic-red-99: oklch(0.9821 0.0117 21.8509);
+  --color-atomic-red-90: oklch(0.9088 0.0537 23.2249);
+  --color-atomic-red-80: oklch(0.8548 0.0858 24.4987);
+  --color-atomic-red-70: oklch(0.7939 0.1208 25.9386);
+  --color-atomic-red-60: oklch(0.7296 0.1573 26.3795);
+  --color-atomic-red-50: oklch(0.6616 0.2249 25.8784);
+  --color-atomic-red-40: oklch(0.5886 0.1908 25.9593);
+  --color-atomic-red-30: oklch(0.5071 0.1522 25.9065);
+  --color-atomic-red-20: oklch(0.4235 0.1144 25.7478);
+  --color-atomic-red-10: oklch(0.3374 0.0797 25.5242);
+
+  --color-atomic-orange-99: oklch(0.9836 0.0148 78.2604);
+  --color-atomic-orange-90: oklch(0.9091 0.0538 78.3884);
+  --color-atomic-orange-80: oklch(0.8548 0.0818 79.3474);
+  --color-atomic-orange-70: oklch(0.7938 0.1131 82.0349);
+  --color-atomic-orange-60: oklch(0.7297 0.1433 82.4783);
+  --color-atomic-orange-50: oklch(0.6671 0.1692 82.464);
+  --color-atomic-orange-40: oklch(0.5899 0.1592 80.5241);
+  --color-atomic-orange-30: oklch(0.506 0.1227 76.9371);
+  --color-atomic-orange-20: oklch(0.424 0.0914 75.8497);
+  --color-atomic-orange-10: oklch(0.3378 0.0596 74.8307);
+
+  --color-atomic-redOrange-99: oklch(0.9827 0.0146 44.2819);
+  --color-atomic-redOrange-90: oklch(0.9082 0.0535 47.4284);
+  --color-atomic-redOrange-80: oklch(0.8539 0.083 51.1578);
+  --color-atomic-redOrange-70: oklch(0.7928 0.1153 53.6157);
+  --color-atomic-redOrange-60: oklch(0.7285 0.147 54.6763);
+  --color-atomic-redOrange-50: oklch(0.6657 0.1755 55.8717);
+  --color-atomic-redOrange-40: oklch(0.5848 0.1521 49.5177);
+  --color-atomic-redOrange-30: oklch(0.5074 0.1217 47.594);
+  --color-atomic-redOrange-20: oklch(0.4244 0.0898 46.072);
+  --color-atomic-redOrange-10: oklch(0.3372 0.0589 44.071);
+
+  --color-atomic-green-99: oklch(0.9822 0.0097 149.244);
+  --color-atomic-green-90: oklch(0.9094 0.059 150.6267);
+  --color-atomic-green-80: oklch(0.8554 0.0963 151.7064);
+  --color-atomic-green-70: oklch(0.7936 0.1377 152.2572);
+  --color-atomic-green-60: oklch(0.7295 0.1736 152.5484);
+  --color-atomic-green-50: oklch(0.6674 0.2025 154.1179);
+  --color-atomic-green-40: oklch(0.5896 0.1834 155.1157);
+  --color-atomic-green-30: oklch(0.5054 0.1542 155.6071);
+  --color-atomic-green-20: oklch(0.4239 0.1197 157.0298);
+  --color-atomic-green-10: oklch(0.3372 0.0864 159.5974);
+
+  --color-atomic-lightBlue-99: oklch(0.9901 0.0069 219.5584);
+  --color-atomic-lightBlue-90: oklch(0.9204 0.0482 226.9154);
+  --color-atomic-lightBlue-80: oklch(0.877 0.0767 228.7333);
+  --color-atomic-lightBlue-70: oklch(0.8211 0.1119 230.0099);
+  --color-atomic-lightBlue-60: oklch(0.762 0.1468 230.357);
+  --color-atomic-lightBlue-50: oklch(0.7034 0.1771 229.948);
+  --color-atomic-lightBlue-40: oklch(0.6275 0.1682 230.0317);
+  --color-atomic-lightBlue-30: oklch(0.5404 0.1472 231.3735);
+  --color-atomic-lightBlue-20: oklch(0.4514 0.1169 231.6067);
+  --color-atomic-lightBlue-10: oklch(0.3594 0.0833 233.3213);
+
+  /* Typography */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.75rem;
+  --font-size-4xl: 2rem;
+  --font-size-5xl: 2.5rem;
+
+  --text-xs: var(--font-size-xs) var(--font-weight-light);
+  --text-sm: var(--font-size-sm) var(--font-weight-normal);
+  --text-base: var(--font-size-base) var(--font-weight-normal);
+  --text-lg: var(--font-size-lg) var(--font-weight-normal);
+  --text-xl: var(--font-size-xl) var(--font-weight-medium);
+  --text-2xl: var(--font-size-2xl) var(--font-weight-medium);
+  --text-3xl: var(--font-size-3xl) var(--font-weight-semibold);
+  --text-4xl: var(--font-size-4xl) var(--font-weight-bold);
+  --text-5xl: var(--font-size-5xl) var(--font-weight-black);
+
+  --text-input-error: var(--color-error-foreground) var(--text-sm);
+  --text-input-warning: var(--color-warning-foreground) var(--text-sm);
+  --text-input-info: var(--color-info-foreground) var(--text-sm);
+  --text-input-success: var(--color-success-foreground) var(--text-sm);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+
+  --color-primary-base: var(--color-atomic-lightBlue-80);
+  --color-primary-foreground-base: var(--color-atomic-lightBlue-10);
+  --color-secondary-base: var(--color-atomic-lightBlue-30);
+  --color-secondary-foreground-base: var(--color-atomic-lightBlue-99);
+  --color-success-base: var(--color-atomic-green-40);
+  --color-success-foreground-base: var(--color-atomic-green-10);
+  --color-warning-base: var(--color-atomic-orange-50);
+  --color-warning-foreground-base: var(--color-atomic-orange-10);
+  --color-info-base: var(--color-atomic-lightBlue-50);
+  --color-info-foreground-base: var(--color-atomic-lightBlue-10);
+  --color-error-base: var(--color-atomic-red-50);
+  --color-error-foreground-base: var(--color-atomic-red-10);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
