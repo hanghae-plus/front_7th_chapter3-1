@@ -1,17 +1,5 @@
 import React from 'react';
-
-
-interface BadgeProps {
-  children?: React.ReactNode;
-  type?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
-  size?: 'small' | 'medium' | 'large';
-  pill?: boolean;
-  status?: 'published' | 'draft' | 'archived' | 'pending' | 'rejected';
-  userRole?: 'admin' | 'moderator' | 'user' | 'guest';
-  priority?: 'high' | 'medium' | 'low';
-  paymentStatus?: 'paid' | 'pending' | 'failed' | 'refunded';
-  showIcon?: boolean;
-}
+import type { BadgeProps } from './types';
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
@@ -113,16 +101,10 @@ export const Badge: React.FC<BadgeProps> = ({
     }
   }
 
-  const classes = [
-    'badge',
-    `badge-${actualType}`,
-    `badge-${size}`,
-    pill && 'badge-pill',
-  ].filter(Boolean).join(' ');
+  const classes = ['badge', `badge-${actualType}`, `badge-${size}`, pill && 'badge-pill']
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <span className={classes}>
-      {actualContent}
-    </span>
-  );
+  return <span className={classes}>{actualContent}</span>;
 };
+
