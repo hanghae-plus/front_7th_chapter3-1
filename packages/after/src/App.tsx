@@ -1,15 +1,19 @@
-import React from 'react'
-import { Header } from './components/organisms'
-import { ManagementPage } from './pages/ManagementPage'
-import './styles/components.css'
+import React from "react";
+import { Header, ThemeToggle } from "./shared/ui";
+import { ManagementPage } from "./pages/ManagementPage";
+import { ThemeProvider } from "./shared/contexts/ThemeContext";
+import "./styles/globals.css";
 
 export const App: React.FC = () => {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f7fafc' }}>
-      <Header />
-      <main>
-        <ManagementPage />
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen transition-colors" style={{ backgroundColor: "var(--color-bg-primary)" }}>
+        <Header />
+        <main>
+          <ManagementPage />
+        </main>
+        <ThemeToggle />
+      </div>
+    </ThemeProvider>
   );
 };

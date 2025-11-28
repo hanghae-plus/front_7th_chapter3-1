@@ -30,5 +30,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.bak", "src/**/*.stories.tsx", "src/**/*.test.tsx"]
 }

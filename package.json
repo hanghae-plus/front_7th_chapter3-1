@@ -18,10 +18,13 @@
     "test:after": "pnpm --filter @front_lite_chapter3-1/after test",
     "test:run": "pnpm -r test:run",
     "test:run:before": "pnpm --filter @front_lite_chapter3-1/before test:run",
-    "test:run:after": "pnpm --filter @front_lite_chapter3-1/after test:run"
+    "test:run:after": "pnpm --filter @front_lite_chapter3-1/after test:run",
+    "chromatic": "pnpm --filter @front_lite_chapter3-1/after chromatic",
+    "deploy": "pnpm -F @front_lite_chapter3-1/after build && gh-pages -d ./packages/after/dist"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
+    "gh-pages": "^6.3.0",
     "typescript": "~5.9.3"
   },
   "engines": {
