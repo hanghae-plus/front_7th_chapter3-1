@@ -1,15 +1,17 @@
-import React from 'react'
-import { Header } from './components/organisms'
-import { ManagementPage } from './pages/ManagementPage'
-import './styles/components.css'
+import { AppHeader } from "./components/layout/AppHeader";
+import React from "react";
+import { ManagementPage } from "./pages/ManagementPage";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 export const App: React.FC = () => {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f7fafc' }}>
-      <Header />
-      <main>
-        <ManagementPage />
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-gray-50">
+        <AppHeader />
+        <main>
+          <ManagementPage />
+        </main>
+      </div>
+    </ThemeProvider>
   );
 };
