@@ -1,0 +1,120 @@
+:root {
+  /* ----- Base Color Palette ----- */
+  /* Blue */
+  --color-blue-50: #e3f2fd;
+  --color-blue-500: #1976d2;
+  --color-blue-600: #1565c0;
+
+  /* Red */
+  --color-red-50: #ffebee;
+  --color-red-300: #e57373;
+  --color-red-500: #d32f2f;
+  --color-red-600: #c62828;
+  --color-red-700: #b71c1c;
+
+  /* Green */
+  --color-green-50: #e8f5e9;
+  --color-green-300: #81c784;
+  --color-green-500: #388e3c;
+  --color-green-600: #2e7d32;
+  --color-green-700: #1b5e20;
+
+  /* Orange */
+  --color-orange-50: #fff3e0;
+  --color-orange-300: #ffb74d;
+  --color-orange-500: #f57c00;
+  --color-orange-700: #e65100;
+
+  /* Cyan */
+  --color-cyan-50: #e3f2fd;
+  --color-cyan-300: #90caf9;
+  --color-cyan-500: #0288d1;
+  --color-cyan-700: #0d47a1;
+
+  /* Gray Scale */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e0e0e0;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #bdbdbd;
+  --color-gray-500: #757575;
+  --color-gray-600: #6b7280;
+  --color-gray-700: #424242;
+  --color-gray-800: #374151;
+  --color-gray-900: #333;
+
+  /* Common Colors */
+  --color-white: #fff;
+  --color-black: #000;
+
+  /* ----- Semantic Colors ----- */
+  /* Primary - 주요 브랜드 색상 */
+  --color-primary-50: var(--color-blue-50);
+  --color-primary-500: var(--color-blue-500);
+  --color-primary-600: var(--color-blue-600);
+
+  /* Danger/Error - 위험/에러 색상 */
+  --color-danger-50: var(--color-red-50);
+  --color-danger-300: var(--color-red-300);
+  --color-danger-500: var(--color-red-500);
+  --color-danger-600: var(--color-red-600);
+  --color-danger-700: var(--color-red-700);
+
+  /* Success - 성공 색상 */
+  --color-success-50: var(--color-green-50);
+  --color-success-300: var(--color-green-300);
+  --color-success-500: var(--color-green-500);
+  --color-success-600: var(--color-green-600);
+  --color-success-700: var(--color-green-700);
+
+  /* Warning - 경고 색상 */
+  --color-warning-50: var(--color-orange-50);
+  --color-warning-300: var(--color-orange-300);
+  --color-warning-500: var(--color-orange-500);
+  --color-warning-700: var(--color-orange-700);
+
+  /* Info - 정보 색상 */
+  --color-info-50: var(--color-cyan-50);
+  --color-info-300: var(--color-cyan-300);
+  --color-info-500: var(--color-cyan-500);
+  --color-info-700: var(--color-cyan-700);
+
+  /* Secondary - 보조 색상 */
+  --color-secondary-50: var(--color-gray-50);
+  --color-secondary-100: var(--color-gray-100);
+  --color-secondary-200: var(--color-gray-200);
+  --color-secondary-300: #ddd;
+  --color-secondary-500: var(--color-gray-500);
+
+  /* Border */
+  --color-border-base: rgba(0, 0, 0, 0.12);
+  --color-border-light: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.23);
+
+  /* Text */
+  --color-text-primary: rgba(0, 0, 0, 0.87);
+  --color-text-secondary: rgba(0, 0, 0, 0.6);
+  --color-text-disabled: rgba(0, 0, 0, 0.12);
+
+  /* Background */
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #fafafa;
+  --color-bg-hover: rgba(0, 0, 0, 0.04);
+}
+
+.dark {
+  /* Border */
+  --color-border-base: rgba(255, 255, 255, 0.12);
+  --color-border-light: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.23);
+
+  /* Text */
+  --color-text-primary: rgba(255, 255, 255, 0.87);
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-text-disabled: rgba(255, 255, 255, 0.12);
+
+  /* Background */
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #1e1e1e;
+  --color-bg-hover: rgba(255, 255, 255, 0.08);
+}

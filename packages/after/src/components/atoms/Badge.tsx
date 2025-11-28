@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 interface BadgeProps {
   children?: React.ReactNode;
   type?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
@@ -118,11 +117,9 @@ export const Badge: React.FC<BadgeProps> = ({
     `badge-${actualType}`,
     `badge-${size}`,
     pill && 'badge-pill',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  return (
-    <span className={classes}>
-      {actualContent}
-    </span>
-  );
+  return <span className={classes}>{actualContent}</span>;
 };

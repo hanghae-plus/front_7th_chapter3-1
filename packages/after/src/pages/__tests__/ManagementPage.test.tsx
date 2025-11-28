@@ -22,16 +22,20 @@ describe('ManagementPage - User Management', () => {
 
     // name으로 input과 select 직접 찾기
     await waitFor(() => {
-      expect(document.querySelector('input[name="username"]')).toBeInTheDocument();
+      expect(
+        document.querySelector('input[name="username"]')
+      ).toBeInTheDocument();
     });
 
-    const usernameInput = document.querySelector('input[name="username"]') as HTMLInputElement;
-    const emailInput = document.querySelector('input[name="email"]') as HTMLInputElement;
-    const roleSelect = document.querySelector('select[name="role"]') as HTMLSelectElement;
+    const usernameInput = document.querySelector(
+      'input[name="username"]'
+    ) as HTMLInputElement;
+    const emailInput = document.querySelector(
+      'input[name="email"]'
+    ) as HTMLInputElement;
 
     await user.type(usernameInput, 'testuser');
     await user.type(emailInput, 'test@example.com');
-    await user.selectOptions(roleSelect, 'user');
 
     const createBtn = screen.getByRole('button', { name: '생성' });
     await user.click(createBtn);
@@ -51,7 +55,9 @@ describe('ManagementPage - User Management', () => {
       expect(document.querySelector('input[name="email"]')).toBeInTheDocument();
     });
 
-    const emailInputEdit = document.querySelector('input[name="email"]') as HTMLInputElement;
+    const emailInputEdit = document.querySelector(
+      'input[name="email"]'
+    ) as HTMLInputElement;
     await user.clear(emailInputEdit);
     await user.type(emailInputEdit, 'updated@example.com');
 
@@ -66,7 +72,9 @@ describe('ManagementPage - User Management', () => {
 
     // === 삭제 ===
     // 마지막 삭제 버튼 선택
-    const deleteButtons = await screen.findAllByRole('button', { name: /삭제/i });
+    const deleteButtons = await screen.findAllByRole('button', {
+      name: /삭제/i,
+    });
     await user.click(deleteButtons[deleteButtons.length - 1]);
 
     // 삭제 확인
@@ -87,7 +95,9 @@ describe('ManagementPage - Post Management', () => {
 
     // 게시글 탭이 기본 선택되어 있는지 확인
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: '게시글' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: '게시글' })
+      ).toBeInTheDocument();
     });
 
     // 기존 샘플 게시글이 표시되는지 확인

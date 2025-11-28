@@ -1,5 +1,5 @@
 export { Alert } from './Alert';
 export { Card } from './Card';
-export { Table } from './Table';
+export { DataTable } from './DataTable';
 export { Modal } from './Modal';
 export { Header } from './Header';

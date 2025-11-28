@@ -1,4 +1,6 @@
+import { X } from 'lucide-react';
 import React from 'react';
+import { IconButton } from '../ui/IconButton';
 
 // Alert - Different styling approach with inconsistent variants
 interface AlertProps {
@@ -18,11 +20,16 @@ export const Alert: React.FC<AlertProps> = ({
 }) => {
   const getIcon = () => {
     switch (variant) {
-      case 'info': return 'ℹ️';
-      case 'success': return '✓';
-      case 'warning': return '⚠️';
-      case 'error': return '✕';
-      default: return '•';
+      case 'info':
+        return 'ℹ️';
+      case 'success':
+        return '✓';
+      case 'warning':
+        return '⚠️';
+      case 'error':
+        return '✕';
+      default:
+        return '•';
     }
   };
 
@@ -36,9 +43,13 @@ export const Alert: React.FC<AlertProps> = ({
         <div className="alert-body">{children}</div>
       </div>
       {onClose && (
-        <button onClick={onClose} className="alert-close">
-          ×
-        </button>
+        <IconButton
+          size="sm"
+          variant="ghost"
+          aria-label="닫기"
+          onClick={onClose}
+          icon={<X className="h-5 w-5" />}
+        />
       )}
     </div>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from '@/components/ui/Form';
 
 // Textarea Component - Yet another inconsistent API
 interface FormTextareaProps {
@@ -11,6 +12,7 @@ interface FormTextareaProps {
   disabled?: boolean;
   error?: string;
   helpText?: string;
+  size?: 'sm' | 'md' | 'lg';
   rows?: number;
 }
 
@@ -24,33 +26,25 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   disabled = false,
   error,
   helpText,
+  size = 'md',
   rows = 4,
 }) => {
-  const textareaClasses = ['form-textarea', error && 'error'].filter(Boolean).join(' ');
-  const helperClasses = ['form-helper-text', error && 'error'].filter(Boolean).join(' ');
-
   return (
-    <div className="form-group">
-      {label && (
-        <label className="form-label">
-          {label}
-          {required && <span style={{ color: '#d32f2f' }}>*</span>}
-        </label>
-      )}
-
-      <textarea
-        name={name}
+    <Form.Field
+      name={name}
+      label={label}
+      error={error}
+      helpText={helpText}
+      required={required}
+      size={size}
+    >
+      <Form.Textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        required={required}
         disabled={disabled}
         rows={rows}
-        className={textareaClasses}
       />
-
-      {error && <span className={helperClasses}>{error}</span>}
-      {helpText && !error && <span className="form-helper-text">{helpText}</span>}
-    </div>
+    </Form.Field>
   );
 };
