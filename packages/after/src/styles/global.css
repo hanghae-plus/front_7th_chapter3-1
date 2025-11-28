@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@import "../tokens/index.css";
+
+/* Base Styles */
+@layer base {
+  /* * {
+    @apply border-[var(--color-border)] outline-[var(--color-focus-ring)]/50;
+  } */
+
+  html {
+    background-color: var(--color-background);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-family-sans);
+    line-height: var(--line-height-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: var(--color-selection-bg);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+  }
+
+  code, pre {
+    font-family: var(--font-code);
+  }
+}
+
+/* Component Layer - Optional utility classes */
+@layer components {
+  /* Focus visible utility */
+  .focus-ring {
+    @apply outline-none ring-2 ring-[var(--color-focus-ring)] ring-offset-2;
+  }
+
+  /* Disabled state utility */
+  .disabled {
+    @apply opacity-50 cursor-not-allowed pointer-events-none;
+  }
+
+  /* Truncate text utility */
+  .truncate {
+    @apply overflow-hidden text-ellipsis whitespace-nowrap;
+  }
+
+  /* Table Component Utilities - Design System */
+  .table-cell {
+    padding: var(--space-4) var(--table-cell-padding-x);
+    font-size: var(--table-cell-font-size);
+  }
+
+  .table-head {
+    padding: var(--space-4) var(--table-cell-padding-x);
+    font-size: var(--table-header-font-size);
+    font-weight: var(--font-weight-bold);
+    color: var(--table-header-fg);
+  }
+
+  .border-collapse {
+    border-collapse: collapse;
+  }
+
+  /* Dialog Overlay - Ensure dark background */
+  [data-radix-dialog-overlay] {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    z-index: 1040 !important;
+  }
+
+  /* Select Content - Higher z-index than dialog */
+  [data-radix-select-content] {
+    z-index: 9999 !important;
+  }
+
+  /* Select Item - Hover state */
+  [data-radix-select-item] {
+    cursor: pointer !important;
+    user-select: none !important;
+  }
+  
+  [data-radix-select-item][data-highlighted] {
+    background-color: var(--color-background-muted) !important;
+    outline: none !important;
+  }
+
+  [data-radix-select-item][data-state="checked"] {
+    font-weight: 500 !important;
+  }
+
+  /* Select Content - Dark mode support */
+  .dark [data-radix-select-content] {
+    background-color: var(--color-background-subtle) !important;
+    border-color: var(--color-border) !important;
+    color: var(--color-foreground) !important;
+  }
+}
+

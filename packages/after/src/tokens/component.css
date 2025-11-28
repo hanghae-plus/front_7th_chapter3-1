@@ -1,0 +1,257 @@
+/* ==========================================
+   COMPONENT TOKENS (Layer 3)
+   ========================================== */
+
+@import './semantic.css';
+
+:root {
+  /* Button Component */
+  --button-height-sm: 2rem;      /* 32px */
+  --button-height-md: 2.5rem;    /* 40px */
+  --button-height-lg: 3rem;      /* 48px */
+
+  --button-padding-x-sm: var(--space-3);
+  --button-padding-x-md: var(--space-4);
+  --button-padding-x-lg: var(--space-6);
+
+  --button-font-size-sm: var(--font-size-sm);
+  --button-font-size-md: var(--font-size-base);
+  --button-font-size-lg: var(--font-size-lg);
+
+  --button-font-weight: var(--font-weight-medium);
+  --button-radius: var(--radius-button);
+  --button-transition: all 150ms ease-in-out;
+
+  /* Button Variant - Primary */
+  --button-primary-bg: var(--color-primary);
+  --button-primary-bg-hover: var(--color-primary-hover);
+  --button-primary-bg-active: var(--color-primary-active);
+  --button-primary-fg: var(--color-primary-foreground);
+  --button-primary-border: var(--color-primary);
+
+  /* Button Variant - Secondary */
+  --button-secondary-bg: var(--color-background-subtle);
+  --button-secondary-bg-hover: var(--color-background-muted);
+  --button-secondary-fg: var(--color-foreground);
+  --button-secondary-border: var(--color-border);
+
+  /* Button Variant - Danger */
+  --button-danger-bg: var(--color-danger);
+  --button-danger-bg-hover: var(--color-danger-hover);
+  --button-danger-fg: var(--color-danger-foreground);
+  --button-danger-border: var(--color-danger);
+
+  /* Button Variant - Outline */
+  --button-outline-bg: transparent;
+  --button-outline-bg-hover: var(--color-background-muted);
+  --button-outline-fg: var(--color-primary);
+  --button-outline-border: var(--color-primary);
+
+  /* Button Variant - Ghost */
+  --button-ghost-bg: transparent;
+  --button-ghost-bg-hover: var(--color-background-muted);
+  --button-ghost-fg: var(--color-foreground);
+  --button-ghost-border: transparent;
+
+  /* Input Component */
+  --input-height-sm: 2rem;       /* 32px */
+  --input-height-md: 2.5rem;     /* 40px */
+  --input-height-lg: 3rem;       /* 48px */
+
+  --input-padding-x: var(--space-3);
+  --input-padding-y: var(--space-2);
+  --input-font-size: var(--font-size-base);
+  --input-radius: var(--radius-input);
+  --input-transition: all 150ms ease-in-out;
+
+  --input-bg: var(--color-background);
+  --input-bg-disabled: var(--color-disabled-bg);
+  --input-fg: var(--color-foreground);
+  --input-border: var(--color-border);
+  --input-border-hover: var(--color-border-strong);
+  --input-border-focus: var(--color-primary);
+  --input-border-error: var(--color-danger);
+  --input-placeholder: var(--color-foreground-subtle);
+
+  /* Select Component */
+  --select-height-sm: var(--input-height-sm);
+  --select-height-md: var(--input-height-md);
+  --select-height-lg: var(--input-height-lg);
+  --select-height: var(--input-height-md);
+  --select-padding-x: var(--input-padding-x);
+  --select-padding-y: var(--input-padding-y);
+  --select-radius: var(--input-radius);
+  --select-bg: var(--input-bg);
+  --select-fg: var(--input-fg);
+  --select-border: var(--input-border);
+  --select-placeholder: var(--input-placeholder);
+  --select-focus-ring: var(--color-primary);
+  --select-focus-border: var(--input-border-focus);
+
+  /* Label Component */
+  --label-font-size: var(--font-size-sm);
+  --label-font-weight: var(--font-weight-medium);
+  --label-color: var(--color-foreground);
+  --label-margin-bottom: var(--space-2);
+
+  /* Card Component */
+  --card-bg: var(--color-background);
+  --card-border: var(--color-border);
+  --card-radius: var(--radius-card);
+  --card-padding: var(--spacing-component-lg);
+  --card-shadow: var(--shadow-card);
+
+  --card-header-padding: var(--spacing-component-md);
+  --card-header-bg: var(--color-background-subtle);
+  --card-header-border: var(--color-border);
+
+  --card-title-font-size: var(--font-size-lg);
+  --card-title-font-weight: var(--font-weight-semibold);
+  --card-title-color: var(--color-foreground);
+
+  /* Table Component */
+  --table-border: var(--color-border);
+  --table-radius: var(--radius-card);
+  
+  --table-header-bg: transparent;
+  --table-header-fg: var(--color-foreground-muted);
+  --table-header-font-size: var(--font-size-xs);
+  --table-header-font-weight: var(--font-weight-medium);
+  --table-header-text-transform: none;
+  
+  --table-row-bg: var(--color-background);
+  --table-row-hover-bg: var(--color-background-muted);
+  --table-row-border: var(--color-border-subtle);
+  
+  --table-cell-padding-y: var(--space-3);
+  --table-cell-padding-x: var(--space-4);
+  --table-cell-font-size: var(--font-size-xs);
+
+  /* Modal Component */
+  --modal-overlay-bg: rgb(0 0 0 / 0.7);
+  --modal-bg: var(--color-background);
+  --modal-border: var(--color-border);
+  --modal-radius: var(--radius-modal);
+  --modal-shadow: var(--shadow-modal);
+  --modal-padding: var(--spacing-component-xl);
+
+  --modal-header-padding: var(--spacing-component-md);
+  --modal-header-border: var(--color-border);
+  --modal-title-font-size: var(--font-size-xl);
+  --modal-title-font-weight: var(--font-weight-semibold);
+
+  --modal-footer-padding: var(--spacing-component-md);
+  --modal-footer-border: var(--color-border);
+  --modal-footer-gap: var(--space-2);
+
+  /* Alert Component */
+  --alert-padding: var(--spacing-component-md);
+  --alert-radius: var(--radius-lg);
+  --alert-border-width: 1px;
+  --alert-font-size: var(--font-size-sm);
+
+  --alert-success-bg: var(--color-success-light);
+  --alert-success-border: var(--color-success-border);
+  --alert-success-fg: var(--color-success);
+
+  --alert-danger-bg: var(--color-danger-light);
+  --alert-danger-border: var(--color-danger-border);
+  --alert-danger-fg: var(--color-danger);
+
+  --alert-warning-bg: var(--color-warning-light);
+  --alert-warning-border: var(--color-warning-border);
+  --alert-warning-fg: var(--color-warning);
+
+  --alert-info-bg: var(--color-info-light);
+  --alert-info-border: var(--color-info-border);
+  --alert-info-fg: var(--color-info);
+
+  --alert-title-font-size: var(--font-size-base);
+  --alert-title-font-weight: var(--font-weight-semibold);
+
+  /* Badge Component */
+  --badge-height-sm: 1.25rem;   /* 20px */
+  --badge-height-md: 1.5rem;    /* 24px */
+  --badge-height-lg: 1.75rem;   /* 28px */
+
+  --badge-padding-x-sm: var(--space-2);
+  --badge-padding-x-md: var(--space-3);
+  --badge-padding-x-lg: var(--space-4);
+
+  --badge-font-size-sm: var(--font-size-xs);
+  --badge-font-size-md: var(--font-size-sm);
+  --badge-font-size-lg: var(--font-size-base);
+
+  --badge-font-weight: var(--font-weight-semibold);
+  --badge-radius: var(--radius-badge);
+
+  /* Badge Variants */
+  --badge-primary-bg: var(--color-primary);
+  --badge-primary-fg: var(--color-primary-foreground);
+
+  --badge-success-bg: var(--color-success);
+  --badge-success-fg: var(--color-success-foreground);
+
+  --badge-danger-bg: var(--color-danger);
+  --badge-danger-fg: var(--color-danger-foreground);
+
+  --badge-warning-bg: var(--color-warning);
+  --badge-warning-fg: var(--color-warning-foreground);
+
+  --badge-info-bg: var(--color-info);
+  --badge-info-fg: var(--color-info-foreground);
+
+  /* Checkbox Component */
+  --checkbox-size: 1rem;         /* 16px */
+  --checkbox-radius: var(--radius-sm);
+  --checkbox-border: var(--color-border);
+  --checkbox-bg: var(--color-background);
+  --checkbox-bg-checked: var(--color-primary);
+  --checkbox-border-checked: var(--color-primary);
+  --checkbox-checkmark-color: white;
+
+  /* Form Group */
+  --form-group-gap: var(--space-4);
+  --form-helper-text-font-size: var(--font-size-xs);
+  --form-helper-text-color: var(--color-foreground-muted);
+  --form-error-text-color: var(--color-danger);
+
+  /* Dropdown Component */
+  --dropdown-bg: var(--color-background);
+  --dropdown-border: var(--color-border);
+  --dropdown-radius: var(--radius-lg);
+  --dropdown-shadow: var(--shadow-dropdown);
+  --dropdown-padding: var(--space-2);
+
+  --dropdown-item-padding-y: var(--space-2);
+  --dropdown-item-padding-x: var(--space-3);
+  --dropdown-item-radius: var(--radius-base);
+  --dropdown-item-bg-hover: var(--color-background-muted);
+
+  /* Tooltip Component */
+  --tooltip-bg: var(--color-slate-900);
+  --tooltip-fg: white;
+  --tooltip-padding: var(--space-2) var(--space-3);
+  --tooltip-radius: var(--radius-md);
+  --tooltip-font-size: var(--font-size-xs);
+  --tooltip-shadow: var(--shadow-md);
+
+  /* Divider Component */
+  --divider-color: var(--color-border);
+  --divider-width: 1px;
+
+  /* Skeleton Component */
+  --skeleton-bg: var(--color-slate-200);
+  --skeleton-shimmer: var(--color-slate-300);
+  --skeleton-radius: var(--radius-base);
+}
+
+/* Dark Mode Component Adjustments */
+.dark {
+  --tooltip-bg: var(--color-slate-50);
+  --tooltip-fg: var(--color-slate-900);
+
+  --skeleton-bg: var(--color-slate-800);
+  --skeleton-shimmer: var(--color-slate-700);
+}
+
