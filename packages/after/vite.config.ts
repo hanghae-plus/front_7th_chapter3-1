@@ -15,6 +15,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // @ts-expect-error - test property is from vitest/config
   test: {
     globals: true,
     environment: "jsdom",
