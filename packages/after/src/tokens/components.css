@@ -1,0 +1,1283 @@
+/* ============================================
+   COMPONENT TOKENS & UTILITIES
+   목적: 컴포넌트별로 구체화된 스타일 정의
+   구조: 
+     1. @theme: 색상, 간격, 둥글기 등 '값(Value)' 정의
+     2. @utility: 폰트+행간 등 '복합 스타일(Composite Style)' 정의
+   ============================================ */
+
+@import './semantic.css';
+
+/* 1. 단일 값(Value) 토큰 정의 */
+@theme inline {
+  /* ========================================
+     BUTTON
+     ======================================== */
+  /* Spacing: Semantic Spacing 참조 */
+  --spacing-btn-sm: var(--spacing-sm);
+  --spacing-btn-md: var(--spacing-md);
+  --spacing-btn-lg: var(--spacing-lg);
+  --spacing-btn-xl: var(--spacing-xl);
+  --spacing-btn-2xl: var(--spacing-2xl);
+  --spacing-btn-3xl: var(--spacing-3xl);
+
+  /* Base Style */
+  --radius-btn: var(--radius-base);
+  --opacity-btn-disabled: var(--opacity-disabled);
+
+  /* Color Variants */
+  --color-btn-primary-bg: var(--color-primary);
+  --color-btn-primary-bg-hover: var(--color-primary-hover);
+  --color-btn-primary-text: var(--color-primary-foreground);
+  --color-btn-primary-border: var(--color-primary-hover);
+
+  --color-btn-secondary-bg: var(--color-secondary);
+  --color-btn-secondary-bg-hover: var(--color-secondary-hover);
+  --color-btn-secondary-text: var(--color-secondary-foreground);
+  --color-btn-secondary-border: var(--color-secondary-border);
+
+  --color-btn-destructive-bg: var(--color-destructive);
+  --color-btn-destructive-bg-hover: var(--color-destructive-hover);
+  --color-btn-destructive-text: var(--color-destructive-foreground);
+  --color-btn-destructive-border: var(--color-destructive-hover);
+
+  --color-btn-success-bg: var(--color-success);
+  --color-btn-success-bg-hover: var(--color-success-hover);
+  --color-btn-success-text: var(--color-success-foreground);
+  --color-btn-success-border: var(--color-success-hover);
+
+  /* ========================================
+     BADGE
+     ======================================== */
+  --spacing-badge-sm: var(--spacing-sm);
+  --spacing-badge-md: var(--spacing-md);
+  --spacing-badge-lg: var(--spacing-lg);
+  --spacing-badge-xl: var(--spacing-xl);
+  --spacing-badge-2xl: var(--spacing-2xl);
+  --spacing-badge-3xl: var(--spacing-3xl);
+
+  /* Height를 위한 Spacing (Semantic Width 참조) */
+  --spacing-badge-h-sm: var(--width-icon-sm);
+  --spacing-badge-h-md: var(--spacing-2xl);
+  --spacing-badge-h-lg: var(--spacing-3xl);
+  --spacing-badge-h-xl: var(--spacing-4xl);
+  --spacing-badge-h-2xl: var(--spacing-4xl);
+  --spacing-badge-h-3xl: var(--spacing-4xl);
+
+  --radius-badge: var(--radius-base);
+  --radius-badge-pill: var(--radius-lg);
+
+  /* Badge Color Variants */
+  --color-badge-primary-bg: var(--color-primary);
+  --color-badge-primary-text: var(--color-primary-foreground);
+  --color-badge-secondary-bg: var(--color-gray-500);
+  --color-badge-secondary-text: var(--color-white);
+  --color-badge-success-bg: var(--color-success);
+  --color-badge-success-text: var(--color-success-foreground);
+  --color-badge-destructive-bg: var(--color-destructive);
+  --color-badge-destructive-text: var(--color-destructive-foreground);
+  --color-badge-warning-bg: var(--color-warning);
+  --color-badge-warning-text: var(--color-warning-foreground);
+  --color-badge-info-bg: var(--color-info);
+  --color-badge-info-text: var(--color-info-foreground);
+
+  /* ========================================
+     FORM FIELD WIDTH
+     → semantic.css의 --width-field-sm/md/lg 직접 사용
+     → 컴포넌트별 alias 불필요 (DRY 원칙)
+     ======================================== */
+
+  /* ========================================
+     INPUT
+     ======================================== */
+  --spacing-input-sm: var(--spacing-sm);
+  --spacing-input-md: var(--spacing-md);
+  --spacing-input-lg: var(--spacing-lg);
+  --spacing-input-xl: var(--spacing-xl);
+  --spacing-input-2xl: var(--spacing-2xl);
+  --spacing-input-3xl: var(--spacing-3xl);
+
+  --radius-input: var(--radius-base);
+  --color-input-bg: var(--color-background);
+  --color-input-bg-disabled: var(--color-background-disabled);
+  --color-input-border: var(--color-border-input);
+  --color-input-border-focus: var(--color-border-focus);
+  --color-input-border-error: var(--color-border-error);
+
+  /* ========================================
+     LABEL & HELPER
+     ======================================== */
+  --color-label-required: var(--color-destructive);
+  --spacing-label-sm: var(--spacing-sm);
+  --spacing-label-md: var(--spacing-md);
+  --spacing-label-lg: var(--spacing-lg);
+  --spacing-label-xl: var(--spacing-xl);
+  --spacing-label-2xl: var(--spacing-2xl);
+  --spacing-label-3xl: var(--spacing-3xl);
+
+  --color-helper-error: var(--color-destructive);
+  --spacing-helper-sm: var(--spacing-sm);
+  --spacing-helper-md: var(--spacing-md);
+  --spacing-helper-lg: var(--spacing-lg);
+  --spacing-helper-xl: var(--spacing-xl);
+  --spacing-helper-2xl: var(--spacing-2xl);
+  --spacing-helper-3xl: var(--spacing-3xl);
+
+  /* ========================================
+     CARD
+     ======================================== */
+  --spacing-card-sm: var(--spacing-sm);
+  --spacing-card-md: var(--spacing-md);
+  --spacing-card-lg: var(--spacing-lg);
+  --spacing-card-xl: var(--spacing-xl);
+  --spacing-card-2xl: var(--spacing-2xl);
+  --spacing-card-3xl: var(--spacing-3xl);
+
+  --radius-card: var(--radius-md);
+  --color-card-bg: var(--color-background);
+  --color-card-border: var(--color-border);
+  --color-card-border-subtle: var(--color-border-subtle);
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-elevated: var(--shadow-md);
+  --color-card-bg-flat: var(--color-background-subtle);
+  --color-card-header-bg: var(--color-background-subtle);
+  --color-card-header-border: var(--color-border-subtle);
+
+  --color-card-title: var(--color-foreground);
+  --color-card-subtitle: var(--color-foreground-muted);
+
+  /* ========================================
+     ALERT
+     ======================================== */
+  --spacing-alert-sm: var(--spacing-sm);
+  --spacing-alert-md: var(--spacing-md);
+  --spacing-alert-lg: var(--spacing-lg);
+  --spacing-alert-xl: var(--spacing-xl);
+  --spacing-alert-2xl: var(--spacing-2xl);
+  --spacing-alert-3xl: var(--spacing-3xl);
+  --radius-alert: var(--radius-base);
+
+  /* Alert Color Variants */
+  --color-alert-info-bg: var(--color-feedback-info-bg);
+  --color-alert-info-border: var(--color-feedback-info-border);
+  --color-alert-info-text: var(--color-feedback-info-text);
+
+  --color-alert-success-bg: var(--color-feedback-success-bg);
+  --color-alert-success-border: var(--color-feedback-success-border);
+  --color-alert-success-text: var(--color-feedback-success-text);
+
+  --color-alert-warning-bg: var(--color-feedback-warning-bg);
+  --color-alert-warning-border: var(--color-feedback-warning-border);
+  --color-alert-warning-text: var(--color-feedback-warning-text);
+
+  --color-alert-destructive-bg: var(--color-feedback-error-bg);
+  --color-alert-destructive-border: var(--color-feedback-error-border);
+  --color-alert-destructive-text: var(--color-feedback-error-text);
+
+  --color-alert-default-bg: var(--color-feedback-default-bg);
+  --color-alert-default-border: var(--color-feedback-default-border);
+  --color-alert-default-text: var(--color-feedback-default-text);
+
+  /* ========================================
+     MODAL
+     ======================================== */
+  --spacing-modal-sm: var(--spacing-sm);
+  --spacing-modal-md: var(--spacing-md);
+  --spacing-modal-lg: var(--spacing-lg);
+  --spacing-modal-xl: var(--spacing-xl);
+  --spacing-modal-2xl: var(--spacing-2xl);
+  --spacing-modal-3xl: var(--spacing-3xl);
+
+  --color-modal-overlay: var(--color-overlay);
+  --color-modal-bg: var(--color-background);
+  --radius-modal: var(--radius-md);
+  --shadow-modal: var(--shadow-lg);
+  --color-modal-header-border: var(--color-border);
+  --color-modal-footer-border: var(--color-border);
+  --color-modal-title: var(--color-foreground);
+
+  /* Close Button (w-modal-close로 사용) */
+  --width-modal-close: var(--width-icon-md);
+  --color-modal-close: var(--color-foreground-subtle);
+  --color-modal-close-hover: var(--color-hover-overlay);
+  --radius-modal-close: var(--radius-full);
+
+  /* ========================================
+     TABLE
+     ======================================== */
+  --spacing-table-sm: var(--spacing-sm);
+  --spacing-table-md: var(--spacing-md);
+  --spacing-table-lg: var(--spacing-lg);
+  --spacing-table-xl: var(--spacing-xl);
+  --spacing-table-2xl: var(--spacing-2xl);
+  --spacing-table-3xl: var(--spacing-3xl);
+
+  --color-table-bg: var(--color-background);
+  --color-table-header-bg: var(--color-background-subtle);
+  --color-table-header-text: var(--color-foreground-muted);
+  --color-table-header-border: var(--color-border);
+  --color-table-cell-text: var(--color-foreground);
+  --color-table-cell-border: var(--color-border-subtle);
+  --color-table-striped-bg: var(--color-background-subtle);
+  --color-table-hover-bg: var(--color-hover-overlay);
+  --color-table-bordered-border: var(--color-border);
+
+  /* ========================================
+     CHECKBOX
+     ======================================== */
+  --spacing-checkbox-sm: var(--spacing-sm);
+  --spacing-checkbox-md: var(--spacing-md);
+  --spacing-checkbox-lg: var(--spacing-lg);
+  --spacing-checkbox-xl: var(--spacing-xl);
+  --spacing-checkbox-2xl: var(--spacing-2xl);
+  --spacing-checkbox-3xl: var(--spacing-3xl);
+
+  /* Size: w-checkbox 사용 시 Semantic Icon Size 적용 */
+  --width-checkbox: var(--width-icon-sm);
+
+  --radius-checkbox: var(--radius-sm);
+  --color-checkbox-bg: var(--color-background);
+  --color-checkbox-bg-checked: var(--color-primary);
+  --color-checkbox-border-checked: var(--color-primary);
+  --color-checkbox-checkmark: var(--color-white);
+  --color-checkbox-label-error: var(--color-red-500);
+
+  /* ========================================
+     TEXTAREA & FORM GROUP
+     ======================================== */
+  --spacing-textarea-sm: var(--spacing-sm);
+  --spacing-textarea-md: var(--spacing-md);
+  --spacing-textarea-lg: var(--spacing-lg);
+  --spacing-textarea-xl: var(--spacing-xl);
+  --spacing-textarea-2xl: var(--spacing-2xl);
+  --spacing-textarea-3xl: var(--spacing-3xl);
+
+  --radius-textarea: var(--radius-md);
+
+  --spacing-form-group-sm: var(--spacing-sm);
+  --spacing-form-group-md: var(--spacing-md);
+  --spacing-form-group-lg: var(--spacing-lg);
+  --spacing-form-group-xl: var(--spacing-xl);
+  --spacing-form-group-2xl: var(--spacing-2xl);
+  --spacing-form-group-3xl: var(--spacing-3xl);
+
+  /* ========================================
+     STAT CARD
+     ======================================== */
+  --spacing-stat-sm: var(--spacing-sm);
+  --spacing-stat-md: var(--spacing-md);
+  --spacing-stat-lg: var(--spacing-lg);
+  --spacing-stat-xl: var(--spacing-xl);
+  --spacing-stat-2xl: var(--spacing-2xl);
+  --spacing-stat-3xl: var(--spacing-3xl);
+
+  --radius-stat: var(--radius-base);
+
+  /* StatCard Color Variants - Semantic feedback 토큰 참조 */
+  --color-stat-primary-bg: var(--color-feedback-info-bg);
+  --color-stat-primary-border: var(--color-feedback-info-border);
+  --color-stat-primary-text: var(--color-primary);
+
+  --color-stat-success-bg: var(--color-feedback-success-bg);
+  --color-stat-success-border: var(--color-feedback-success-border);
+  --color-stat-success-text: var(--color-success);
+
+  --color-stat-warning-bg: var(--color-feedback-warning-bg);
+  --color-stat-warning-border: var(--color-feedback-warning-border);
+  --color-stat-warning-text: var(--color-warning);
+
+  --color-stat-destructive-bg: var(--color-feedback-error-bg);
+  --color-stat-destructive-border: var(--color-feedback-error-border);
+  --color-stat-destructive-text: var(--color-destructive);
+
+  --color-stat-neutral-bg: var(--color-feedback-default-bg);
+  --color-stat-neutral-border: var(--color-feedback-default-border);
+  --color-stat-neutral-text: var(--color-foreground);
+
+  /* StatCard Label (공통) */
+  --color-stat-label: var(--color-foreground-muted);
+
+  /* ========================================
+     TABS
+     ======================================== */
+  /* Tabs List */
+  --color-tabs-list-border: var(--color-border);
+  --spacing-tabs-list-pb: var(--spacing-sm);
+  --spacing-tabs-list-gap: var(--spacing-sm);
+
+  /* Tabs Trigger - Default */
+  --color-tabs-trigger-bg: var(--color-secondary);
+  --color-tabs-trigger-text: var(--color-secondary-foreground);
+  --color-tabs-trigger-border: var(--color-border-input);
+
+  /* Tabs Trigger - Active */
+  --color-tabs-trigger-active-bg: var(--color-primary);
+  --color-tabs-trigger-active-text: var(--color-primary-foreground);
+
+  /* Tabs Trigger - Hover */
+  --color-tabs-trigger-hover-bg: var(--color-secondary-hover);
+
+  /* Tabs Trigger - Spacing & Radius */
+  --spacing-tabs-trigger-y: var(--spacing-md);
+  --spacing-tabs-trigger-x: var(--spacing-xl);
+  --radius-tabs-trigger: var(--radius-base);
+
+  /* ========================================
+     HEADER
+     ======================================== */
+  /* Header Base */
+  --color-header-bg: var(--color-background);
+  --color-header-border: var(--color-border);
+  --shadow-header: var(--shadow-sm);
+  --height-header: 64px;
+  --z-index-header: 1000;
+
+  /* Header Container */
+  --max-width-header-container: 1400px;
+  --spacing-header-container-x: var(--spacing-2xl);
+
+  /* Header Logo */
+  --size-header-logo: 40px;
+  --color-header-logo-bg: var(--color-primary);
+  --color-header-logo-text: var(--color-primary-foreground);
+  --radius-header-logo: var(--radius-md);
+  --spacing-header-logo-gap: var(--spacing-lg);
+
+  /* Header Avatar */
+  --size-header-avatar: 40px;
+  --color-header-avatar-bg: var(--color-feedback-info-bg);
+  --color-header-avatar-text: var(--color-primary);
+
+  /* Header User Info */
+  --spacing-header-user-gap: var(--spacing-lg);
+}
+
+/* 2. 컴포넌트 전용 타이포그래피 유틸리티 (@utility)
+  - 효과: 개발자는 typo-card-title 클래스만 사용하면 폰트크기, 행간, 굵기 자동 적용
+*/
+
+/* Button Text */
+@utility typo-btn-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--font-normal);
+}
+@utility typo-btn-md {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--font-normal);
+}
+@utility typo-btn-lg {
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--font-normal);
+}
+
+/* Badge Text */
+@utility typo-badge-sm {
+  font-size: var(--text-xs);
+  line-height: var(--leading-none);
+  font-weight: var(--font-bold);
+}
+@utility typo-badge-md {
+  font-size: var(--text-sm);
+  line-height: var(--leading-none);
+  font-weight: var(--font-bold);
+}
+@utility typo-badge-lg {
+  font-size: var(--text-sm);
+  line-height: var(--leading-none);
+  font-weight: var(--font-bold);
+}
+
+/* Input Text */
+@utility typo-input {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+}
+
+/* Label & Helper */
+@utility label-base {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  user-select: none;
+  cursor: default;
+}
+
+@utility typo-label {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  font-weight: var(--font-medium);
+}
+@utility typo-helper {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+}
+
+/* Card Text */
+@utility typo-card-title {
+  font-size: var(--text-xl);
+  line-height: var(--leading-loose);
+  font-weight: var(--font-medium);
+}
+@utility typo-card-subtitle {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+}
+
+/* Alert Text */
+@utility typo-alert-title {
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+  font-weight: var(--font-bold);
+}
+@utility typo-alert-body {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  font-weight: var(--font-normal);
+}
+@utility typo-alert-icon {
+  font-size: var(--text-2xl);
+  line-height: 1; /* 아이콘은 보통 tight하게 */
+}
+@utility typo-alert-close {
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+/* Modal Text */
+@utility typo-modal-title {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+  font-weight: var(--font-medium);
+}
+
+@utility typo-modal-close {
+  font-size: var(--text-3xl);
+  line-height: 1;
+}
+
+/* Table Text */
+@utility typo-table-header {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-wide);
+}
+
+@utility typo-table-cell {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+}
+
+/* Checkbox Text */
+@utility typo-checkbox-label {
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  font-weight: var(--font-normal);
+}
+@utility typo-checkbox-hint {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+}
+@utility typo-checkbox-checkmark {
+  font-size: var(--text-xs);
+  line-height: 1;
+}
+
+/* Textarea Text */
+@utility typo-textarea {
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  font-weight: var(--font-normal);
+}
+
+/* 버튼 utilities 테스트 */
+
+@utility padding-btn-sm {
+  padding-block: var(--spacing-6); /* 상하 6px */
+  padding-inline: var(--spacing-12); /* 좌우 12px */
+}
+
+@utility padding-btn-md {
+  padding-block: var(--spacing-10); /* 상하 10px */
+  padding-inline: var(--spacing-20); /* 좌우 20px */
+}
+
+@utility padding-btn-lg {
+  padding-block: var(--spacing-12); /* 상하 12px */
+  padding-inline: var(--spacing-24); /* 좌우 24px */
+}
+
+/* ============================================
+   추가 레거시 호환 유틸리티
+   (packages/before/src/styles/components.css 기반)
+   ============================================ */
+
+/* Button Base Styles */
+@utility btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  white-space: nowrap;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-default);
+}
+
+@utility btn-disabled {
+  opacity: var(--opacity-btn-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@utility btn-fullwidth {
+  width: 100%;
+}
+
+/* Button Variant Styles */
+@utility btn-primary {
+  background-color: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-btn-primary-border);
+}
+
+@utility btn-primary-hover {
+  background-color: var(--color-btn-primary-bg-hover);
+}
+
+@utility btn-secondary {
+  background-color: var(--color-btn-secondary-bg);
+  color: var(--color-btn-secondary-text);
+  border-color: var(--color-btn-secondary-border);
+}
+
+@utility btn-secondary-hover {
+  background-color: var(--color-btn-secondary-bg-hover);
+}
+
+@utility btn-destructive {
+  background-color: var(--color-btn-destructive-bg);
+  color: var(--color-btn-destructive-text);
+  border-color: var(--color-btn-destructive-border);
+}
+
+@utility btn-destructive-hover {
+  background-color: var(--color-btn-destructive-bg-hover);
+}
+
+@utility btn-success {
+  background-color: var(--color-btn-success-bg);
+  color: var(--color-btn-success-text);
+  border-color: var(--color-btn-success-border);
+}
+
+@utility btn-success-hover {
+  background-color: var(--color-btn-success-bg-hover);
+}
+
+@utility btn-outline {
+  border: 1px solid var(--color-border-input);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  box-shadow: var(--shadow-xs);
+}
+
+@utility btn-outline-hover {
+  background-color: var(--color-hover-overlay);
+}
+
+@utility btn-ghost {
+  background-color: transparent;
+  color: var(--color-foreground);
+  border-color: transparent;
+}
+
+@utility btn-ghost-hover {
+  background-color: var(--color-hover-overlay);
+}
+
+@utility btn-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+@utility btn-link-hover {
+  text-decoration: underline;
+}
+
+/* Badge Base & Variant Styles */
+@utility badge-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: var(--radius-badge);
+}
+
+@utility badge-pill {
+  border-radius: var(--radius-badge-pill);
+}
+
+@utility badge-primary {
+  background-color: var(--color-badge-primary-bg);
+  color: var(--color-badge-primary-text);
+}
+
+@utility badge-secondary {
+  background-color: var(--color-badge-secondary-bg);
+  color: var(--color-badge-secondary-text);
+}
+
+@utility badge-success {
+  background-color: var(--color-badge-success-bg);
+  color: var(--color-badge-success-text);
+}
+
+@utility badge-destructive {
+  background-color: var(--color-badge-destructive-bg);
+  color: var(--color-badge-destructive-text);
+}
+
+@utility badge-warning {
+  background-color: var(--color-badge-warning-bg);
+  color: var(--color-badge-warning-text);
+}
+
+@utility badge-info {
+  background-color: var(--color-badge-info-bg);
+  color: var(--color-badge-info-text);
+}
+
+/* Badge Size Styles */
+@utility padding-badge-sm {
+  padding-block: 0;
+  padding-inline: var(--spacing-sm);
+  height: var(--spacing-badge-h-sm);
+}
+
+@utility padding-badge-md {
+  padding-block: 0;
+  padding-inline: var(--spacing-md);
+  height: var(--spacing-badge-h-md);
+}
+
+@utility padding-badge-lg {
+  padding-block: 0;
+  padding-inline: var(--spacing-lg);
+  height: var(--spacing-badge-h-lg);
+}
+
+/* Card Base Styles */
+@utility card-base {
+  border-radius: var(--radius-card);
+  margin-bottom: var(--spacing-xl);
+  overflow: hidden;
+  background-color: var(--color-card-bg);
+  font-family: var(--font-family-body);
+}
+
+@utility card-default {
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-card);
+}
+
+@utility card-bordered {
+  border: 1px solid var(--color-card-border);
+  box-shadow: none;
+}
+
+@utility card-elevated {
+  border: 1px solid var(--color-card-border-subtle);
+  box-shadow: var(--shadow-card-elevated);
+}
+
+@utility card-flat {
+  border: 1px solid var(--color-card-border-subtle);
+  box-shadow: none;
+  background-color: var(--color-card-bg-flat);
+}
+
+@utility card-header {
+  padding: var(--spacing-2xl);
+  border-bottom: 1px solid var(--color-card-header-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-card-header-bg);
+}
+
+@utility card-body {
+  padding: var(--spacing-2xl);
+}
+
+/* Alert Base & Variant Styles */
+@utility alert-base {
+  padding-block: var(--spacing-lg);
+  padding-inline: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  border-radius: var(--radius-alert);
+  border-width: 1px;
+  border-style: solid;
+  font-family: var(--font-family-base);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+@utility alert-info {
+  background-color: var(--color-alert-info-bg);
+  border-color: var(--color-alert-info-border);
+  color: var(--color-alert-info-text);
+}
+
+@utility alert-success {
+  background-color: var(--color-alert-success-bg);
+  border-color: var(--color-alert-success-border);
+  color: var(--color-alert-success-text);
+}
+
+@utility alert-warning {
+  background-color: var(--color-alert-warning-bg);
+  border-color: var(--color-alert-warning-border);
+  color: var(--color-alert-warning-text);
+}
+
+@utility alert-destructive {
+  background-color: var(--color-alert-destructive-bg);
+  border-color: var(--color-alert-destructive-border);
+  color: var(--color-alert-destructive-text);
+}
+
+@utility alert-default {
+  background-color: var(--color-alert-default-bg);
+  border-color: var(--color-alert-default-border);
+  color: var(--color-alert-default-text);
+}
+
+/* Input Base Styles */
+@utility input-base {
+  width: 100%;
+  padding-block: var(--spacing-md);
+  padding-inline: var(--spacing-lg);
+  font-family: var(--font-family-base);
+  color: var(--color-input-text);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  background-color: var(--color-input-bg);
+  box-sizing: border-box;
+  transition-property: border-color;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--ease-default);
+  outline: none;
+}
+
+@utility input-focus {
+  border-color: var(--color-input-border-focus);
+}
+
+@utility input-error {
+  border-color: var(--color-input-border-error);
+}
+
+@utility input-disabled {
+  background-color: var(--color-input-bg-disabled);
+  cursor: not-allowed;
+}
+
+/* ========================================
+   FORM FIELD WIDTH UTILITIES (통합)
+   목적: Input, Select, Textarea 등 모든 폼 요소의 너비 제어
+   사용: class="field-width-sm"
+   ======================================== */
+
+@utility field-width-sm {
+  width: var(--width-field-sm);
+}
+
+@utility field-width-md {
+  width: var(--width-field-md);
+}
+
+@utility field-width-lg {
+  width: var(--width-field-lg);
+}
+
+@utility field-width-full {
+  width: 100%;
+}
+
+/* Modal Base Styles */
+@utility modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-modal-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--spacing-xl);
+}
+
+@utility modal-content {
+  background-color: var(--color-modal-bg);
+  border-radius: var(--radius-modal);
+  box-shadow: var(--shadow-modal);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-body);
+  z-index: var(--z-modal);
+}
+
+@utility modal-sm {
+  width: 100%;
+  max-width: var(--width-modal-sm);
+}
+
+@utility modal-md {
+  width: 100%;
+  max-width: var(--width-modal-md);
+}
+
+@utility modal-lg {
+  width: 100%;
+  max-width: var(--width-modal-lg);
+}
+
+@utility modal-header {
+  padding-block: var(--spacing-xl);
+  padding-inline: var(--spacing-3xl);
+  border-bottom: 1px solid var(--color-modal-header-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@utility modal-body {
+  padding: var(--spacing-3xl);
+  overflow-y: auto;
+  flex: 1;
+}
+
+@utility modal-footer {
+  padding-block: var(--spacing-xl);
+  padding-inline: var(--spacing-3xl);
+  border-top: 1px solid var(--color-modal-footer-border);
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+}
+
+@utility modal-close {
+  background: none;
+  border: none;
+  color: var(--color-modal-close);
+  cursor: pointer;
+  padding: 0;
+  width: var(--width-modal-close);
+  height: var(--width-modal-close);
+  border-radius: var(--radius-modal-close);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: background-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-default);
+}
+
+@utility modal-close-hover {
+  background-color: var(--color-modal-close-hover);
+}
+
+/* Table Base Styles */
+@utility table-container {
+  overflow-x: auto;
+}
+
+@utility table-base {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-body);
+  background-color: var(--color-table-bg);
+}
+
+@utility table-header {
+  background-color: var(--color-table-header-bg);
+}
+
+@utility table-th {
+  padding: var(--spacing-xl);
+  text-align: left;
+  color: var(--color-table-header-text);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--color-table-header-border);
+}
+
+@utility table-td {
+  padding: var(--spacing-xl);
+  color: var(--color-table-cell-text);
+  border-bottom: 1px solid var(--color-table-cell-border);
+}
+
+@utility table-striped-row {
+  background-color: var(--color-table-striped-bg);
+}
+
+@utility table-hover-row {
+  background-color: var(--color-table-hover-bg);
+}
+
+@utility table-bordered {
+  border: 1px solid var(--color-table-bordered-border);
+}
+
+/* Checkbox Base Styles */
+@utility checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-lg);
+  cursor: pointer;
+}
+
+@utility checkbox-custom {
+  height: var(--width-checkbox);
+  width: var(--width-checkbox);
+  border: 2px solid var(--color-checkbox-border);
+  border-radius: var(--radius-checkbox);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: background-color, border-color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-default);
+  cursor: pointer;
+  background-color: var(--color-checkbox-bg);
+}
+
+@utility checkbox-checked {
+  background-color: var(--color-checkbox-bg-checked);
+  border-color: var(--color-checkbox-border-checked);
+}
+
+@utility checkbox-checkmark {
+  color: var(--color-checkbox-checkmark);
+}
+
+/* Textarea Base Styles */
+@utility textarea-base {
+  width: 100%;
+  min-height: 6em;
+  padding: var(--spacing-xl) var(--spacing-14);
+  font-family: var(--font-family-body);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-textarea-border);
+  border-radius: var(--radius-textarea);
+  background-color: var(--color-background);
+  box-sizing: border-box;
+  transition-property: border-color;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--ease-default);
+  outline: none;
+  resize: vertical;
+}
+
+@utility textarea-focus {
+  border-color: var(--color-textarea-border-focus);
+  border-width: 2px;
+}
+
+@utility textarea-error {
+  border-color: var(--color-textarea-border-error);
+}
+
+@utility textarea-disabled {
+  background-color: var(--color-textarea-bg-disabled);
+  cursor: not-allowed;
+}
+
+/* Form Group */
+@utility form-group {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Loading Spinner */
+@utility spinner {
+  animation: spin var(--duration-slow) linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Focus Ring Utility */
+@utility focus-ring {
+  outline: none;
+}
+
+@utility focus-ring-visible {
+  outline: var(--width-focus-ring) solid var(--color-focus-ring);
+  outline-offset: var(--width-focus-offset);
+}
+
+/* Select Base (Native) */
+@utility select-base {
+  width: 100%;
+  padding-block: var(--spacing-md);
+  padding-inline: var(--spacing-lg);
+  font-family: var(--font-family-base);
+  color: var(--color-input-text);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  background-color: var(--color-input-bg);
+  box-sizing: border-box;
+  appearance: none;
+}
+
+/* ========================================
+   STAT CARD UTILITIES
+   ======================================== */
+
+/* StatCard Base */
+@utility stat-card-base {
+  padding-block: var(--spacing-lg);
+  padding-inline: var(--spacing-xl);
+  border-radius: var(--radius-stat);
+  border-width: 1px;
+  border-style: solid;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* StatCard Variants */
+@utility stat-card-primary {
+  background-color: var(--color-stat-primary-bg);
+  border-color: var(--color-stat-primary-border);
+}
+
+@utility stat-card-success {
+  background-color: var(--color-stat-success-bg);
+  border-color: var(--color-stat-success-border);
+}
+
+@utility stat-card-warning {
+  background-color: var(--color-stat-warning-bg);
+  border-color: var(--color-stat-warning-border);
+}
+
+@utility stat-card-destructive {
+  background-color: var(--color-stat-destructive-bg);
+  border-color: var(--color-stat-destructive-border);
+}
+
+@utility stat-card-neutral {
+  background-color: var(--color-stat-neutral-bg);
+  border-color: var(--color-stat-neutral-border);
+}
+
+/* StatCard Typography */
+@utility typo-stat-label {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+  color: var(--color-stat-label);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@utility typo-stat-value {
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--font-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* StatCard Value Colors */
+@utility stat-value-primary {
+  color: var(--color-stat-primary-text);
+}
+
+@utility stat-value-success {
+  color: var(--color-stat-success-text);
+}
+
+@utility stat-value-warning {
+  color: var(--color-stat-warning-text);
+}
+
+@utility stat-value-destructive {
+  color: var(--color-stat-destructive-text);
+}
+
+@utility stat-value-neutral {
+  color: var(--color-stat-neutral-text);
+}
+
+/* ========================================
+   TABS UTILITIES
+   ======================================== */
+
+/* Tabs List */
+@utility tabs-list {
+  border-bottom: 2px solid var(--color-tabs-list-border);
+  padding-bottom: var(--spacing-tabs-list-pb);
+  display: inline-flex;
+  gap: var(--spacing-tabs-list-gap);
+}
+
+/* Tabs Trigger Base */
+@utility tabs-trigger-base {
+  padding-block: var(--spacing-tabs-trigger-y);
+  padding-inline: var(--spacing-tabs-trigger-x);
+  border: 1px solid var(--color-tabs-trigger-border);
+  border-radius: var(--radius-tabs-trigger);
+  cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-default);
+}
+
+/* Tabs Trigger States */
+@utility tabs-trigger-default {
+  background-color: var(--color-tabs-trigger-bg);
+  color: var(--color-tabs-trigger-text);
+}
+
+@utility tabs-trigger-active {
+  background-color: var(--color-tabs-trigger-active-bg);
+  color: var(--color-tabs-trigger-active-text);
+  font-weight: var(--font-bold);
+}
+
+@utility tabs-trigger-hover {
+  background-color: var(--color-tabs-trigger-hover-bg);
+}
+
+/* Tabs Typography */
+@utility typo-tabs-trigger {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-weight: var(--font-normal);
+}
+
+/* ========================================
+   HEADER UTILITIES
+   ======================================== */
+
+/* Header Base */
+@utility header-base {
+  background-color: var(--color-header-bg);
+  border-bottom: 1px solid var(--color-header-border);
+  box-shadow: var(--shadow-header);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-index-header);
+}
+
+/* Header Container */
+@utility header-container {
+  max-width: var(--max-width-header-container);
+  margin: 0 auto;
+  padding-inline: var(--spacing-header-container-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--height-header);
+}
+
+/* Header Section (Logo, User Info) */
+@utility header-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-header-logo-gap);
+}
+
+/* Header Logo */
+@utility header-logo {
+  min-width: var(--size-header-logo);
+  min-height: var(--size-header-logo);
+  padding: var(--spacing-sm);
+  background-color: var(--color-header-logo-bg);
+  border-radius: var(--radius-header-logo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-header-logo-text);
+  font-weight: var(--font-bold);
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+}
+
+/* Header Avatar */
+@utility header-avatar {
+  width: var(--size-header-avatar);
+  height: var(--size-header-avatar);
+  border-radius: 50%;
+  background-color: var(--color-header-avatar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-header-avatar-text);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-base);
+}
+
+/* Header User Section */
+@utility header-user-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-header-user-gap);
+}
+
+/* Header User Info */
+@utility header-user-info {
+  text-align: right;
+}
+
+/* Header Typography */
+@utility typo-header-title {
+  font-size: var(--text-lg);
+  line-height: 1;
+  font-weight: var(--font-bold);
+  color: var(--color-foreground);
+  margin: 0;
+}
+
+@utility typo-header-subtitle {
+  font-size: var(--text-xs);
+  line-height: 1;
+  color: var(--color-muted-foreground);
+  margin: 0;
+  margin-top: var(--spacing-xs);
+}
+
+@utility typo-header-user-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-foreground);
+}
+
+@utility typo-header-user-email {
+  font-size: var(--text-xs);
+  color: var(--color-muted-foreground);
+}
