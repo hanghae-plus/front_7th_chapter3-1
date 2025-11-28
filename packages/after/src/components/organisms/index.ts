@@ -1,5 +1,11 @@
-export { Alert } from './Alert';
-export { Card } from './Card';
-export { Table } from './Table';
-export { Modal } from './Modal';
+export { TableContainer } from './TableContainer';
+export { DialogContainer } from './DialogContainer';
 export { Header } from './Header';
+export { PostTable } from './PostTable';
+export { PostForm } from './PostForm';
+export { PostStats } from './PostStats';
+export { PostActions } from './PostActions';
+export { UserTable } from './UserTable';
+export { UserForm } from './UserForm';
+export { UserStats } from './UserStats';
+export { UserActions } from './UserActions';
