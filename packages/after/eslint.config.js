@@ -23,4 +23,22 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  // Storybook 파일에 대한 특별 규칙
+  {
+    files: ['**/*.stories.{ts,tsx}'],
+    rules: {
+      // Storybook의 render 함수 내부에서 hooks를 사용하는 것은 일반적인 패턴이므로 허용
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
+  // Storybook 설정 파일과 UI 컴포넌트에 대한 규칙
+  {
+    files: ['.storybook/**/*.{ts,tsx}', 'src/shared/ui/**/*.{ts,tsx}'],
+    rules: {
+      // Storybook decorator와 UI 컴포넌트는 variant 등을 함께 export하는 것이 일반적
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  // Storybook 플러그인 설정
+  ...storybook.configs['flat/recommended'],
 ])

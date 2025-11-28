@@ -1,0 +1,350 @@
+/* AUTO-GENERATED — DO NOT EDIT */
+/* PXR Utilities for Tailwind CSS v4 */
+@theme {
+  --pxr-0: 0rem;
+  --pxr-1: 0.0625rem;
+  --pxr-2: 0.125rem;
+  --pxr-3: 0.1875rem;
+  --pxr-4: 0.25rem;
+  --pxr-5: 0.3125rem;
+  --pxr-6: 0.375rem;
+  --pxr-7: 0.4375rem;
+  --pxr-8: 0.5rem;
+  --pxr-9: 0.5625rem;
+  --pxr-10: 0.625rem;
+  --pxr-11: 0.6875rem;
+  --pxr-12: 0.75rem;
+  --pxr-13: 0.8125rem;
+  --pxr-14: 0.875rem;
+  --pxr-15: 0.9375rem;
+  --pxr-16: 1rem;
+  --pxr-17: 1.0625rem;
+  --pxr-18: 1.125rem;
+  --pxr-19: 1.1875rem;
+  --pxr-20: 1.25rem;
+  --pxr-21: 1.3125rem;
+  --pxr-22: 1.375rem;
+  --pxr-23: 1.4375rem;
+  --pxr-24: 1.5rem;
+  --pxr-25: 1.5625rem;
+  --pxr-26: 1.625rem;
+  --pxr-27: 1.6875rem;
+  --pxr-28: 1.75rem;
+  --pxr-29: 1.8125rem;
+  --pxr-30: 1.875rem;
+  --pxr-31: 1.9375rem;
+  --pxr-32: 2rem;
+  --pxr-33: 2.0625rem;
+  --pxr-34: 2.125rem;
+  --pxr-35: 2.1875rem;
+  --pxr-36: 2.25rem;
+  --pxr-37: 2.3125rem;
+  --pxr-38: 2.375rem;
+  --pxr-39: 2.4375rem;
+  --pxr-40: 2.5rem;
+  --pxr-41: 2.5625rem;
+  --pxr-42: 2.625rem;
+  --pxr-43: 2.6875rem;
+  --pxr-44: 2.75rem;
+  --pxr-45: 2.8125rem;
+  --pxr-46: 2.875rem;
+  --pxr-47: 2.9375rem;
+  --pxr-48: 3rem;
+  --pxr-49: 3.0625rem;
+  --pxr-50: 3.125rem;
+  --pxr-51: 3.1875rem;
+  --pxr-52: 3.25rem;
+  --pxr-53: 3.3125rem;
+  --pxr-54: 3.375rem;
+  --pxr-55: 3.4375rem;
+  --pxr-56: 3.5rem;
+  --pxr-57: 3.5625rem;
+  --pxr-58: 3.625rem;
+  --pxr-59: 3.6875rem;
+  --pxr-60: 3.75rem;
+  --pxr-61: 3.8125rem;
+  --pxr-62: 3.875rem;
+  --pxr-63: 3.9375rem;
+  --pxr-64: 4rem;
+  --pxr-65: 4.0625rem;
+  --pxr-66: 4.125rem;
+  --pxr-67: 4.1875rem;
+  --pxr-68: 4.25rem;
+  --pxr-69: 4.3125rem;
+  --pxr-70: 4.375rem;
+  --pxr-71: 4.4375rem;
+  --pxr-72: 4.5rem;
+  --pxr-73: 4.5625rem;
+  --pxr-74: 4.625rem;
+  --pxr-75: 4.6875rem;
+  --pxr-76: 4.75rem;
+  --pxr-77: 4.8125rem;
+  --pxr-78: 4.875rem;
+  --pxr-79: 4.9375rem;
+  --pxr-80: 5rem;
+  --pxr-81: 5.0625rem;
+  --pxr-82: 5.125rem;
+  --pxr-83: 5.1875rem;
+  --pxr-84: 5.25rem;
+  --pxr-85: 5.3125rem;
+  --pxr-86: 5.375rem;
+  --pxr-87: 5.4375rem;
+  --pxr-88: 5.5rem;
+  --pxr-89: 5.5625rem;
+  --pxr-90: 5.625rem;
+  --pxr-91: 5.6875rem;
+  --pxr-92: 5.75rem;
+  --pxr-93: 5.8125rem;
+  --pxr-94: 5.875rem;
+  --pxr-95: 5.9375rem;
+  --pxr-96: 6rem;
+  --pxr-97: 6.0625rem;
+  --pxr-98: 6.125rem;
+  --pxr-99: 6.1875rem;
+  --pxr-100: 6.25rem;
+  --pxr-101: 6.3125rem;
+  --pxr-102: 6.375rem;
+  --pxr-103: 6.4375rem;
+  --pxr-104: 6.5rem;
+  --pxr-105: 6.5625rem;
+  --pxr-106: 6.625rem;
+  --pxr-107: 6.6875rem;
+  --pxr-108: 6.75rem;
+  --pxr-109: 6.8125rem;
+  --pxr-110: 6.875rem;
+  --pxr-111: 6.9375rem;
+  --pxr-112: 7rem;
+  --pxr-113: 7.0625rem;
+  --pxr-114: 7.125rem;
+  --pxr-115: 7.1875rem;
+  --pxr-116: 7.25rem;
+  --pxr-117: 7.3125rem;
+  --pxr-118: 7.375rem;
+  --pxr-119: 7.4375rem;
+  --pxr-120: 7.5rem;
+  --pxr-121: 7.5625rem;
+  --pxr-122: 7.625rem;
+  --pxr-123: 7.6875rem;
+  --pxr-124: 7.75rem;
+  --pxr-125: 7.8125rem;
+  --pxr-126: 7.875rem;
+  --pxr-127: 7.9375rem;
+  --pxr-128: 8rem;
+  --pxr-129: 8.0625rem;
+  --pxr-130: 8.125rem;
+  --pxr-131: 8.1875rem;
+  --pxr-132: 8.25rem;
+  --pxr-133: 8.3125rem;
+  --pxr-134: 8.375rem;
+  --pxr-135: 8.4375rem;
+  --pxr-136: 8.5rem;
+  --pxr-137: 8.5625rem;
+  --pxr-138: 8.625rem;
+  --pxr-139: 8.6875rem;
+  --pxr-140: 8.75rem;
+  --pxr-141: 8.8125rem;
+  --pxr-142: 8.875rem;
+  --pxr-143: 8.9375rem;
+  --pxr-144: 9rem;
+  --pxr-145: 9.0625rem;
+  --pxr-146: 9.125rem;
+  --pxr-147: 9.1875rem;
+  --pxr-148: 9.25rem;
+  --pxr-149: 9.3125rem;
+  --pxr-150: 9.375rem;
+  --pxr-151: 9.4375rem;
+  --pxr-152: 9.5rem;
+  --pxr-153: 9.5625rem;
+  --pxr-154: 9.625rem;
+  --pxr-155: 9.6875rem;
+  --pxr-156: 9.75rem;
+  --pxr-157: 9.8125rem;
+  --pxr-158: 9.875rem;
+  --pxr-159: 9.9375rem;
+  --pxr-160: 10rem;
+  --pxr-161: 10.0625rem;
+  --pxr-162: 10.125rem;
+  --pxr-163: 10.1875rem;
+  --pxr-164: 10.25rem;
+  --pxr-165: 10.3125rem;
+  --pxr-166: 10.375rem;
+  --pxr-167: 10.4375rem;
+  --pxr-168: 10.5rem;
+  --pxr-169: 10.5625rem;
+  --pxr-170: 10.625rem;
+  --pxr-171: 10.6875rem;
+  --pxr-172: 10.75rem;
+  --pxr-173: 10.8125rem;
+  --pxr-174: 10.875rem;
+  --pxr-175: 10.9375rem;
+  --pxr-176: 11rem;
+  --pxr-177: 11.0625rem;
+  --pxr-178: 11.125rem;
+  --pxr-179: 11.1875rem;
+  --pxr-180: 11.25rem;
+  --pxr-181: 11.3125rem;
+  --pxr-182: 11.375rem;
+  --pxr-183: 11.4375rem;
+  --pxr-184: 11.5rem;
+  --pxr-185: 11.5625rem;
+  --pxr-186: 11.625rem;
+  --pxr-187: 11.6875rem;
+  --pxr-188: 11.75rem;
+  --pxr-189: 11.8125rem;
+  --pxr-190: 11.875rem;
+  --pxr-191: 11.9375rem;
+  --pxr-192: 12rem;
+  --pxr-193: 12.0625rem;
+  --pxr-194: 12.125rem;
+  --pxr-195: 12.1875rem;
+  --pxr-196: 12.25rem;
+  --pxr-197: 12.3125rem;
+  --pxr-198: 12.375rem;
+  --pxr-199: 12.4375rem;
+  --pxr-200: 12.5rem;
+}
+
+/* Custom utilities using @utility directive */
+/* Padding utilities */
+@utility p-pxr-* {
+  padding: --value(--pxr-*);
+}
+
+@utility pt-pxr-* {
+  padding-top: --value(--pxr-*);
+}
+
+@utility pr-pxr-* {
+  padding-right: --value(--pxr-*);
+}
+
+@utility pb-pxr-* {
+  padding-bottom: --value(--pxr-*);
+}
+
+@utility pl-pxr-* {
+  padding-left: --value(--pxr-*);
+}
+
+@utility px-pxr-* {
+  padding-left: --value(--pxr-*);
+  padding-right: --value(--pxr-*);
+}
+
+@utility py-pxr-* {
+  padding-top: --value(--pxr-*);
+  padding-bottom: --value(--pxr-*);
+}
+
+/* Margin utilities */
+@utility m-pxr-* {
+  margin: --value(--pxr-*);
+}
+
+@utility mt-pxr-* {
+  margin-top: --value(--pxr-*);
+}
+
+@utility mr-pxr-* {
+  margin-right: --value(--pxr-*);
+}
+
+@utility mb-pxr-* {
+  margin-bottom: --value(--pxr-*);
+}
+
+@utility ml-pxr-* {
+  margin-left: --value(--pxr-*);
+}
+
+@utility mx-pxr-* {
+  margin-left: --value(--pxr-*);
+  margin-right: --value(--pxr-*);
+}
+
+@utility my-pxr-* {
+  margin-top: --value(--pxr-*);
+  margin-bottom: --value(--pxr-*);
+}
+
+/* Gap utilities */
+@utility gap-pxr-* {
+  gap: --value(--pxr-*);
+}
+
+@utility gap-x-pxr-* {
+  column-gap: --value(--pxr-*);
+}
+
+@utility gap-y-pxr-* {
+  row-gap: --value(--pxr-*);
+}
+
+/* Width & Height utilities */
+@utility w-pxr-* {
+  width: --value(--pxr-*);
+}
+
+@utility h-pxr-* {
+  height: --value(--pxr-*);
+}
+
+@utility min-w-pxr-* {
+  min-width: --value(--pxr-*);
+}
+
+@utility max-w-pxr-* {
+  max-width: --value(--pxr-*);
+}
+
+@utility min-h-pxr-* {
+  min-height: --value(--pxr-*);
+}
+
+@utility max-h-pxr-* {
+  max-height: --value(--pxr-*);
+}
+
+@utility size-pxr-* {
+  width: --value(--pxr-*);
+  height: --value(--pxr-*);
+}
+
+/* Text size utilities */
+@utility text-pxr-* {
+  font-size: --value(--pxr-*);
+}
+
+@utility leading-pxr-* {
+  line-height: --value(--pxr-*);
+}
+
+/* Border utilities */
+@utility rounded-pxr-* {
+  border-radius: --value(--pxr-*);
+}
+
+@utility border-pxr-* {
+  border-width: --value(--pxr-*);
+}
+
+/* Position utilities */
+@utility top-pxr-* {
+  top: --value(--pxr-*);
+}
+
+@utility right-pxr-* {
+  right: --value(--pxr-*);
+}
+
+@utility bottom-pxr-* {
+  bottom: --value(--pxr-*);
+}
+
+@utility left-pxr-* {
+  left: --value(--pxr-*);
+}
+
+@utility inset-pxr-* {
+  inset: --value(--pxr-*);
+}

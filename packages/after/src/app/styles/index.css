@@ -1,0 +1,378 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './utilities/pxr-tokens.css';
+@import './utilities/typography.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* ========================================
+     Semantic Design Tokens
+     Based on Primitive Tokens in :root
+     ======================================== */
+
+  /* ========================================
+     Colors - Brand/Action (shadcn extended pattern)
+     ======================================== */
+
+  /* Primary (Blue) - Button, Focus */
+  --color-primary: var(--color-blue-500);
+  --color-primary-foreground: var(--color-white);
+  --color-primary-hover: var(--color-blue-600);
+  --color-primary-weak: var(--color-blue-50);
+  --color-primary-weak-foreground: var(--color-blue-700);
+  --color-primary-border: var(--color-blue-300);
+
+  /* Secondary (Gray) - Button */
+  --color-secondary: var(--color-gray-100);
+  --color-secondary-foreground: var(--color-gray-900);
+  --color-secondary-hover: var(--color-gray-200);
+
+  /* Danger (Red) - Button, Alert, Error */
+  --color-danger: var(--color-red-500);
+  --color-danger-foreground: var(--color-white);
+  --color-danger-hover: var(--color-red-600);
+  --color-danger-weak: var(--color-red-50);
+  --color-danger-weak-foreground: var(--color-red-700);
+  --color-danger-border: var(--color-red-300);
+
+  /* Success (Green) - Button, Alert */
+  --color-success: var(--color-green-500);
+  --color-success-foreground: var(--color-white);
+  --color-success-hover: var(--color-green-600);
+  --color-success-weak: var(--color-green-50);
+  --color-success-weak-foreground: var(--color-green-700);
+  --color-success-border: var(--color-green-300);
+
+  /* Warning (Orange) - Alert, Badge */
+  --color-warning: var(--color-orange-500);
+  --color-warning-foreground: var(--color-white);
+  --color-warning-weak: var(--color-orange-50);
+  --color-warning-weak-foreground: var(--color-orange-700);
+  --color-warning-border: var(--color-orange-300);
+
+  /* Info (Blue) - Alert, Badge */
+  --color-info: var(--color-blue-info);
+  --color-info-foreground: var(--color-white);
+  --color-info-weak: var(--color-blue-50);
+  --color-info-weak-foreground: var(--color-blue-700);
+  --color-info-border: var(--color-blue-300);
+
+  /* Default (Gray) - Alert */
+  --color-default: var(--color-gray-100);
+  --color-default-foreground: var(--color-gray-700);
+  --color-default-border: var(--color-gray-400);
+
+  /* ========================================
+     Colors - Surface/Background
+     ======================================== */
+  --color-background: var(--color-white);
+  --color-elevated: var(--color-gray-50);
+  --color-subtle: var(--color-gray-100);
+  --color-hover: var(--color-gray-200);
+  --color-disabled: var(--color-gray-100);
+  --color-hover-overlay: var(--color-alpha-04);
+
+  /* ========================================
+     Colors - Text
+     ======================================== */
+  --color-foreground: var(--color-gray-900);
+  --color-foreground-emphasis: var(--color-alpha-87);
+  --color-foreground-medium: var(--color-alpha-60);
+  --color-foreground-subtle: var(--color-alpha-54);
+  --color-muted: var(--color-gray-600);
+  --color-muted-foreground: var(--color-gray-500);
+  --color-disabled-foreground: var(--color-gray-400);
+
+  /* ========================================
+     Colors - Border
+     ======================================== */
+  --color-border: var(--color-alpha-12);
+  --color-border-subtle: var(--color-alpha-08);
+  --color-border-strong: var(--color-alpha-23);
+  --color-border-interactive: var(--color-gray-999);
+  --color-border-focus: var(--color-blue-500);
+  --color-border-error: var(--color-red-error);
+
+  /* ========================================
+     Colors - Other
+     ======================================== */
+  --color-overlay: var(--color-alpha-50);
+
+  /* ========================================
+     Spacing
+     ======================================== */
+  --spacing-2xs: var(--spacing-1_5); /* 6px */
+  --spacing-xs: var(--spacing-2); /* 8px */
+  --spacing-sm: var(--spacing-2_5); /* 10px */
+  --spacing-base: var(--spacing-3); /* 12px */
+  --spacing-md: var(--spacing-4); /* 16px */
+  --spacing-lg: var(--spacing-5); /* 20px */
+  --spacing-xl: var(--spacing-6); /* 24px */
+
+  /* ========================================
+     Typography - Font Size
+     ======================================== */
+  --text-3xs: var(--font-size-11); /* 11px */
+  --text-2xs: var(--font-size-10); /* 10px */
+  --text-xs: var(--font-size-12); /* 12px */
+  --text-sm: var(--font-size-13); /* 13px */
+  --text-base: var(--font-size-14); /* 14px */
+  --text-md: var(--font-size-15); /* 15px */
+  --text-lg: var(--font-size-16); /* 16px */
+  --text-xl: var(--font-size-18); /* 18px */
+  --text-2xl: var(--font-size-20); /* 20px */
+  --text-3xl: var(--font-size-24); /* 24px */
+  --text-4xl: var(--font-size-28); /* 28px */
+  --text-5xl: var(--font-size-32); /* 32px */
+  --text-6xl: var(--font-size-40); /* 40px */
+  --text-7xl: var(--font-size-48); /* 48px */
+
+  /* ========================================
+     Typography - Font Weight
+     ======================================== */
+  --font-weight-normal: var(--font-weight-400);
+  --font-weight-medium: var(--font-weight-500);
+  --font-weight-bold: var(--font-weight-700);
+
+  /* ========================================
+     Typography - Line Height
+     ======================================== */
+  --leading-none: var(--line-height-none);
+  --leading-tight: var(--line-height-tight);
+  --leading-snug: var(--line-height-snug);
+  --leading-normal: var(--line-height-relaxed);
+  --leading-relaxed: var(--line-height-loose);
+
+  /* ========================================
+     Typography - Font Family
+     ======================================== */
+  --font-sans: var(--font-family-sans);
+  --font-roboto: var(--font-family-roboto);
+
+  /* ========================================
+     Border Radius
+     ======================================== */
+  --radius-xs: var(--border-radius-xs);
+  --radius-sm: var(--border-radius-sm);
+  --radius-md: var(--border-radius-md);
+  --radius-lg: var(--border-radius-lg);
+  --radius-full: var(--border-radius-full);
+
+  /* ========================================
+     Shadows
+     ======================================== */
+  --shadow-sm: var(--shadow-elevation-sm);
+  --shadow-md: var(--shadow-elevation-md);
+  --shadow-lg: var(--shadow-elevation-lg);
+
+  /* ========================================
+     Z-Index
+     ======================================== */
+  --z-1000: 1000;
+
+  /* ========================================
+     Transitions
+     ======================================== */
+  --ease-smooth: var(--transition-base);
+  --ease-fast: var(--transition-fast);
+}
+
+:root {
+  /* ========================================
+     Primitive Design Tokens
+     ======================================== */
+
+  /* Colors - Blue Scale */
+  --color-blue-50: #e3f2fd;
+  --color-blue-300: #90caf9;
+  --color-blue-500: #1976d2;
+  --color-blue-600: #1565c0;
+  --color-blue-700: #0d47a1;
+  --color-blue-info: #0288d1;
+
+  /* Colors - Red Scale */
+  --color-red-50: #ffebee;
+  --color-red-300: #e57373;
+  --color-red-500: #d32f2f;
+  --color-red-600: #c62828;
+  --color-red-700: #b71c1c;
+  --color-red-error: #ef4444;
+
+  /* Colors - Green Scale */
+  --color-green-50: #e8f5e9;
+  --color-green-300: #81c784;
+  --color-green-500: #388e3c;
+  --color-green-600: #2e7d32;
+  --color-green-700: #1b5e20;
+
+  /* Colors - Orange Scale */
+  --color-orange-50: #fff3e0;
+  --color-orange-300: #ffb74d;
+  --color-orange-500: #f57c00;
+  --color-orange-700: #e65100;
+
+  /* Colors - Gray Scale */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e0e0e0;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #bdbdbd;
+  --color-gray-500: #757575;
+  --color-gray-600: #666666;
+  --color-gray-700: #424242;
+  --color-gray-800: #374151;
+  --color-gray-900: #333333;
+  --color-gray-999: #999999;
+
+  /* Colors - Neutral */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Colors - Alpha (Black with opacity) */
+  --color-alpha-87: rgba(0, 0, 0, 0.87);
+  --color-alpha-60: rgba(0, 0, 0, 0.6);
+  --color-alpha-54: rgba(0, 0, 0, 0.54);
+  --color-alpha-23: rgba(0, 0, 0, 0.23);
+  --color-alpha-12: rgba(0, 0, 0, 0.12);
+  --color-alpha-08: rgba(0, 0, 0, 0.08);
+  --color-alpha-04: rgba(0, 0, 0, 0.04);
+  --color-alpha-50: rgba(0, 0, 0, 0.5);
+
+  /* Spacing Scale */
+  --spacing-0: 0px;
+  --spacing-0_5: 2px;
+  --spacing-1: 4px;
+  --spacing-1_5: 6px;
+  --spacing-2: 8px;
+  --spacing-2_5: 10px;
+  --spacing-3: 12px;
+  --spacing-3_5: 14px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+
+  /* Font Sizes */
+  --font-size-10: 0.625rem; /* 10px */
+  --font-size-11: 0.6875rem; /* 11px */
+  --font-size-12: 0.75rem; /* 12px */
+  --font-size-13: 0.8125rem; /* 13px */
+  --font-size-14: 0.875rem; /* 14px */
+  --font-size-15: 0.9375rem; /* 15px */
+  --font-size-16: 1rem; /* 16px */
+  --font-size-18: 1.125rem; /* 18px */
+  --font-size-20: 1.25rem; /* 20px */
+  --font-size-24: 1.5rem; /* 24px */
+  --font-size-28: 1.75rem; /* 28px */
+  --font-size-32: 2rem; /* 32px */
+  --font-size-40: 2.5rem; /* 40px */
+  --font-size-48: 3rem; /* 48px */
+
+  /* Font Weights */
+  --font-weight-400: 400;
+  --font-weight-500: 500;
+  --font-weight-700: 700;
+
+  /* Line Heights */
+  --line-height-none: 1;
+  --line-height-tight: 1.1876em;
+  --line-height-snug: 1.4;
+  --line-height-normal: 1.43;
+  --line-height-relaxed: 1.5;
+  --line-height-loose: 1.6;
+
+  /* Border Radius */
+  --border-radius-xs: 2px;
+  --border-radius-sm: 3px;
+  --border-radius-md: 4px;
+  --border-radius-lg: 10px;
+  --border-radius-full: 50%;
+
+  /* Font Families */
+  --font-family-sans: Arial, sans-serif;
+  --font-family-roboto: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0, 0, 0.2, 1);
+  --transition-all: all 0.15s ease-in-out;
+
+  /* Z-index Scale */
+  --z-index-modal: 1000;
+}
+
+.dark {
+  /* ========================================
+     Dark Mode Overrides
+     Override semantic tokens for dark mode
+     ======================================== */
+
+  --color-primary: var(--color-blue-500);
+  --color-primary-foreground: var(--color-white);
+  --color-primary-hover: var(--color-blue-600);
+  --color-primary-weak: rgba(25, 118, 210, 0.15);
+  --color-primary-weak-foreground: var(--color-blue-300);
+  --color-primary-border: var(--color-blue-700);
+
+  --color-secondary: var(--color-gray-700);
+  --color-secondary-foreground: var(--color-gray-100);
+  --color-secondary-hover: var(--color-gray-600);
+
+  --color-danger: var(--color-red-500);
+  --color-danger-foreground: var(--color-white);
+  --color-danger-hover: var(--color-red-600);
+  --color-danger-weak: rgba(211, 47, 47, 0.15);
+  --color-danger-weak-foreground: var(--color-red-300);
+  --color-danger-border: var(--color-red-700);
+
+  --color-success: var(--color-green-500);
+  --color-success-foreground: var(--color-white);
+  --color-success-hover: var(--color-green-600);
+  --color-success-weak: rgba(56, 142, 60, 0.15);
+  --color-success-weak-foreground: var(--color-green-300);
+  --color-success-border: var(--color-green-700);
+
+  --color-warning: var(--color-orange-500);
+  --color-warning-foreground: var(--color-white);
+  --color-warning-weak: rgba(245, 124, 0, 0.15);
+  --color-warning-weak-foreground: var(--color-orange-300);
+  --color-warning-border: var(--color-orange-700);
+
+  --color-info: var(--color-blue-info);
+  --color-info-foreground: var(--color-white);
+  --color-info-weak: rgba(2, 136, 209, 0.15);
+  --color-info-weak-foreground: var(--color-blue-300);
+  --color-info-border: var(--color-blue-700);
+
+  --color-default: var(--color-gray-700);
+  --color-default-foreground: var(--color-gray-200);
+  --color-default-border: var(--color-gray-600);
+
+  /* Colors - Surface/Background */
+  --color-background: var(--color-gray-900);
+  --color-elevated: var(--color-gray-800);
+  --color-subtle: var(--color-gray-700);
+  --color-hover: var(--color-gray-600);
+  --color-disabled: var(--color-gray-800);
+  --color-hover-overlay: rgba(255, 255, 255, 0.08);
+
+  /* Colors - Text */
+  --color-foreground: var(--color-gray-100);
+  --color-foreground-emphasis: rgba(255, 255, 255, 0.95);
+  --color-foreground-medium: rgba(255, 255, 255, 0.7);
+  --color-foreground-subtle: rgba(255, 255, 255, 0.6);
+  --color-muted: var(--color-gray-400);
+  --color-muted-foreground: var(--color-gray-500);
+  --color-disabled-foreground: var(--color-gray-600);
+
+  /* Colors - Border */
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.23);
+  --color-border-interactive: var(--color-gray-600);
+  --color-border-focus: var(--color-blue-300);
+  --color-border-error: var(--color-red-300);
+
+  /* Colors - Other */
+  --color-overlay: rgba(0, 0, 0, 0.7);
+}

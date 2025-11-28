@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ManagementPage } from '../ManagementPage';
+import { ManagementPage } from '../management/ui/page';
+import { ModalRoot } from '../../app/providers/modal';
 
 describe('ManagementPage - User Management', () => {
   beforeEach(() => {
@@ -10,7 +11,12 @@ describe('ManagementPage - User Management', () => {
 
   it('사용자 CRUD: 생성, 수정, 삭제가 정상 작동한다', async () => {
     const user = userEvent.setup();
-    render(<ManagementPage />);
+    render(
+      <>
+        <ManagementPage />
+        <ModalRoot />
+      </>
+    );
 
     // 사용자 탭으로 전환
     const userTab = screen.getByRole('button', { name: '사용자' });
@@ -83,7 +89,12 @@ describe('ManagementPage - Post Management', () => {
   });
 
   it('게시글이 테이블에 표시된다', async () => {
-    render(<ManagementPage />);
+    render(
+      <>
+        <ManagementPage />
+        <ModalRoot />
+      </>
+    );
 
     // 게시글 탭이 기본 선택되어 있는지 확인
     await waitFor(() => {
