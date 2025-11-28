@@ -6,14 +6,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../utils/cn";
 
 const checkboxVariants = cva(
-  "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none disabled:cursor-not-allowed disabled:opacity-50",
+  "peer border-[var(--input)] dark:bg-[var(--input)]/30 data-[state=checked]:bg-[var(--primary)] data-[state=checked]:text-[var(--primary-foreground)] dark:data-[state=checked]:bg-[var(--primary)] data-[state=checked]:border-[var(--primary)] size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+          "focus-visible:border-[var(--ring)] focus-visible:ring-[var(--ring)]/50 focus-visible:ring-[3px]",
         error:
-          "border-destructive ring-destructive/20 dark:ring-destructive/40 focus-visible:border-destructive focus-visible:ring-destructive/30 focus-visible:ring-[3px]",
+          "border-[var(--destructive)] ring-[var(--destructive)]/20 dark:ring-[var(--destructive)]/40 focus-visible:border-[var(--destructive)] focus-visible:ring-[var(--destructive)]/30 focus-visible:ring-[3px]",
       },
     },
     defaultVariants: {

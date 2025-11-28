@@ -116,7 +116,8 @@
   },
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup"
+    "build": "tsup && pnpm build:css",
+    "build:css": "npx @tailwindcss/cli -i ./src/styles/index.css -o ./dist/styles.css"
   },
   "peerDependencies": {
     "react": "^19.1.1",
@@ -137,6 +138,7 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.17",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "react": "^19.1.1",

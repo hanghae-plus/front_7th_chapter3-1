@@ -6,7 +6,7 @@ import { cn } from "../../utils/cn";
 const tableVariants = cva("w-full caption-bottom text-sm", {
   variants: {
     striped: {
-      true: "[&_tbody_tr:nth-child(odd)]:bg-muted/50",
+      true: "[&_tbody_tr:nth-child(odd)]:bg-[var(--muted)]/50",
     },
     bordered: {
       true: "border [&_th]:border [&_td]:border",
@@ -68,7 +68,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0",
+        "bg-[var(--muted)]/50 border-t font-medium [&>tr]:last:border-b-0",
         className
       )}
       {...props}
@@ -79,9 +79,9 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
 const tableRowVariants = cva("border-b transition-colors", {
   variants: {
     variant: {
-      default: "hover:bg-muted/50",
-      selected: "bg-muted",
-      muted: "bg-muted/30 hover:bg-muted/50",
+      default: "hover:bg-[var(--muted)]/50",
+      selected: "bg-[var(--muted)]",
+      muted: "bg-[var(--muted)]/30 hover:bg-[var(--muted)]/50",
     },
   },
   defaultVariants: {
@@ -104,7 +104,7 @@ function TableRow({ className, variant, ...props }: TableRowProps) {
 }
 
 const tableHeadVariants = cva(
-  "text-foreground h-10 px-2 align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+  "text-[var(--foreground)] h-10 px-2 align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
   {
     variants: {
       align: {
@@ -170,7 +170,7 @@ function TableCaption({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
+      className={cn("text-[var(--muted-foreground)] mt-4 text-sm", className)}
       {...props}
     />
   );

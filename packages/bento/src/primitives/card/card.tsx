@@ -3,10 +3,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../../utils/cn";
 
-const cardVariants = cva("rounded-lg border text-card-foreground", {
+const cardVariants = cva("rounded-lg border text-[var(--card-foreground)]", {
   variants: {
     variant: {
-      default: "bg-card border-border",
+      default: "bg-[var(--card)] border-[var(--border)]",
       info: "bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800",
       success:
         "bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800",
@@ -68,7 +68,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="card-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-sm text-[var(--muted-foreground)]", className)}
       {...props}
     />
   );
