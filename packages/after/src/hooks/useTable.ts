@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 type TableData<T> = {
   [K in keyof T]: T[K];
@@ -20,7 +20,7 @@ const useTable = <T>({ tableData, pageSize }: { tableData: TableData<T>[]; pageS
     const pageData = tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
     setPageTableData(pageData);
-    setTotalPages(Math.ceil(pageData.length / pageSize));
+    setTotalPages(Math.ceil(tableData.length / pageSize));
   };
 
   return {

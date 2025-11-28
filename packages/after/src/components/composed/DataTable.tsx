@@ -22,7 +22,7 @@ function DataTable({
   });
 
   return (
-    <div className="table-container">
+    <div className="flex flex-col gap-4 p-4">
       <Table>
         <TableHeader>
           <TableRow>
@@ -47,21 +47,19 @@ function DataTable({
         </TableBody>
       </Table>
 
-      {totalPages > 1 && (
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} />
-            </PaginationItem>
-            <PaginationItem>
-              {currentPage} / {totalPages}
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))} />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      )}
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} />
+          </PaginationItem>
+          <PaginationItem>
+            {currentPage} / {totalPages}
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

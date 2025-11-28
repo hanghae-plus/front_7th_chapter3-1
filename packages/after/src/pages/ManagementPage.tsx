@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../components/ui/Button";
 import Alert from "@/components/ui/Alert";
-import { userService } from "@/services/userService";
 import { postService } from "@/services/postService";
 import type { User } from "@/services/userService";
 import type { Post } from "@/services/postService";
 import UserTable from "@/components/domain/user/UserTable";
 import PostTable from "@/components/domain/post/PostTable";
 import { useDialog } from "@/hooks/useDialog";
-import UserDialogContent from "@/components/domain/user/UserDialogContent";
 import PostDialogContent from "@/components/domain/post/PostDialogContent";
 import StatsCard from "@/components/composed/StatsCard";
+import useUserTableData from "@/hooks/useUserTableData";
 
 type EntityType = "user" | "post";
 type Entity = User | Post;
@@ -25,88 +24,41 @@ export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setI
 
   const [entityType, setEntityType] = useState<EntityType>("post");
   const [data, setData] = useState<Entity[]>([]);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const [alertState, setAlertState] = useState<{
+    show: boolean;
+    message: string;
+    variant: "success" | "error";
+  }>({
+    show: false,
+    message: "",
+    variant: "success",
+  });
+
+  const { userData, getUserTableData, deleteUserTableData, handleCreateUser, handleEditUser } = useUserTableData({
+    setAlertState,
+  });
 
   useEffect(() => {
     loadData();
   }, [entityType]);
 
+  useEffect(() => {
+    if (entityType === "user") {
+      setData(userData);
+    }
+  }, [userData, entityType]);
+
   const loadData = async () => {
     try {
-      let result: Entity[];
-
       if (entityType === "user") {
-        result = await userService.getAll();
+        await getUserTableData();
       } else {
-        result = await postService.getAll();
+        const result = await postService.getAll();
+        setData(result);
       }
-
-      setData(result);
     } catch (error: any) {
-      setErrorMessage("데이터를 불러오는데 실패했습니다");
-      setShowErrorAlert(true);
-    }
-  };
-
-  // USER
-  const handleCreateUser = () => {
-    openDialog({
-      title: "새 사용자 만들기",
-      content: <UserDialogContent type="create" onClose={() => closeDialog()} onCreate={(data) => createUser(data)} />,
-    });
-  };
-
-  const createUser = async (data: Omit<User, "id" | "createdAt">) => {
-    try {
-      await userService.create(data);
-      await loadData();
-      setAlertMessage("사용자가 생성되었습니다");
-      setShowSuccessAlert(true);
-      closeDialog();
-    } catch (error: any) {
-      setErrorMessage(error.message || "사용자 생성에 실패했습니다");
-      setShowErrorAlert(true);
-      closeDialog();
-    }
-  };
-
-  const handleEditUser = (item: User) => {
-    openDialog({
-      title: "사용자 수정",
-      content: (
-        <UserDialogContent
-          type="edit"
-          onClose={() => closeDialog()}
-          onEdit={(data) => handleUpdateUser(data, item.id)}
-          initialData={item}
-        />
-      ),
-    });
-  };
-
-  const handleUpdateUser = async (
-    { username, email, role, status }: Partial<Omit<User, "id" | "createdAt">>,
-    userId: number
-  ) => {
-    try {
-      await userService.update(userId, {
-        username,
-        email,
-        role,
-        status,
-      });
-      await loadData();
-
-      setAlertMessage(`사용자가 수정되었습니다`);
-      setShowSuccessAlert(true);
-      closeDialog();
-    } catch (error: any) {
-      setErrorMessage(error.message || "사용자 수정에 실패했습니다");
-      setShowErrorAlert(true);
-      closeDialog();
+      setAlertState({ show: true, message: error.message || "데이터를 불러오는데 실패했습니다", variant: "error" });
     }
   };
 
@@ -125,12 +77,10 @@ export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setI
         status: "draft",
       });
       await loadData();
-      setAlertMessage("게시글이 생성되었습니다");
-      setShowSuccessAlert(true);
+      setAlertState({ show: true, message: "게시글이 생성되었습니다", variant: "success" });
       closeDialog();
     } catch (error: any) {
-      setErrorMessage(error.message || "게시글 생성에 실패했습니다");
-      setShowErrorAlert(true);
+      setAlertState({ show: true, message: error.message || "게시글 생성에 실패했습니다", variant: "error" });
       closeDialog();
     }
   };
@@ -163,12 +113,10 @@ export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setI
       await postService.update(postId, data);
       await loadData();
 
-      setAlertMessage("게시글이 수정되었습니다");
-      setShowSuccessAlert(true);
+      setAlertState({ show: true, message: "게시글이 수정되었습니다", variant: "success" });
       closeDialog();
     } catch (error: any) {
-      setErrorMessage(error.message || "게시글 수정에 실패했습니다");
-      setShowErrorAlert(true);
+      setAlertState({ show: true, message: error.message || "게시글 수정에 실패했습니다", variant: "error" });
       closeDialog();
     }
   };
@@ -178,17 +126,15 @@ export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setI
 
     try {
       if (entityType === "user") {
-        await userService.delete(id);
+        await deleteUserTableData(id);
       } else {
         await postService.delete(id);
+        await loadData();
       }
 
-      await loadData();
-      setAlertMessage("삭제되었습니다");
-      setShowSuccessAlert(true);
+      setAlertState({ show: true, message: "삭제되었습니다", variant: "success" });
     } catch (error: any) {
-      setErrorMessage(error.message || "삭제에 실패했습니다");
-      setShowErrorAlert(true);
+      setAlertState({ show: true, message: error.message || "삭제에 실패했습니다", variant: "error" });
     }
   };
 
@@ -206,11 +152,9 @@ export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setI
 
       await loadData();
       const message = action === "publish" ? "게시" : action === "archive" ? "보관" : "복원";
-      setAlertMessage(`${message}되었습니다`);
-      setShowSuccessAlert(true);
+      setAlertState({ show: true, message: `${message}되었습니다`, variant: "success" });
     } catch (error: any) {
-      setErrorMessage(error.message || "작업에 실패했습니다");
-      setShowErrorAlert(true);
+      setAlertState({ show: true, message: error.message || "작업에 실패했습니다", variant: "error" });
     }
   };
 
@@ -299,20 +243,14 @@ export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setI
             </Button>
           </div>
 
-          {showSuccessAlert && (
-            <div className="mb-2">
-              <Alert variant="success" title="성공" onClose={() => setShowSuccessAlert(false)}>
-                {alertMessage}
-              </Alert>
-            </div>
-          )}
-
-          {showErrorAlert && (
-            <div className="mb-2">
-              <Alert variant="error" title="오류" onClose={() => setShowErrorAlert(false)}>
-                {errorMessage}
-              </Alert>
-            </div>
+          {alertState.show && (
+            <Alert
+              variant={alertState.variant}
+              title={alertState.variant === "success" ? "성공" : "오류"}
+              onClose={() => setAlertState({ show: false, message: "", variant: "success" })}
+            >
+              {alertState.message}
+            </Alert>
           )}
 
           <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-2">

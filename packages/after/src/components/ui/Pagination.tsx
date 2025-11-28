@@ -17,7 +17,7 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
 }
 
 function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
-  return <ul data-slot="pagination-content" className={cn("flex flex-row items-center gap-1", className)} {...props} />;
+  return <ul data-slot="pagination-content" className={cn("flex flex-row items-center gap-4", className)} {...props} />;
 }
 
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
@@ -52,7 +52,10 @@ function PaginationPrevious({ className, ...props }: Omit<React.ComponentProps<t
     <PaginationLink
       aria-label="Go to previous page"
       size="default"
-      className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
+      className={cn(
+        "gap-1 px-2.5 sm:pl-2.5 bg-info-foreground text-info border-info border-1 hover:bg-info-foreground/80",
+        className
+      )}
       {...props}
     >
       <ChevronLeftIcon />
@@ -66,7 +69,10 @@ function PaginationNext({ className, ...props }: Omit<React.ComponentProps<typeo
     <PaginationLink
       aria-label="Go to next page"
       size="default"
-      className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
+      className={cn(
+        "gap-1 px-2.5 sm:pr-2.5 bg-info-foreground text-info border-info border-1 hover:bg-info-foreground/80",
+        className
+      )}
       {...props}
     >
       <span className="hidden sm:block">다음</span>
