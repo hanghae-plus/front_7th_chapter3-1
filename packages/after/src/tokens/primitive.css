@@ -1,0 +1,138 @@
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217.2 91.2% 59.8%;
+    --radius: 0.5rem;
+
+    --blue-600: #1976d2;
+    --blue-700: #1565c0;
+    --blue-500: #0288d1;
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e0e0e0;
+    --gray-300: #d1d5db;
+    --gray-400: #bdbdbd;
+    --gray-500: #757575;
+    --gray-600: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #424242;
+    --gray-900: #333;
+    --red-500: #ef4444;
+    --red-600: #d32f2f;
+    --red-700: #c62828;
+    --green-600: #388e3c;
+    --green-700: #2e7d32;
+    --orange-600: #f57c00;
+    --black: #000;
+    --white: #fff;
+    --border-light: #ddd;
+    --border: #ccc;
+
+    --bg-blue-50: #e3f2fd;
+    --bg-green-50: #e8f5e9;
+    --bg-orange-50: #fff3e0;
+    --bg-red-50: #ffebee;
+    --bg-gray-50: #f5f5f5;
+
+    --border-blue-300: #90caf9;
+    --border-green-300: #81c784;
+    --border-orange-300: #ffb74d;
+    --border-red-300: #e57373;
+    --border-gray-300: #bdbdbd;
+
+    --text-blue-900: #0d47a1;
+    --text-green-900: #1b5e20;
+    --text-orange-900: #bf360c;
+    --text-red-900: #b71c1c;
+    --text-gray-800: #424242;
+
+    --sans: Arial, sans-serif;
+    --roboto: Roboto, Helvetica, Arial, sans-serif;
+
+    --font-xs: 0.625rem;
+    --font-base: 0.8125rem;
+    --font-md: 0.875rem;
+    --font-lg: 0.9375rem;
+    --font-4xl: 1.75rem;
+    --font-label: 13px;
+    --font-helper: 12px;
+    --font-alert-title: 15px;
+    --font-alert-body: 14px;
+    --font-checkmark: 10px;
+    --font-modal-close: 28px;
+
+    --line-tight: 1.4;
+    --line-relaxed: 1.43;
+    --line-loose: 1.6;
+    --line-textarea: 1.1876em;
+
+    --btn-sm-y: 6px;
+    --btn-sm-x: 12px;
+    --btn-md-y: 10px;
+    --btn-md-x: 20px;
+    --btn-lg-y: 12px;
+    --btn-lg-x: 24px;
+    --input-y: 8px;
+    --input-x: 10px;
+    --textarea-y: 16.5px;
+    --textarea-x: 14px;
+    --textarea-y-focus: 15.5px;
+    --textarea-x-focus: 13px;
+    --card: 20px;
+    --card-header: 20px;
+    --card-body: 20px;
+    --modal-header: 16px 24px;
+    --modal-body: 24px;
+    --modal-footer: 16px 24px;
+    --input-small: 200px;
+    --input-medium: 300px;
+    --input-large: 400px;
+
+    --table-col-id: 60px;
+    --table-col-views: 100px;
+    --table-col-standard: 120px;
+    --table-col-medium: 140px;
+    --table-col-username: 150px;
+    --table-col-actions-user: 200px;
+    --table-col-actions-post: 250px;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 0 0% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 217.2 91.2% 59.8%;
+  }
+}

@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "./primitive.css";
+
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-brand-primary: var(--blue-600);
+  --color-brand-primary-dark: var(--blue-700);
+  --color-brand-secondary: var(--gray-100);
+  --color-brand-secondary-dark: var(--gray-200);
+  --color-brand-secondary-gray: var(--gray-500);
+  --color-brand-secondary-border: var(--border-light);
+  --color-brand-danger: var(--red-600);
+  --color-brand-danger-dark: var(--red-700);
+  --color-brand-success: var(--green-600);
+  --color-brand-success-dark: var(--green-700);
+  --color-brand-warning: var(--orange-600);
+  --color-brand-info: var(--blue-500);
+  --color-brand-neutral: var(--gray-900);
+  --color-brand-neutral-light: var(--gray-500);
+  --color-brand-neutral-dark: var(--black);
+  --color-brand-neutral-white: var(--white);
+  --color-brand-neutral-gray: var(--gray-50);
+  --color-brand-neutral-border: var(--border);
+  --color-brand-neutral-border-dark: var(--gray-400);
+  --color-brand-neutral-text: var(--gray-800);
+  --color-brand-gray: var(--gray-700);
+  --color-brand-gray-light: var(--gray-600);
+  --color-brand-gray-border: var(--gray-300);
+  --color-brand-error: var(--red-600);
+  --color-brand-error-light: var(--red-500);
+
+  --color-alert-info-bg: var(--bg-blue-50);
+  --color-alert-info-border: var(--border-blue-300);
+  --color-alert-info-text: var(--text-blue-900);
+  --color-alert-success-bg: var(--bg-green-50);
+  --color-alert-success-border: var(--border-green-300);
+  --color-alert-success-text: var(--text-green-900);
+  --color-alert-warning-bg: var(--bg-orange-50);
+  --color-alert-warning-border: var(--border-orange-300);
+  --color-alert-warning-text: var(--text-orange-900);
+  --color-alert-error-bg: var(--bg-red-50);
+  --color-alert-error-border: var(--border-red-300);
+  --color-alert-error-text: var(--text-red-900);
+  --color-alert-default-bg: var(--bg-gray-50);
+  --color-alert-default-border: var(--border-gray-300);
+  --color-alert-default-text: var(--text-gray-800);
+
+  --spacing-btn-sm-y: var(--btn-sm-y);
+  --spacing-btn-sm-x: var(--btn-sm-x);
+  --spacing-btn-md-y: var(--btn-md-y);
+  --spacing-btn-md-x: var(--btn-md-x);
+  --spacing-btn-lg-y: var(--btn-lg-y);
+  --spacing-btn-lg-x: var(--btn-lg-x);
+  --spacing-input-y: var(--input-y);
+  --spacing-input-x: var(--input-x);
+  --spacing-textarea-y: var(--textarea-y);
+  --spacing-textarea-x: var(--textarea-x);
+  --spacing-textarea-y-focus: var(--textarea-y-focus);
+  --spacing-textarea-x-focus: var(--textarea-x-focus);
+  --spacing-card: var(--card);
+  --spacing-card-header: var(--card-header);
+  --spacing-card-body: var(--card-body);
+  --spacing-modal-header: var(--modal-header);
+  --spacing-modal-body: var(--modal-body);
+  --spacing-modal-footer: var(--modal-footer);
+  --spacing-input-small: var(--input-small);
+  --spacing-input-medium: var(--input-medium);
+  --spacing-input-large: var(--input-large);
+
+  --font-sans: var(--sans);
+  --font-roboto: var(--roboto);
+
+  --font-size-xs: var(--font-xs);
+  --font-size-base: var(--font-base);
+  --font-size-md: var(--font-md);
+  --font-size-lg: var(--font-lg);
+  --font-size-4xl: var(--font-4xl);
+  --font-size-label: var(--font-label);
+  --font-size-helper: var(--font-helper);
+  --font-size-alert-title: var(--font-alert-title);
+  --font-size-alert-body: var(--font-alert-body);
+  --font-size-checkmark: var(--font-checkmark);
+  --font-size-modal-close: var(--font-modal-close);
+
+  --line-height-tight: var(--line-tight);
+  --line-height-relaxed: var(--line-relaxed);
+  --line-height-loose: var(--line-loose);
+  --line-height-textarea: var(--line-textarea);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xs: 2px;
+  --radius-custom-sm: 3px;
+  --radius-custom-md: 4px;
+  --radius-custom-lg: 10px;
+  --radius-full-circle: 50%;
+
+  --shadow-card-default: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --shadow-card-elevated: 0px 2px 4px -1px rgba(0, 0, 0, 0.12),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08);
+  --shadow-modal: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+
+  --opacity-border: 0.12;
+  --opacity-border-light: 0.08;
+  --opacity-hover: 0.04;
+  --opacity-icon: 0.54;
+  --opacity-text: 0.87;
+  --opacity-input-border: 0.23;
+
+  --width-input-small: var(--input-small);
+  --width-input-medium: var(--input-medium);
+  --width-input-large: var(--input-large);
+
+  --width-table-col-id: var(--table-col-id);
+  --width-table-col-views: var(--table-col-views);
+  --width-table-col-standard: var(--table-col-standard);
+  --width-table-col-medium: var(--table-col-medium);
+  --width-table-col-username: var(--table-col-username);
+  --width-table-col-actions-user: var(--table-col-actions-user);
+  --width-table-col-actions-post: var(--table-col-actions-post);
+
+  --height-badge-small: 18px;
+  --height-badge-medium: 22px;
+  --height-badge-large: 26px;
+  --height-checkbox: 16px;
+  --height-modal-close: 32px;
+
+  --max-width-modal-small: 400px;
+  --max-width-modal-medium: 600px;
+  --max-width-modal-large: 900px;
+
+  --max-height-modal: 90vh;
+
+  --min-height-textarea: 6em;
+
+  --z-index-modal: 1000;
+
+  --duration-slow: 1.4s;
+
+  --ease-in-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-material: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --letter-spacing-table: 0.03em;
+
+  --margin-form-label: 6px;
+  --margin-checkbox-container-top: 2px;
+  --margin-checkbox-hint-top: 2px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
