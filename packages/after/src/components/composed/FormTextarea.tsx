@@ -1,6 +1,6 @@
 import React from "react";
 import { cva } from "class-variance-authority";
-import { Label } from "../ui/label";
+import { Label } from "../ui/Label";
 import { cn } from "@/lib/utils";
 
 interface FormTextareaProps {

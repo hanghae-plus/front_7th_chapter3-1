@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormInput } from "@/components/composed/FormInput";
 import { FormTextarea } from "@/components/composed/FormTextarea";
-import { Button } from "@/components/ui/button";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/Button";
+import { DialogClose, DialogFooter } from "@/components/ui/Dialog";
 import FormSelect from "@/components/composed/FormSelect";
 
 const postSchema = z.object({

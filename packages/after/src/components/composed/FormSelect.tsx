@@ -1,6 +1,6 @@
 import React from "react";
-import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
-import { Label } from "../ui/label";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/NativeSelect";
+import { Label } from "../ui/Label";
 
 interface FormSelectProps {
   selectOptions: { value: string; label: string }[];

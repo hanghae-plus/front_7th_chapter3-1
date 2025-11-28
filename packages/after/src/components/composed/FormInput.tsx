@@ -1,7 +1,7 @@
 import React from "react";
 import { cva } from "class-variance-authority";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { Input } from "../ui/Input";
+import { Label } from "../ui/Label";
 import { cn } from "@/lib/utils";
 
 interface FormInputProps {
