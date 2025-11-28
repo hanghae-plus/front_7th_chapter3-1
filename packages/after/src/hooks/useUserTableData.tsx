@@ -61,6 +61,17 @@ const useUserTableData = ({
     }
   };
 
+  const handleDeleteUser = async (id: number) => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    try {
+      await deleteUserTableData(id);
+      setAlertState({ show: true, message: "삭제되었습니다", variant: "success" });
+    } catch (error: any) {
+      setAlertState({ show: true, message: error.message || "삭제에 실패했습니다", variant: "error" });
+    }
+  };
+
   const handleCreateUser = () => {
     const createUserData = async (data: Omit<User, "id" | "createdAt">) => {
       try {
@@ -122,6 +133,7 @@ const useUserTableData = ({
     deleteUserTableData,
     handleCreateUser,
     handleEditUser,
+    handleDeleteUser,
   };
 };
 
