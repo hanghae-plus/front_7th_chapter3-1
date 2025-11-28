@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Badge } from '../atoms/Badge';
-import { Button } from '../ui/button';
+import {
+  Table as UiTable,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from './ui/table.tsx';
+import { Button } from './ui/button.tsx';
+import { Input } from './ui/input.tsx';
+import { Badge } from './atoms';
+// import type { TableProps } from './organisms/Table.tsx';
 
 interface Column {
   key: string;
@@ -9,33 +19,28 @@ interface Column {
   sortable?: boolean;
 }
 
-// 🚨 Bad Practice: UI 컴포넌트가 도메인 타입을 알고 있음
 interface TableProps {
   columns?: Column[];
-  data?: any[];
+  data?: unknown[];
   striped?: boolean;
   bordered?: boolean;
   hover?: boolean;
   pageSize?: number;
   searchable?: boolean;
   sortable?: boolean;
-  onRowClick?: (row: any) => void;
+  onRowClick?: (row: unknown) => void;
 
-  // 🚨 도메인 관심사 추가
   entityType?: 'user' | 'post';
-  onEdit?: (item: any) => void;
+  onEdit?: (item: unknown) => void;
   onDelete?: (id: number) => void;
   onPublish?: (id: number) => void;
   onArchive?: (id: number) => void;
   onRestore?: (id: number) => void;
 }
 
-export const Table: React.FC<TableProps> = ({
+export const DataTable: React.FC<TableProps> = ({
   columns,
   data = [],
-  striped = false,
-  bordered = false,
-  hover = false,
   pageSize = 10,
   searchable = false,
   sortable = false,
@@ -47,7 +52,7 @@ export const Table: React.FC<TableProps> = ({
   onArchive,
   onRestore,
 }) => {
-  const [tableData, setTableData] = useState<any[]>(data);
+  const [tableData, setTableData] = useState<unknown[]>(data);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortColumn, setSortColumn] = useState('');
@@ -95,17 +100,10 @@ export const Table: React.FC<TableProps> = ({
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  const tableClasses = [
-    'table',
-    striped && 'table-striped',
-    bordered && 'table-bordered',
-    hover && 'table-hover',
-  ].filter(Boolean).join(' ');
-
   const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
 
   // 🚨 Bad Practice: Table 컴포넌트가 도메인별 렌더링 로직을 알고 있음
-  const renderCell = (row: any, columnKey: string) => {
+  const renderCell = (row: unknown, columnKey: string) => {
     const value = row[columnKey];
 
     // 도메인별 특수 렌더링
@@ -207,94 +205,74 @@ export const Table: React.FC<TableProps> = ({
   return (
     <div className="table-container">
       {searchable && (
-        <div style={{ marginBottom: '16px' }}>
-          <input
+        <div className="mb-4">
+          <Input
             type="text"
             placeholder="검색..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              width: '300px',
-            }}
+            className="w-[300px]"
           />
         </div>
       )}
 
-      <table className={tableClasses}>
-        <thead>
-          <tr>
-            {actualColumns.map((column) => (
-              <th
-                key={column.key}
-                style={column.width ? { width: column.width } : undefined}
-                onClick={() => sortable && handleSort(column.key)}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
+      <div className="border rounded-md">
+        <UiTable>
+          <TableHeader>
+            <TableRow>
+              {actualColumns.map((column) => (
+                <TableHead
+                  key={column.key}
+                  style={column.width ? { width: column.width } : {}}
+                  onClick={() => handleSort(column.key)}
+                  className={sortable ? 'cursor-pointer' : ''}
+                >
                   {column.header}
                   {sortable && sortColumn === column.key && (
-                    <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
+                    <span className="ml-2">{sortDirection === 'asc' ? '↑' : '↓'}</span>
                   )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedData.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              onClick={() => onRowClick?.(row)}
-              style={{ cursor: onRowClick ? 'pointer' : 'default' }}
-            >
-              {actualColumns.map((column) => (
-                <td key={column.key}>
-                  {entityType ? renderCell(row, column.key) : row[column.key]}
-                </td>
+                </TableHead>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginatedData.map((row, rowIndex) => (
+              <TableRow
+                key={rowIndex}
+                onClick={() => onRowClick?.(row)}
+                className={onRowClick ? 'cursor-pointer' : ''}
+              >
+                {actualColumns.map((column) => (
+                  <TableCell key={column.key}>
+                    {renderCell(row, column.key)}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </UiTable>
+      </div>
+
 
       {totalPages > 1 && (
-        <div style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-        }}>
-          <button
+        <div className="flex items-center justify-center gap-2 mt-4">
+          <Button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            }}
+            variant="outline"
           >
             이전
-          </button>
-          <span style={{ padding: '6px 12px' }}>
+          </Button>
+          <span>
             {currentPage} / {totalPages}
           </span>
-          <button
+          <Button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            }}
+            variant="outline"
           >
             다음
-          </button>
+          </Button>
         </div>
       )}
     </div>

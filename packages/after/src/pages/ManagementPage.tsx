@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Badge } from '../components/atoms';
-import { Alert, Table, Modal } from '../components/organisms';
+// import { Badge } from '../components/atoms';
+import { Button } from '../components/ui/button';
+import { DataTable } from '../components/DataTable.tsx';
+import { Alert, Modal } from '../components/organisms';
 import { FormInput, FormSelect, FormTextarea } from '../components/molecules';
 import { userService } from '../services/userService';
 import { postService } from '../services/postService';
@@ -22,7 +24,7 @@ export const ManagementPage: React.FC = () => {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<unknown>({});
 
   useEffect(() => {
     loadData();
@@ -43,7 +45,8 @@ export const ManagementPage: React.FC = () => {
       }
 
       setData(result);
-    } catch (error: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error: unknown) {
       setErrorMessage('데이터를 불러오는데 실패했습니다');
       setShowErrorAlert(true);
     }
@@ -73,7 +76,7 @@ export const ManagementPage: React.FC = () => {
       setFormData({});
       setAlertMessage(`${entityType === 'user' ? '사용자' : '게시글'}가 생성되었습니다`);
       setShowSuccessAlert(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrorMessage(error.message || '생성에 실패했습니다');
       setShowErrorAlert(true);
     }
@@ -120,7 +123,7 @@ export const ManagementPage: React.FC = () => {
       setSelectedItem(null);
       setAlertMessage(`${entityType === 'user' ? '사용자' : '게시글'}가 수정되었습니다`);
       setShowSuccessAlert(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrorMessage(error.message || '수정에 실패했습니다');
       setShowErrorAlert(true);
     }
@@ -139,7 +142,7 @@ export const ManagementPage: React.FC = () => {
       await loadData();
       setAlertMessage('삭제되었습니다');
       setShowSuccessAlert(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrorMessage(error.message || '삭제에 실패했습니다');
       setShowErrorAlert(true);
     }
@@ -164,7 +167,7 @@ export const ManagementPage: React.FC = () => {
         '복원';
       setAlertMessage(`${message}되었습니다`);
       setShowSuccessAlert(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrorMessage(error.message || '작업에 실패했습니다');
       setShowErrorAlert(true);
     }
@@ -243,47 +246,25 @@ export const ManagementPage: React.FC = () => {
           border: '1px solid #ddd',
           padding: '10px'
         }}>
-          <div style={{
-            marginBottom: '15px',
-            borderBottom: '2px solid #ccc',
-            paddingBottom: '5px'
-          }}>
-            <button
+          <div className="mb-4 border-b-2 border-gray-300 pb-1">
+            <Button
+              variant={entityType === 'post' ? 'default' : 'outline'}
+              className="mr-1"
               onClick={() => setEntityType('post')}
-              style={{
-                padding: '8px 16px',
-                marginRight: '5px',
-                fontSize: '14px',
-                fontWeight: entityType === 'post' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'post' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'post' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px'
-              }}
             >
               게시글
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={entityType === 'user' ? 'default' : 'outline'}
               onClick={() => setEntityType('user')}
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: entityType === 'user' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'user' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'user' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px'
-              }}
             >
               사용자
-            </button>
+            </Button>
           </div>
 
           <div>
-            <div style={{ marginBottom: '15px', textAlign: 'right' }}>
-              <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)}>
+            <div className="mb-4 text-right">
+              <Button variant="primary" onClick={() => setIsCreateModalOpen(true)}>
                 새로 만들기
               </Button>
             </div>
@@ -370,11 +351,9 @@ export const ManagementPage: React.FC = () => {
             </div>
 
             <div style={{ border: '1px solid #ddd', background: 'white', overflow: 'auto' }}>
-              <Table
+              <DataTable
                 columns={renderTableColumns()}
                 data={data}
-                striped
-                hover
                 entityType={entityType}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
@@ -397,15 +376,15 @@ export const ManagementPage: React.FC = () => {
           title={`새 ${entityType === 'user' ? '사용자' : '게시글'} 만들기`}
           size="large"
           showFooter
-          footerContent={
+          footerContent={ // 이 부분은 Modal 컴포넌트의 footerContent prop입니다.
             <>
-              <Button variant="secondary" size="md" onClick={() => {
+              <Button variant="outline" className="mr-2" onClick={() => {
                 setIsCreateModalOpen(false);
                 setFormData({});
               }}>
                 취소
               </Button>
-              <Button variant="primary" size="md" onClick={handleCreate}>
+              <Button variant="default" onClick={handleCreate}>
                 생성
               </Button>
             </>
@@ -521,16 +500,16 @@ export const ManagementPage: React.FC = () => {
           title={`${entityType === 'user' ? '사용자' : '게시글'} 수정`}
           size="large"
           showFooter
-          footerContent={
+          footerContent={ // 이 부분은 Modal 컴포넌트의 footerContent prop입니다.
             <>
-              <Button variant="secondary" size="md" onClick={() => {
+              <Button variant="outline" className="mr-2" onClick={() => {
                 setIsEditModalOpen(false);
                 setFormData({});
                 setSelectedItem(null);
               }}>
                 취소
               </Button>
-              <Button variant="primary" size="md" onClick={handleUpdate}>
+              <Button variant="default" onClick={handleUpdate}>
                 수정 완료
               </Button>
             </>
