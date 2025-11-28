@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormInput } from "@/components/composed/FormInput";
+import { FormTextarea } from "@/components/composed/FormTextarea";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import FormSelect from "@/components/composed/FormSelect";
@@ -133,19 +134,15 @@ const PostDialogContent = (props: PostEditDialogContentProps | PostCreateDialogC
           name="content"
           control={control}
           render={({ field }) => (
-            <div className="grid items-center gap-3">
-              <label htmlFor={field.name} className="form-label">
-                내용 <span style={{ color: "#d32f2f" }}></span>
-              </label>
-              <textarea
-                {...field}
-                id={field.name}
-                rows={6}
-                placeholder="게시글 내용을 입력하세요"
-                className="min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              {errors.content && <span className="text-input-error">{errors.content.message}</span>}
-            </div>
+            <FormTextarea
+              {...field}
+              label="내용"
+              placeholder="게시글 내용을 입력하세요"
+              required
+              rows={6}
+              width="full"
+              messageData={errors.content ? { type: "error", message: errors.content.message || "" } : undefined}
+            />
           )}
         />
       </div>
