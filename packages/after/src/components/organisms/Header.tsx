@@ -1,11 +1,16 @@
 import React from 'react';
+import { colors } from '@/tokens/colors';
+import { spacing } from '@/tokens/spacing';
+import { typography } from '@/tokens/typography';
+import { radius } from '@/tokens/radius';
+import { shadow } from '@/tokens/shadow';
 
 export const Header: React.FC = () => {
   return (
     <header style={{
-      backgroundColor: '#ffffff',
-      borderBottom: '1px solid #e5e7eb',
-      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+      backgroundColor: colors.secondary[100],
+      borderBottom: `1px solid ${colors.secondary[300]}`,
+      boxShadow: shadow.sm,
       position: 'sticky',
       top: 0,
       zIndex: 1000,
@@ -13,37 +18,37 @@ export const Header: React.FC = () => {
       <div style={{
         maxWidth: '1400px',
         margin: '0 auto',
-        padding: '0 24px',
+        padding: `0 ${spacing.lg}`,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: '64px',
+        height: `calc(4*${spacing.lg})`,
       }}>
         {/* Logo */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
+          gap: spacing.md,
         }}>
           <div style={{
-            width: '40px',
-            height: '40px',
-            backgroundColor: '#007bff',
-            borderRadius: '8px',
+            width: `calc(2.5*${spacing.lg})`,
+            height: `calc(2.5*${spacing.lg})`,
+            backgroundColor: colors.primary[500],
+            borderRadius: radius.md,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#ffffff',
-            fontWeight: 'bold',
-            fontSize: '20px',
+            color: colors.secondary[100],
+            fontWeight: typography.fontWeightBold,
+            fontSize: typography.fontSizeLg,
           }}>
             L
           </div>
           <div>
             <h1 style={{
-              fontSize: '18px',
-              fontWeight: '700',
-              color: '#1a202c',
+              fontSize: typography.fontSizeBase,
+              fontWeight: typography.fontWeightBold,
+              color: colors.primary[700],
               margin: 0,
               lineHeight: 1,
             }}>
@@ -51,10 +56,10 @@ export const Header: React.FC = () => {
             </h1>
             <p style={{
               fontSize: '11px',
-              color: '#718096',
+              color: colors.secondary[500],
               margin: 0,
               lineHeight: 1,
-              marginTop: '2px',
+              marginTop: spacing.xs,
             }}>
               Design System Migration Project
             </p>

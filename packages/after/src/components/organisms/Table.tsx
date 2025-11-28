@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { colors } from '@/tokens/colors';
+import { spacing } from '@/tokens/spacing';
+import { typography } from '@/tokens/typography';
+import { radius } from '@/tokens/radius';
+import { shadow } from '@/tokens/shadow';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
@@ -14,8 +19,6 @@ interface TableProps {
   columns?: Column[];
   data?: any[];
   striped?: boolean;
-  bordered?: boolean;
-  hover?: boolean;
   pageSize?: number;
   searchable?: boolean;
   sortable?: boolean;
@@ -34,8 +37,6 @@ export const Table: React.FC<TableProps> = ({
   columns,
   data = [],
   striped = false,
-  bordered = false,
-  hover = false,
   pageSize = 10,
   searchable = false,
   sortable = false,
@@ -95,12 +96,16 @@ export const Table: React.FC<TableProps> = ({
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  const tableClasses = [
-    'table',
-    striped && 'table-striped',
-    bordered && 'table-bordered',
-    hover && 'table-hover',
-  ].filter(Boolean).join(' ');
+  const tableStyles: React.CSSProperties = {
+    width: '100%',
+    borderCollapse: 'collapse',
+    fontFamily: typography.fontFamilySans,
+    fontSize: typography.fontSizeBase,
+    background: colors.secondary[100],
+    boxShadow: shadow.sm,
+    borderRadius: radius.md,
+    overflow: 'hidden',
+  };
 
   const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
 
@@ -202,34 +207,45 @@ export const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="table-container">
+    <div style={{ width: '100%', overflowX: 'auto', background: colors.secondary[100], borderRadius: radius.md, boxShadow: shadow.sm, padding: spacing.md }}>
       {searchable && (
-        <div style={{ marginBottom: '16px' }}>
+        <div style={{ marginBottom: spacing.md }}>
           <input
             type="text"
             placeholder="검색..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
+              padding: `${spacing.sm} ${spacing.md}`,
+              border: `1px solid ${colors.secondary[300]}`,
+              borderRadius: radius.sm,
               width: '300px',
+              fontFamily: typography.fontFamilySans,
+              fontSize: typography.fontSizeBase,
             }}
           />
         </div>
       )}
 
-      <table className={tableClasses}>
+      <table style={tableStyles}>
         <thead>
           <tr>
             {actualColumns.map((column) => (
               <th
                 key={column.key}
-                style={column.width ? { width: column.width } : undefined}
+                style={{
+                  padding: spacing.md,
+                  background: colors.secondary[200],
+                  color: colors.primary[700],
+                  fontWeight: typography.fontWeightBold,
+                  fontSize: typography.fontSizeBase,
+                  borderBottom: `1px solid ${colors.secondary[300]}`,
+                  cursor: sortable ? 'pointer' : 'default',
+                  ...(column.width ? { width: column.width } : {}),
+                }}
                 onClick={() => sortable && handleSort(column.key)}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing.xs }}>
                   {column.header}
                   {sortable && sortColumn === column.key && (
                     <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
@@ -244,10 +260,10 @@ export const Table: React.FC<TableProps> = ({
             <tr
               key={rowIndex}
               onClick={() => onRowClick?.(row)}
-              style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+              style={{ cursor: onRowClick ? 'pointer' : 'default', background: striped && rowIndex % 2 === 1 ? colors.secondary[200] : undefined }}
             >
               {actualColumns.map((column) => (
-                <td key={column.key}>
+                <td key={column.key} style={{ padding: spacing.md, borderBottom: `1px solid ${colors.secondary[300]}` }}>
                   {entityType ? renderCell(row, column.key) : row[column.key]}
                 </td>
               ))}
@@ -258,36 +274,40 @@ export const Table: React.FC<TableProps> = ({
 
       {totalPages > 1 && (
         <div style={{
-          marginTop: '16px',
+          marginTop: spacing.md,
           display: 'flex',
-          gap: '8px',
+          gap: spacing.sm,
           justifyContent: 'center',
         }}>
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
             style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
+              padding: `${spacing.xs} ${spacing.md}`,
+              border: `1px solid ${colors.secondary[300]}`,
+              background: colors.secondary[100],
+              borderRadius: radius.sm,
               cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+              fontFamily: typography.fontFamilySans,
+              fontSize: typography.fontSizeBase,
             }}
           >
             이전
           </button>
-          <span style={{ padding: '6px 12px' }}>
+          <span style={{ padding: `${spacing.xs} ${spacing.md}` }}>
             {currentPage} / {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
             style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
+              padding: `${spacing.xs} ${spacing.md}`,
+              border: `1px solid ${colors.secondary[300]}`,
+              background: colors.secondary[100],
+              borderRadius: radius.sm,
               cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+              fontFamily: typography.fontFamilySans,
+              fontSize: typography.fontSizeBase,
             }}
           >
             다음
