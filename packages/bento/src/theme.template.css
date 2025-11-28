@@ -1,0 +1,113 @@
+/**
+ * Bento UI Theme Template
+ *
+ * Copy this file to your project and customize the values.
+ * Import AFTER @bento/ui/styles.css to override defaults.
+ *
+ * Usage:
+ * @import '@bento/ui/styles.css';
+ * @import './my-theme.css';  <-- your customized copy
+ * @import 'tailwindcss';
+ */
+
+:root {
+  /* ═══════════════════════════════════════════════════════════
+     BASE RADIUS
+     Controls border-radius of all components
+     ═══════════════════════════════════════════════════════════ */
+  --radius: 0.625rem;
+
+  /* ═══════════════════════════════════════════════════════════
+     CORE COLORS
+     Main colors used throughout the UI
+     ═══════════════════════════════════════════════════════════ */
+
+  --background: oklch(1 0 0);                    /* Page background */
+  --foreground: oklch(0.141 0.005 285.823);      /* Default text */
+
+  --primary: oklch(0.21 0.006 285.885);          /* Primary buttons, links */
+  --primary-foreground: oklch(0.985 0 0);        /* Text on primary */
+
+  --secondary: oklch(0.967 0.001 286.375);       /* Secondary buttons */
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+
+  --muted: oklch(0.967 0.001 286.375);           /* Muted backgrounds */
+  --muted-foreground: oklch(0.552 0.016 285.938); /* Muted text */
+
+  --accent: oklch(0.967 0.001 286.375);          /* Highlights */
+  --accent-foreground: oklch(0.21 0.006 285.885);
+
+  /* ═══════════════════════════════════════════════════════════
+     SEMANTIC COLORS
+     Colors with specific meaning
+     ═══════════════════════════════════════════════════════════ */
+
+  --destructive: oklch(0.577 0.245 27.325);      /* Errors, delete actions */
+
+  --positive: oklch(0.52 0.177 155);             /* Success states */
+  --positive-foreground: oklch(0.985 0 0);
+
+  --caution: oklch(0.75 0.18 85);                /* Warnings */
+  --caution-foreground: oklch(0.25 0.05 85);
+
+  --informative: oklch(0.55 0.2 250);            /* Info notices */
+  --informative-foreground: oklch(0.98 0.01 250);
+
+  /* ═══════════════════════════════════════════════════════════
+     UI ELEMENTS
+     Specific component colors
+     ═══════════════════════════════════════════════════════════ */
+
+  --card: oklch(1 0 0);                          /* Card backgrounds */
+  --card-foreground: oklch(0.141 0.005 285.823);
+
+  --popover: oklch(1 0 0);                       /* Dropdowns, tooltips */
+  --popover-foreground: oklch(0.141 0.005 285.823);
+
+  --border: oklch(0.92 0.004 286.32);            /* Default borders */
+  --input: oklch(0.92 0.004 286.32);             /* Input borders */
+  --ring: oklch(0.705 0.015 286.067);            /* Focus rings */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE
+   Automatically applied when .dark class is on parent
+   ═══════════════════════════════════════════════════════════ */
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.704 0.191 22.216);
+
+  --positive: oklch(0.62 0.17 155);
+  --positive-foreground: oklch(0.15 0.02 155);
+
+  --caution: oklch(0.8 0.15 85);
+  --caution-foreground: oklch(0.2 0.05 85);
+
+  --informative: oklch(0.65 0.18 250);
+  --informative-foreground: oklch(0.15 0.02 250);
+
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+}

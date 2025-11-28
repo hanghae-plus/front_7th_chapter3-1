@@ -7,6 +7,9 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
+      "styles.css": [
+        "./dist/foundations/index.css"
+      ],
       "table": [
         "./dist/primitives/table.d.ts"
       ],
@@ -56,7 +59,8 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./styles.css": "./dist/foundations/index.css",
+    "./styles.css": "./dist/styles.css",
+    "./theme.template.css": "./src/theme.template.css",
     "./alert": {
       "import": "./dist/primitives/alert.js",
       "types": "./dist/primitives/alert.d.ts"
