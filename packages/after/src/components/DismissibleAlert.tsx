@@ -1,4 +1,10 @@
-import { Alert, AlertTitle, AlertDescription, AlertActions, type alertVariants } from './ui/alert';
+import {
+  Alert,
+  AlertTitle,
+  AlertDescription,
+  AlertActions,
+  type alertVariants,
+} from '@bento/ui/alert';
 import type { VariantProps } from 'class-variance-authority';
 
 interface DismissibleAlertProps extends VariantProps<typeof alertVariants> {

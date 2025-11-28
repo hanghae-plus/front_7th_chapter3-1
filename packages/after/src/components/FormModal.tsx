@@ -7,10 +7,10 @@ import {
   DialogDescription,
   DialogFooter,
   type dialogContentVariants,
-} from './ui/dialog';
-import { Button } from './ui/button';
+} from '@bento/ui/dialog';
+import { Button } from '@bento/ui/button';
 import type { VariantProps } from 'class-variance-authority';
-import { Separator } from './ui/separator';
+import { Separator } from '@bento/ui/separator';
 
 interface FormModalProps extends VariantProps<typeof dialogContentVariants> {
   open: boolean;

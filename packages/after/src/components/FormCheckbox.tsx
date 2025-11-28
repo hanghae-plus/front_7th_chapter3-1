@@ -1,6 +1,6 @@
-import { Checkbox, type checkboxVariants } from './ui/checkbox';
-import { Field, FieldDescription, FieldError, getFieldDescriptionId } from './ui/field';
-import { Label } from './ui/label';
+import { Checkbox, type checkboxVariants } from '@bento/ui/checkbox';
+import { Field, FieldDescription, FieldError, getFieldDescriptionId } from '@bento/ui/field';
+import { Label } from '@bento/ui/label';
 import type { VariantProps } from 'class-variance-authority';
 
 interface FormCheckboxProps extends VariantProps<typeof checkboxVariants> {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Textarea, type textareaVariants } from './ui/textarea';
-import { FormField, getFieldDescriptionId } from './ui/field';
+import { Textarea, type textareaVariants } from '@bento/ui/textarea';
+import { FormField, getFieldDescriptionId } from '@bento/ui/field';
 import type { VariantProps } from 'class-variance-authority';
 
 interface FormTextareaProps

@@ -1,7 +1,11 @@
 import * as React from 'react';
 
-import { NativeSelect, NativeSelectOption, type nativeSelectVariants } from './ui/native-select';
-import { FormField, getFieldDescriptionId } from './ui/field';
+import {
+  NativeSelect,
+  NativeSelectOption,
+  type nativeSelectVariants,
+} from '@bento/ui/native-select';
+import { FormField, getFieldDescriptionId } from '@bento/ui/field';
 import type { VariantProps } from 'class-variance-authority';
 
 interface Option {

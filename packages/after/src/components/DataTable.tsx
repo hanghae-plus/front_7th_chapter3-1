@@ -7,7 +7,7 @@ import {
   TableCell,
   TableHead,
   type tableVariants,
-} from './ui/table';
+} from '@bento/ui/table';
 import type { VariantProps } from 'class-variance-authority';
 import { Pagination, type PaginationProps } from './Pagination';
 

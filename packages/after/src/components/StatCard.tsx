@@ -1,6 +1,6 @@
-import { Card, type cardVariants } from './ui/card';
+import { Card, type cardVariants } from '@bento/ui/card';
 import type { VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+import { cn } from '@bento/ui/utils/cn';
 
 const valueColorMap = {
   default: 'text-foreground',

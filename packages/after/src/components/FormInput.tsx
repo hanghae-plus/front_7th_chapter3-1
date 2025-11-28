@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Input, type inputVariants } from './ui/input';
-import { FormField, getFieldDescriptionId } from './ui/field';
+import { Input, type inputVariants } from '@bento/ui/input';
+import { FormField, getFieldDescriptionId } from '@bento/ui/field';
 import type { VariantProps } from 'class-variance-authority';
 
 interface FormInputProps extends React.ComponentProps<'input'>, VariantProps<typeof inputVariants> {
