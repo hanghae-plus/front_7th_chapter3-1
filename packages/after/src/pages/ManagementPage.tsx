@@ -15,7 +15,12 @@ import StatsCard from "@/components/composed/StatsCard";
 type EntityType = "user" | "post";
 type Entity = User | Post;
 
-export const ManagementPage: React.FC = () => {
+interface ManagementPageProps {
+  isDarkMode: boolean;
+  setIsDarkMode: (value: boolean | ((prev: boolean) => boolean)) => void;
+}
+
+export const ManagementPage: React.FC<ManagementPageProps> = ({ isDarkMode, setIsDarkMode }) => {
   const { openDialog, closeDialog } = useDialog();
 
   const [entityType, setEntityType] = useState<EntityType>("post");
@@ -114,8 +119,6 @@ export const ManagementPage: React.FC = () => {
   };
 
   const createPost = async (data: { title: string; content: string; author: string; category: string }) => {
-    console.log(data);
-
     try {
       await postService.create({
         ...data,
@@ -260,131 +263,100 @@ export const ManagementPage: React.FC = () => {
   const stats = getStats();
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f0f0f0" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
-        <div style={{ marginBottom: "20px" }}>
-          <h1
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              marginBottom: "5px",
-              color: "#333",
-            }}
+    <div className="mx-auto max-w-5xl px-5 py-5">
+      <div className="mb-5 flex items-center justify-between gap-3">
+        <div>
+          <h1 className="mb-1 text-2xl font-bold">관리 시스템</h1>
+          <p className="text-sm text-foreground/70">사용자와 게시글을 관리하세요</p>
+        </div>
+        <Button variant="secondary" size="sm" onClick={() => setIsDarkMode((prev) => !prev)}>
+          {isDarkMode ? "라이트 모드" : "다크 모드"}
+        </Button>
+      </div>
+
+      <div className="rounded-md border border-border bg-card p-3">
+        <div className="mb-4 border-b-2 border-border pb-2 flex gap-2">
+          <Button
+            onClick={() => setEntityType("post")}
+            variant={entityType === "post" ? "primary" : "secondary"}
+            size="lg"
           >
-            관리 시스템
-          </h1>
-          <p style={{ color: "#666", fontSize: "14px" }}>사용자와 게시글을 관리하세요</p>
+            게시글
+          </Button>
+          <Button
+            onClick={() => setEntityType("user")}
+            variant={entityType === "user" ? "primary" : "secondary"}
+            size="lg"
+          >
+            사용자
+          </Button>
         </div>
 
-        <div
-          style={{
-            background: "white",
-            border: "1px solid #ddd",
-            padding: "10px",
-          }}
-        >
-          <div
-            style={{
-              marginBottom: "15px",
-              borderBottom: "2px solid #ccc",
-              paddingBottom: "5px",
-            }}
-          >
-            <Button
-              onClick={() => setEntityType("post")}
-              variant={entityType === "post" ? "primary" : "secondary"}
-              size="lg"
-            >
-              게시글
-            </Button>
-            <Button
-              onClick={() => setEntityType("user")}
-              variant={entityType === "user" ? "primary" : "secondary"}
-              size="lg"
-            >
-              사용자
+        <div>
+          <div className="mb-4 text-right">
+            <Button variant="primary" size="md" onClick={entityType === "user" ? handleCreateUser : handleCreatePost}>
+              새로 만들기
             </Button>
           </div>
 
-          <div>
-            <div style={{ marginBottom: "15px", textAlign: "right" }}>
-              <Button variant="primary" size="md" onClick={entityType === "user" ? handleCreateUser : handleCreatePost}>
-                새로 만들기
-              </Button>
+          {showSuccessAlert && (
+            <div className="mb-2">
+              <Alert variant="success" title="성공" onClose={() => setShowSuccessAlert(false)}>
+                {alertMessage}
+              </Alert>
             </div>
+          )}
 
-            {showSuccessAlert && (
-              <div style={{ marginBottom: "10px" }}>
-                <Alert variant="success" title="성공" onClose={() => setShowSuccessAlert(false)}>
-                  {alertMessage}
-                </Alert>
-              </div>
+          {showErrorAlert && (
+            <div className="mb-2">
+              <Alert variant="error" title="오류" onClose={() => setShowErrorAlert(false)}>
+                {errorMessage}
+              </Alert>
+            </div>
+          )}
+
+          <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-2">
+            <StatsCard variant="bordered" title="전체" subtitle={stats.total.toString()} color="primary" />
+            <StatsCard
+              variant="bordered"
+              title={stats.stat1.label}
+              subtitle={stats.stat1.value.toString()}
+              color="green"
+            />
+            <StatsCard
+              variant="bordered"
+              title={stats.stat2.label}
+              subtitle={stats.stat2.value.toString()}
+              color="orange"
+            />
+            <StatsCard
+              variant="bordered"
+              title={stats.stat3.label}
+              subtitle={stats.stat3.value.toString()}
+              color="red"
+            />
+            <StatsCard
+              variant="bordered"
+              title={stats.stat4.label}
+              subtitle={stats.stat4.value.toString()}
+              color="neutral"
+            />
+          </div>
+
+          <div className="overflow-auto rounded-md border border-border bg-card">
+            {entityType === "user" && (
+              <UserTable data={data as User[]} onEdit={handleEditUser} onDelete={handleDelete} />
             )}
-
-            {showErrorAlert && (
-              <div style={{ marginBottom: "10px" }}>
-                <Alert variant="error" title="오류" onClose={() => setShowErrorAlert(false)}>
-                  {errorMessage}
-                </Alert>
-              </div>
+            {entityType === "post" && (
+              <PostTable
+                data={data as Post[]}
+                onEdit={handleEditPost}
+                onDelete={handleDelete}
+                onArchive={(id) => handleStatusAction(id, "archive")}
+                onPublish={(id) => handleStatusAction(id, "publish")}
+                onRestore={(id) => handleStatusAction(id, "restore")}
+              />
             )}
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-                gap: "10px",
-                marginBottom: "15px",
-              }}
-            >
-              <StatsCard variant="bordered" title="전체" subtitle={stats.total.toString()} color="primary" />
-              <StatsCard
-                variant="bordered"
-                title={stats.stat1.label}
-                subtitle={stats.stat1.value.toString()}
-                color="green"
-              />
-              <StatsCard
-                variant="bordered"
-                title={stats.stat2.label}
-                subtitle={stats.stat2.value.toString()}
-                color="orange"
-              />
-              <StatsCard
-                variant="bordered"
-                title={stats.stat3.label}
-                subtitle={stats.stat3.value.toString()}
-                color="red"
-              />
-              <StatsCard
-                variant="bordered"
-                title={stats.stat4.label}
-                subtitle={stats.stat4.value.toString()}
-                color="neutral"
-              />
-            </div>
-
-            <div
-              style={{
-                border: "1px solid #ddd",
-                background: "white",
-                overflow: "auto",
-              }}
-            >
-              {entityType === "user" && (
-                <UserTable data={data as User[]} onEdit={handleEditUser} onDelete={handleDelete} />
-              )}
-              {entityType === "post" && (
-                <PostTable
-                  data={data as Post[]}
-                  onEdit={handleEditPost}
-                  onDelete={handleDelete}
-                  onArchive={(id) => handleStatusAction(id, "archive")}
-                  onPublish={(id) => handleStatusAction(id, "publish")}
-                  onRestore={(id) => handleStatusAction(id, "restore")}
-                />
-              )}
-            </div>
           </div>
         </div>
       </div>
