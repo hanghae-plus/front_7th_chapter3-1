@@ -13,7 +13,7 @@ describe("ManagementPage - User Management", () => {
     const user = userEvent.setup();
     render(
       <DialogProvider>
-        <ManagementPage />
+        <ManagementPage isDarkMode={false} setIsDarkMode={() => {}} />
       </DialogProvider>
     );
 
@@ -90,7 +90,7 @@ describe("ManagementPage - Post Management", () => {
   it("게시글이 테이블에 표시된다", async () => {
     render(
       <DialogProvider>
-        <ManagementPage />
+        <ManagementPage isDarkMode={false} setIsDarkMode={() => {}} />
       </DialogProvider>
     );
 

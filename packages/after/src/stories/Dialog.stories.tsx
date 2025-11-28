@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -45,5 +44,3 @@ export const Default: Story = {
     </Dialog>
   ),
 };
-
-
