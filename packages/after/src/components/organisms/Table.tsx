@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
+
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 
@@ -30,7 +32,7 @@ interface TableProps {
   onRestore?: (id: number) => void;
 }
 
-export const Table: React.FC<TableProps> = ({
+export const Table = ({
   columns,
   data = [],
   striped = false,
@@ -46,7 +48,7 @@ export const Table: React.FC<TableProps> = ({
   onPublish,
   onArchive,
   onRestore,
-}) => {
+}: TableProps) => {
   const [tableData, setTableData] = useState<any[]>(data);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -95,12 +97,6 @@ export const Table: React.FC<TableProps> = ({
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  const tableClasses = [
-    'table',
-    striped && 'table-striped',
-    bordered && 'table-bordered',
-    hover && 'table-hover',
-  ].filter(Boolean).join(' ');
 
   const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
 
@@ -111,21 +107,33 @@ export const Table: React.FC<TableProps> = ({
     // 도메인별 특수 렌더링
     if (entityType === 'user') {
       if (columnKey === 'role') {
-        return <Badge userRole={value} showIcon />;
+        // User role을 Badge variant로 변환 (pill 없음 - before와 동일)
+        const badgeVariant =
+          value === 'admin' ? 'danger' :
+          value === 'moderator' ? 'warning' :
+          value === 'user' ? 'primary' : 'secondary';
+        const badgeText =
+          value === 'admin' ? '관리자' :
+          value === 'moderator' ? '운영자' :
+          value === 'user' ? '사용자' : '게스트';
+        return <Badge variant={badgeVariant}>{badgeText}</Badge>;
       }
       if (columnKey === 'status') {
-        // User status를 Badge status로 변환
-        const badgeStatus =
-          value === 'active' ? 'published' :
-          value === 'inactive' ? 'draft' : 'rejected';
-        return <Badge status={badgeStatus} showIcon />;
+        // User status를 Badge variant로 변환 (before와 동일하게)
+        const badgeVariant =
+          value === 'active' ? 'success' :
+          value === 'inactive' ? 'warning' : 'danger';
+        const badgeText =
+          value === 'active' ? '게시됨' :
+          value === 'inactive' ? '임시저장' : '거부됨';
+        return <Badge variant={badgeVariant}>{badgeText}</Badge>;
       }
       if (columnKey === 'lastLogin') {
         return value || '-';
       }
       if (columnKey === 'actions') {
         return (
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div className="flex gap-2">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
@@ -139,22 +147,33 @@ export const Table: React.FC<TableProps> = ({
 
     if (entityType === 'post') {
       if (columnKey === 'category') {
-        const type =
+        const variant =
           value === 'development' ? 'primary' :
           value === 'design' ? 'info' :
           value === 'accessibility' ? 'danger' :
           'secondary';
-        return <Badge type={type} pill>{value}</Badge>;
+        return <Badge variant={variant} pill>{value}</Badge>;
       }
       if (columnKey === 'status') {
-        return <Badge status={value} showIcon />;
+        // Post status를 Badge variant로 변환
+        const badgeVariant =
+          value === 'published' ? 'success' :
+          value === 'draft' ? 'warning' :
+          value === 'archived' ? 'secondary' :
+          value === 'pending' ? 'info' : 'danger';
+        const badgeText =
+          value === 'published' ? '게시됨' :
+          value === 'draft' ? '임시저장' :
+          value === 'archived' ? '보관됨' :
+          value === 'pending' ? '대기중' : '거부됨';
+        return <Badge variant={badgeVariant}>{badgeText}</Badge>;
       }
       if (columnKey === 'views') {
         return value?.toLocaleString() || '0';
       }
       if (columnKey === 'actions') {
         return (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div className="flex gap-2 flex-wrap">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
@@ -202,34 +221,39 @@ export const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="table-container">
+    <div className="overflow-x-auto">
       {searchable && (
-        <div style={{ marginBottom: '16px' }}>
+        <div className="mb-4">
           <input
             type="text"
             placeholder="검색..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              width: '300px',
-            }}
+            className="py-2 px-3 border border-[#ddd] rounded-md w-[300px]"
           />
         </div>
       )}
 
-      <table className={tableClasses}>
-        <thead>
+      <table
+        className={cn(
+          'w-full border-collapse text-sm bg-white',
+          'font-["Roboto","Helvetica","Arial",sans-serif]',
+          striped && '[&_tbody_tr:nth-child(even)]:bg-[#fafafa]',
+          bordered && 'border border-[rgba(0,0,0,0.12)] [&_th]:border [&_th]:border-[rgba(0,0,0,0.12)] [&_td]:border [&_td]:border-[rgba(0,0,0,0.12)]',
+          hover && '[&_tbody_tr:hover]:bg-[rgba(0,0,0,0.04)]'
+        )}
+        style={{ fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif" }}
+      >
+        <thead className="bg-[#fafafa]">
           <tr>
             {actualColumns.map((column) => (
               <th
                 key={column.key}
                 style={column.width ? { width: column.width } : undefined}
                 onClick={() => sortable && handleSort(column.key)}
+                className="py-4 px-4 text-left font-medium text-xs text-[rgba(0,0,0,0.6)] uppercase tracking-[0.03em] border-b-2 border-b-[rgba(0,0,0,0.12)]"
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
+                <div className={cn('flex items-center gap-1', sortable && 'cursor-pointer')}>
                   {column.header}
                   {sortable && sortColumn === column.key && (
                     <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
@@ -244,10 +268,16 @@ export const Table: React.FC<TableProps> = ({
             <tr
               key={rowIndex}
               onClick={() => onRowClick?.(row)}
-              style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+              className={cn(
+                '[&:last-child_td]:border-b-0',
+                onRowClick && 'cursor-pointer'
+              )}
             >
               {actualColumns.map((column) => (
-                <td key={column.key}>
+                <td
+                  key={column.key}
+                  className="py-4 px-4 text-[rgba(0,0,0,0.87)] border-b border-b-[rgba(0,0,0,0.08)]"
+                >
                   {entityType ? renderCell(row, column.key) : row[column.key]}
                 </td>
               ))}
@@ -257,38 +287,27 @@ export const Table: React.FC<TableProps> = ({
       </table>
 
       {totalPages > 1 && (
-        <div style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-        }}>
+        <div className="mt-4 flex gap-2 justify-center">
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            }}
+            className={cn(
+              'py-1.5 px-3 border border-[#ddd] bg-white rounded-md',
+              currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            )}
           >
             이전
           </button>
-          <span style={{ padding: '6px 12px' }}>
+          <span className="py-1.5 px-3">
             {currentPage} / {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            }}
+            className={cn(
+              'py-1.5 px-3 border border-[#ddd] bg-white rounded-md',
+              currentPage === totalPages ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+            )}
           >
             다음
           </button>

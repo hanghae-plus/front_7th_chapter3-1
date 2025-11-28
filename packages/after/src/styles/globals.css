@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 기존 디자인 토큰 (레거시 컴포넌트용) */
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary-500: #1976d2;
+    --color-primary-600: #1565c0;
+
+    /* Secondary Colors */
+    --color-secondary-100: #f5f5f5;
+    --color-secondary-200: #e0e0e0;
+    --color-secondary-500: #757575;
+    --color-secondary-text: #333;
+    --color-secondary-border: #ddd;
+
+    /* Success Colors */
+    --color-success-500: #388e3c;
+    --color-success-600: #2e7d32;
+    --color-success-light: #e8f5e9;
+    --color-success-border: #81c784;
+    --color-success-text: #1b5e20;
+
+    /* Danger Colors */
+    --color-danger-500: #d32f2f;
+    --color-danger-600: #c62828;
+    --color-danger-700: #b71c1c;
+    --color-danger-light: #ffebee;
+    --color-danger-border: #e57373;
+    --color-danger-text: #b71c1c;
+    --color-danger-error: #ef4444;
+
+    /* Warning Colors */
+    --color-warning-500: #f57c00;
+    --color-warning-light: #fff3e0;
+    --color-warning-border: #ffb74d;
+    --color-warning-text: #e65100;
+
+    /* Info Colors */
+    --color-info-500: #0288d1;
+    --color-info-light: #e3f2fd;
+    --color-info-border: #90caf9;
+    --color-info-text: #0d47a1;
+
+    /* Neutral Colors */
+    --color-neutral-100: #f5f5f5;
+    --color-neutral-300: #bdbdbd;
+    --color-neutral-700: #424242;
+    --color-neutral-gray: #d1d5db;
+    --color-neutral-gray-text: #374151;
+    --color-neutral-gray-hint: #6b7280;
+
+    /* 기본 색상 */
+    --color-white: #fff;
+    --color-black: #000;
+
+    /* Text Colors */
+    --color-text-primary: rgba(0, 0, 0, 0.87);
+    --color-text-secondary: rgba(0, 0, 0, 0.6);
+    --color-text-disabled: rgba(0, 0, 0, 0.38);
+    --color-text-hint: #666;
+
+    /* Border Colors */
+    --color-border-default: #ccc;
+    --color-border-light: rgba(0, 0, 0, 0.12);
+    --color-border-medium: rgba(0, 0, 0, 0.23);
+    --color-border-dark: rgba(0, 0, 0, 0.54);
+    --color-border-subtle: rgba(0, 0, 0, 0.08);
+
+    /* Background Colors */
+    --color-background-default: #fff;
+    --color-background-paper: #fafafa;
+    --color-background-disabled: rgba(0, 0, 0, 0.12);
+    --color-background-overlay: rgba(0, 0, 0, 0.5);
+    --color-background-hover: rgba(0, 0, 0, 0.04);
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 6px;
+    --spacing-md: 8px;
+    --spacing-lg: 10px;
+    --spacing-xl: 12px;
+    --spacing-2xl: 16px;
+    --spacing-3xl: 20px;
+    --spacing-4xl: 24px;
+    --spacing-5xl: 32px;
+
+    /* Border Radius (레거시) */
+    --legacy-radius-sm: 2px;
+    --legacy-radius-md: 3px;
+    --legacy-radius-lg: 4px;
+    --legacy-radius-xl: 10px;
+    --legacy-radius-full: 50%;
+
+    /* Shadows */
+    --shadow-md: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+    --shadow-lg: 0px 2px 4px -1px rgba(0,0,0,0.12), 0px 1px 2px 0px rgba(0,0,0,0.08), 0px 1px 4px 0px rgba(0,0,0,0.08);
+    --shadow-xl: 0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
+  }
+}
+
+/* shadcn/ui 디자인 토큰 */
+:root {
+  /* shadcn/ui 기본 radius */
+  --radius: 0.5rem;
+  
+  /* shadcn/ui 색상 (Light mode) */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 0 0% 3.9%;
+}
+
+.dark {
+  /* shadcn/ui 색상 (Dark mode) */
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+}
+

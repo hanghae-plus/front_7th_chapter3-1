@@ -1,4 +1,4 @@
-import React from 'react';
+import { cn } from '@/lib/utils';
 
 // Checkbox Component - Completely different approach again
 interface FormCheckboxProps {
@@ -11,7 +11,7 @@ interface FormCheckboxProps {
   hint?: string;
 }
 
-export const FormCheckbox: React.FC<FormCheckboxProps> = ({
+export const FormCheckbox = ({
   name,
   checked,
   onChange,
@@ -19,12 +19,7 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
   disabled = false,
   error,
   hint,
-}) => {
-  const wrapperClasses = ['checkbox-wrapper', disabled && 'disabled'].filter(Boolean).join(' ');
-  const customClasses = ['checkbox-custom', checked && 'checked', disabled && 'disabled'].filter(Boolean).join(' ');
-  const checkmarkClasses = ['checkbox-checkmark', checked && 'visible'].filter(Boolean).join(' ');
-  const labelClasses = ['checkbox-label', error && 'error', disabled && 'disabled'].filter(Boolean).join(' ');
-
+}: FormCheckboxProps) => {
   const handleClick = () => {
     if (!disabled) {
       onChange(!checked);
@@ -33,25 +28,69 @@ export const FormCheckbox: React.FC<FormCheckboxProps> = ({
 
   return (
     <div>
-      <div className={wrapperClasses} onClick={handleClick}>
-        <div className="checkbox-container">
+      <div
+        onClick={handleClick}
+        className={cn(
+          'flex items-start mb-3',
+          disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
+        )}
+      >
+        <div className="relative mr-2 mt-0.5">
           <input
             type="checkbox"
             name={name}
             checked={checked}
             onChange={() => {}} // Handled by onClick
             disabled={disabled}
-            className="checkbox-input"
+            className="absolute opacity-0 cursor-pointer h-0 w-0"
           />
-          <div className={customClasses}>
-            <span className={checkmarkClasses}>✓</span>
+          <div
+            className={cn(
+              'h-4 w-4 border-2 rounded-sm flex items-center justify-center transition-all duration-150 cursor-pointer bg-white',
+              checked
+                ? 'bg-[#1976d2] border-[#1976d2]'
+                : 'border-[#d1d5db]',
+              disabled && 'cursor-not-allowed'
+            )}
+          >
+            <span
+              className={cn(
+                'text-white text-[10px] font-bold',
+                checked ? 'block' : 'hidden'
+              )}
+            >
+              ✓
+            </span>
           </div>
         </div>
-        <label className={labelClasses}>{label}</label>
+        <label
+          className={cn(
+            'text-sm cursor-pointer leading-[1.4] select-none',
+            error ? 'text-[#ef4444]' : 'text-[#374151]',
+            disabled && 'cursor-not-allowed'
+          )}
+          style={{ fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif" }}
+        >
+          {label}
+        </label>
       </div>
 
-      {error && <span className="checkbox-error">{error}</span>}
-      {hint && !error && <span className="checkbox-hint">{hint}</span>}
+      {error && (
+        <span
+          className="text-[#ef4444] text-xs mt-0.5 ml-6 block"
+          style={{ fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif" }}
+        >
+          {error}
+        </span>
+      )}
+      {hint && !error && (
+        <span
+          className="text-[#6b7280] text-xs mt-0.5 ml-6 block"
+          style={{ fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif" }}
+        >
+          {hint}
+        </span>
+      )}
     </div>
   );
 };

@@ -4,12 +4,16 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  base: '/front_7th_chapter3-1/',
+  plugins: [
+    react(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // @ts-ignore - Vitest config
   test: {
     globals: true,
     environment: 'jsdom',

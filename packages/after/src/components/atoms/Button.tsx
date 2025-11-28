@@ -1,94 +1,54 @@
-import React from 'react';
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-// 🚨 Bad Practice: UI 컴포넌트가 도메인 타입을 알고 있음
-interface ButtonProps {
-  children?: React.ReactNode;
-  onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  variant?: 'primary' | 'secondary' | 'danger' | 'success';
-  size?: 'sm' | 'md' | 'lg';
-  fullWidth?: boolean;
+const buttonVariants = cva(
+  // Base styles
+  'inline-block font-sans font-normal leading-[1.5] rounded-[3px] cursor-pointer border border-solid whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-[#1976d2] text-white border-[#1565c0] hover:enabled:bg-[#1565c0]',
+        secondary: 'bg-[#f5f5f5] text-[#333] border-[#ddd] hover:enabled:bg-[#e0e0e0]',
+        danger: 'bg-[#d32f2f] text-white border-[#c62828] hover:enabled:bg-[#c62828]',
+        success: 'bg-[#388e3c] text-white border-[#2e7d32] hover:enabled:bg-[#2e7d32]',
+      },
+      size: {
+        sm: 'py-1.5 px-3 text-[13px]',
+        md: 'py-2.5 px-5 text-[14px]',
+        lg: 'py-3 px-6 text-[15px]',
+      },
+      fullWidth: {
+        true: 'w-full',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+    },
+  }
+);
 
-  // 🚨 도메인 관심사 추가
-  entityType?: 'user' | 'post';
-  action?: 'create' | 'edit' | 'delete' | 'publish' | 'archive';
-  entity?: any; // 엔티티 객체를 직접 받음
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  children,
-  onClick,
-  type = 'button',
-  disabled = false,
-  variant = 'primary',
-  size = 'md',
-  fullWidth = false,
-  entityType,
-  action,
-  entity,
-}) => {
-  // 🚨 Bad Practice: UI 컴포넌트가 비즈니스 규칙을 판단함
-  let actualDisabled = disabled;
-  let actualVariant = variant;
-  let actualChildren = children;
-
-  if (entityType && action && entity) {
-    // 비즈니스 규칙: 관리자는 삭제 불가
-    if (entityType === 'user' && action === 'delete' && entity.role === 'admin') {
-      actualDisabled = true;
-    }
-
-    // 비즈니스 규칙: 이미 게시된 글은 게시 버튼 비활성화
-    if (entityType === 'post' && action === 'publish' && entity.status === 'published') {
-      actualDisabled = true;
-    }
-
-    // 비즈니스 규칙: 게시된 글만 보관 가능
-    if (entityType === 'post' && action === 'archive' && entity.status !== 'published') {
-      actualDisabled = true;
-    }
-
-    // 자동 label 생성
-    if (!children) {
-      if (action === 'create') {
-        actualChildren = `새 ${entityType === 'user' ? '사용자' : '게시글'} 만들기`;
-      } else if (action === 'edit') {
-        actualChildren = '수정';
-      } else if (action === 'delete') {
-        actualChildren = '삭제';
-      } else if (action === 'publish') {
-        actualChildren = '게시';
-      } else if (action === 'archive') {
-        actualChildren = '보관';
-      }
-    }
-
-    // action에 따라 variant 자동 결정
-    if (action === 'delete') {
-      actualVariant = 'danger';
-    } else if (action === 'publish') {
-      actualVariant = 'success';
-    } else if (action === 'archive') {
-      actualVariant = 'secondary';
-    }
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, fullWidth, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? 'span' : 'button';
+    
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, fullWidth, className }))}
+        ref={ref as any}
+        {...props}
+      />
+    );
   }
+);
 
-  const classes = [
-    'btn',
-    `btn-${actualVariant}`,
-    `btn-${size}`,
-    fullWidth && 'btn-fullwidth',
-  ].filter(Boolean).join(' ');
+Button.displayName = 'Button';
 
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      disabled={actualDisabled}
-      className={classes}
-    >
-      {actualChildren}
-    </button>
-  );
-};
+export { buttonVariants };

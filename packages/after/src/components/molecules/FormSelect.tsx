@@ -1,4 +1,4 @@
-import React from 'react';
+import { cn } from '@/lib/utils';
 
 // Select Component - Inconsistent with Input component
 interface Option {
@@ -17,10 +17,10 @@ interface FormSelectProps {
   disabled?: boolean;
   error?: string;
   helpText?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'small' | 'medium' | 'large';
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({
+export const FormSelect = ({
   name,
   value,
   onChange,
@@ -31,28 +31,36 @@ export const FormSelect: React.FC<FormSelectProps> = ({
   disabled = false,
   error,
   helpText,
-  size = 'md',
-}) => {
+  size = 'medium',
+}: FormSelectProps) => {
   void size; // Keep for API consistency but not used in rendering
-  const selectClasses = ['form-select', error && 'error'].filter(Boolean).join(' ');
-  const helperClasses = ['form-helper-text', error && 'error'].filter(Boolean).join(' ');
 
   return (
-    <div className="form-group">
+    <div className="mb-4">
       {label && (
-        <label className="form-label">
+        <label htmlFor={name} className="block mb-1.5 text-[#333] text-[13px] font-bold font-sans">
           {label}
-          {required && <span style={{ color: '#d32f2f' }}>*</span>}
+          {required && <span className="text-[#d32f2f]">*</span>}
         </label>
       )}
 
       <select
+        id={name}
         name={name}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
         disabled={disabled}
-        className={selectClasses}
+        className={cn(
+          // Base styles
+          'w-full py-2 px-2.5 text-[14px] font-sans text-black border border-[#ccc] rounded-[3px] bg-white box-border',
+          // Focus styles
+          'focus:border-[#1976d2] focus:outline-none',
+          // Error styles
+          error && 'border-[#d32f2f]',
+          // Disabled styles
+          'disabled:bg-[#f5f5f5] disabled:cursor-not-allowed'
+        )}
       >
         <option value="" disabled>
           {placeholder}
@@ -64,8 +72,16 @@ export const FormSelect: React.FC<FormSelectProps> = ({
         ))}
       </select>
 
-      {error && <span className={helperClasses}>{error}</span>}
-      {helpText && !error && <span className="form-helper-text">{helpText}</span>}
+      {error && (
+        <span className="text-[#d32f2f] text-[12px] font-sans mt-1 block">
+          {error}
+        </span>
+      )}
+      {helpText && !error && (
+        <span className="text-[#666] text-[12px] font-sans mt-1 block">
+          {helpText}
+        </span>
+      )}
     </div>
   );
 };
