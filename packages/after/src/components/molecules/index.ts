@@ -1,4 +1,9 @@
-export { FormInput } from './FormInput';
-export { FormSelect } from './FormSelect';
-export { FormTextarea } from './FormTextarea';
-export { FormCheckbox } from './FormCheckbox';
+export { FormCheckbox } from "./FormCheckbox";
+export { FormInput } from "./FormInput";
+export { FormSelect } from "./FormSelect";
+export { FormTextarea } from "./FormTextarea";
+export { Pagination } from "./Pagination";
+export { StatsGrid } from "./StatsGrid";
+export { Table } from "./Table";
+export { TableBody } from "./TableBody";
+export { TableHeader } from "./TableHeader";
