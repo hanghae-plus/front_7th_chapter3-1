@@ -426,15 +426,15 @@ export const ManagementPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold mb-1 text-gray-800">관리 시스템</h1>
-          <p className="text-gray-600 text-sm">사용자와 게시글을 관리하세요</p>
+          <h1 className="text-2xl font-bold mb-1 text-foreground">관리 시스템</h1>
+          <p className="text-muted-foreground text-sm">사용자와 게시글을 관리하세요</p>
         </div>
 
-        <div className="bg-white border border-gray-200 p-4">
-          <div className="mb-6 border-b border-gray-200 pb-2">
+        <div className="bg-card border border-border p-4">
+          <div className="mb-6 border-b border-border pb-2 flex gap-2">
             <Button
               size="sm"
               variant={entityType === 'post' ? 'primary' : 'secondary'}
@@ -490,7 +490,7 @@ export const ManagementPage: React.FC = () => {
               <StatCard variant="default" label={stats.stat4.label} value={stats.stat4.value} />
             </div>
 
-            <div className="border border-gray-200 bg-white overflow-auto">
+            <div className="border border-border bg-card overflow-auto">
               {entityType === 'user' ? (
                 <DataTable<User>
                   columns={userTableColumns}
