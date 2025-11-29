@@ -19,3 +19,5 @@ export const userSchema = z.object({
   role: z.enum(['user', 'moderator', 'admin']),
   status: z.enum(['active', 'inactive', 'suspended']),
 });
+
+export type UserFormData = z.infer<typeof userSchema>;
