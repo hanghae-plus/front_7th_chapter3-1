@@ -44,11 +44,37 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build bento (dependency)
+      # Build bento (dependency for after)
+      - name: Build bento package
         run: pnpm --filter @bento/ui build
 
+      # Build all artifacts
       - name: Build after app
         run: pnpm --filter @front_lite_chapter3-1/after build
+
+      - name: Build after Storybook
+        run: pnpm --filter @front_lite_chapter3-1/after build-storybook
+
+      - name: Build bento Storybook
+        run: pnpm --filter @bento/ui build-storybook
+
+      # Combine all builds into a single dist folder
+      - name: Prepare deployment folder
+        run: |
+          mkdir -p ./dist
+
+          # Copy landing page
+          cp ./public/index.html ./dist/
+
+          # Copy after app to /app
+          mkdir -p ./dist/app
+          cp -r ./packages/after/dist/* ./dist/app/
+
+          # Copy Storybooks
+          mkdir -p ./dist/storybook/after
+          mkdir -p ./dist/storybook/bento
+          cp -r ./packages/after/storybook-static/* ./dist/storybook/after/
+          cp -r ./packages/bento/storybook-static/* ./dist/storybook/bento/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -56,7 +82,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./packages/after/dist"
+          path: "./dist"
 
       - name: Deploy to GitHub Pages
         id: deployment
