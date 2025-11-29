@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-const base: string = process.env.NODE_ENV === 'production' ? '/front_7th_chapter3-1/' : '';
+const base: string = process.env.NODE_ENV === 'production' ? '/front_7th_chapter3-1/app/' : '';
 
 // https://vite.dev/config/
 export default defineConfig({
