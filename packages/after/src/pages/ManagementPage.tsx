@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Badge } from '../components/atoms';
+import { Button } from '@/components/ui/button';
 import { Alert, Table, Modal } from '../components/organisms';
 import { FormInput, FormSelect, FormTextarea } from '../components/molecules';
 import { userService } from '../services/userService';
@@ -175,19 +175,19 @@ export const ManagementPage: React.FC = () => {
       const users = data as User[];
       return {
         total: users.length,
-        stat1: { label: '활성', value: users.filter(u => u.status === 'active').length, color: '#2e7d32' },
-        stat2: { label: '비활성', value: users.filter(u => u.status === 'inactive').length, color: '#ed6c02' },
-        stat3: { label: '정지', value: users.filter(u => u.status === 'suspended').length, color: '#d32f2f' },
-        stat4: { label: '관리자', value: users.filter(u => u.role === 'admin').length, color: '#1976d2' },
+        stat1: { label: '활성', value: users.filter(u => u.status === 'active').length, color: 'bg-[#e8f5e9] border-[#81c784] text-[#388e3c]' },
+        stat2: { label: '비활성', value: users.filter(u => u.status === 'inactive').length, color: 'bg-[#fff3e0] border-[#ffb74d] text-[#f57c00]' },
+        stat3: { label: '정지', value: users.filter(u => u.status === 'suspended').length, color: 'bg-[#ffebee] border-[#e57373] text-[#d32f2f]' },
+        stat4: { label: '관리자', value: users.filter(u => u.role === 'admin').length, color: 'bg-[#f5f5f5] border-[#bdbdbd] text-[#424242]' },
       };
     } else {
       const posts = data as Post[];
       return {
         total: posts.length,
-        stat1: { label: '게시됨', value: posts.filter(p => p.status === 'published').length, color: '#2e7d32' },
-        stat2: { label: '임시저장', value: posts.filter(p => p.status === 'draft').length, color: '#ed6c02' },
-        stat3: { label: '보관됨', value: posts.filter(p => p.status === 'archived').length, color: 'rgba(0, 0, 0, 0.6)' },
-        stat4: { label: '총 조회수', value: posts.reduce((sum, p) => sum + p.views, 0), color: '#1976d2' },
+        stat1: { label: '게시됨', value: posts.filter(p => p.status === 'published').length, color: 'bg-[#e8f5e9] border-[#81c784] text-[#388e3c]' },
+        stat2: { label: '임시저장', value: posts.filter(p => p.status === 'draft').length, color: 'bg-[#fff3e0] border-[#ffb74d] text-[#f57c00]' },
+        stat3: { label: '보관됨', value: posts.filter(p => p.status === 'archived').length, color: 'bg-[#f5f5f5] border-[#bdbdbd] text-[#424242]' },
+        stat4: { label: '총 조회수', value: posts.reduce((sum, p) => sum + p.views, 0), color: 'bg-[#e3f2fd] border-[#90caf9] text-[#1976d2]' },
       };
     }
   };
@@ -243,53 +243,38 @@ export const ManagementPage: React.FC = () => {
           border: '1px solid #ddd',
           padding: '10px'
         }}>
-          <div style={{
-            marginBottom: '15px',
-            borderBottom: '2px solid #ccc',
-            paddingBottom: '5px'
-          }}>
+          <div className="mb-4 border-b-2 border-gray-300 pb-1 flex">
             <button
               onClick={() => setEntityType('post')}
-              style={{
-                padding: '8px 16px',
-                marginRight: '5px',
-                fontSize: '14px',
-                fontWeight: entityType === 'post' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'post' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'post' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px'
-              }}
+              className={`px-4 py-2 mr-1 text-sm rounded-t-sm border border-b-0 ${
+                entityType === 'post' 
+                  ? 'bg-[#1976d2] text-white font-bold border-[#1976d2]' 
+                  : 'bg-[#f5f5f5] text-[#333] border-[#999]'
+              }`}
             >
               게시글
             </button>
             <button
               onClick={() => setEntityType('user')}
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: entityType === 'user' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'user' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'user' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px'
-              }}
+              className={`px-4 py-2 text-sm rounded-t-sm border border-b-0 ${
+                entityType === 'user' 
+                  ? 'bg-[#1976d2] text-white font-bold border-[#1976d2]' 
+                  : 'bg-[#f5f5f5] text-[#333] border-[#999]'
+              }`}
             >
               사용자
             </button>
           </div>
 
           <div>
-            <div style={{ marginBottom: '15px', textAlign: 'right' }}>
+            <div className="mb-4 text-right">
               <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)}>
                 새로 만들기
               </Button>
             </div>
 
             {showSuccessAlert && (
-              <div style={{ marginBottom: '10px' }}>
+              <div className="mb-2">
                 <Alert
                   variant="success"
                   title="성공"
@@ -301,7 +286,7 @@ export const ManagementPage: React.FC = () => {
             )}
 
             {showErrorAlert && (
-              <div style={{ marginBottom: '10px' }}>
+              <div className="mb-2">
                 <Alert
                   variant="error"
                   title="오류"
@@ -312,64 +297,34 @@ export const ManagementPage: React.FC = () => {
               </div>
             )}
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-              gap: '10px',
-              marginBottom: '15px'
-            }}>
-              <div style={{
-                padding: '12px 15px',
-                background: '#e3f2fd',
-                border: '1px solid #90caf9',
-                borderRadius: '3px'
-              }}>
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>전체</div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1976d2' }}>{stats.total}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mb-4">
+              <div className="p-3 bg-[#e3f2fd] border border-[#90caf9] rounded-sm">
+                <div className="text-xs text-gray-500 mb-1">전체</div>
+                <div className="text-2xl font-bold text-[#1976d2]">{stats.total}</div>
               </div>
 
-              <div style={{
-                padding: '12px 15px',
-                background: '#e8f5e9',
-                border: '1px solid #81c784',
-                borderRadius: '3px'
-              }}>
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>{stats.stat1.label}</div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#388e3c' }}>{stats.stat1.value}</div>
+              <div className={`p-3 border rounded-sm ${stats.stat1.color}`}>
+                <div className="text-xs text-gray-500 mb-1">{stats.stat1.label}</div>
+                <div className="text-2xl font-bold">{stats.stat1.value}</div>
               </div>
 
-              <div style={{
-                padding: '12px 15px',
-                background: '#fff3e0',
-                border: '1px solid #ffb74d',
-                borderRadius: '3px'
-              }}>
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>{stats.stat2.label}</div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#f57c00' }}>{stats.stat2.value}</div>
+              <div className={`p-3 border rounded-sm ${stats.stat2.color}`}>
+                <div className="text-xs text-gray-500 mb-1">{stats.stat2.label}</div>
+                <div className="text-2xl font-bold">{stats.stat2.value}</div>
               </div>
 
-              <div style={{
-                padding: '12px 15px',
-                background: '#ffebee',
-                border: '1px solid #e57373',
-                borderRadius: '3px'
-              }}>
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>{stats.stat3.label}</div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#d32f2f' }}>{stats.stat3.value}</div>
+              <div className={`p-3 border rounded-sm ${stats.stat3.color}`}>
+                <div className="text-xs text-gray-500 mb-1">{stats.stat3.label}</div>
+                <div className="text-2xl font-bold">{stats.stat3.value}</div>
               </div>
 
-              <div style={{
-                padding: '12px 15px',
-                background: '#f5f5f5',
-                border: '1px solid #bdbdbd',
-                borderRadius: '3px'
-              }}>
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>{stats.stat4.label}</div>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#424242' }}>{stats.stat4.value}</div>
+              <div className={`p-3 border rounded-sm ${stats.stat4.color}`}>
+                <div className="text-xs text-gray-500 mb-1">{stats.stat4.label}</div>
+                <div className="text-2xl font-bold">{stats.stat4.value}</div>
               </div>
             </div>
 
-            <div style={{ border: '1px solid #ddd', background: 'white', overflow: 'auto' }}>
+            <div className="border border-[#ddd] bg-white overflow-auto">
               <Table
                 columns={renderTableColumns()}
                 data={data}
@@ -398,20 +353,20 @@ export const ManagementPage: React.FC = () => {
           size="large"
           showFooter
           footerContent={
-            <>
-              <Button variant="secondary" size="md" onClick={() => {
+            <div className="flex justify-end gap-2">
+              <Button variant="secondary" onClick={() => {
                 setIsCreateModalOpen(false);
                 setFormData({});
               }}>
                 취소
               </Button>
-              <Button variant="primary" size="md" onClick={handleCreate}>
+              <Button variant="primary" onClick={handleCreate}>
                 생성
               </Button>
-            </>
+            </div>
           }
         >
-          <div>
+          <div className="space-y-4">
             {entityType === 'user' ? (
               <>
                 <FormInput
@@ -421,8 +376,6 @@ export const ManagementPage: React.FC = () => {
                   label="사용자명"
                   placeholder="사용자명을 입력하세요"
                   required
-                  width="full"
-                  fieldType="username"
                 />
                 <FormInput
                   name="email"
@@ -432,33 +385,29 @@ export const ManagementPage: React.FC = () => {
                   placeholder="이메일을 입력하세요"
                   type="email"
                   required
-                  width="full"
-                  fieldType="email"
                 />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid grid-cols-2 gap-4">
                   <FormSelect
                     name="role"
                     value={formData.role || 'user'}
-                    onChange={(value) => setFormData({ ...formData, role: value })}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     options={[
                       { value: 'user', label: '사용자' },
                       { value: 'moderator', label: '운영자' },
                       { value: 'admin', label: '관리자' },
                     ]}
                     label="역할"
-                    size="md"
                   />
                   <FormSelect
                     name="status"
                     value={formData.status || 'active'}
-                    onChange={(value) => setFormData({ ...formData, status: value })}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     options={[
                       { value: 'active', label: '활성' },
                       { value: 'inactive', label: '비활성' },
                       { value: 'suspended', label: '정지' },
                     ]}
                     label="상태"
-                    size="md"
                   />
                 </div>
               </>
@@ -471,10 +420,8 @@ export const ManagementPage: React.FC = () => {
                   label="제목"
                   placeholder="게시글 제목을 입력하세요"
                   required
-                  width="full"
-                  fieldType="postTitle"
                 />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid grid-cols-2 gap-4">
                   <FormInput
                     name="author"
                     value={formData.author || ''}
@@ -482,12 +429,11 @@ export const ManagementPage: React.FC = () => {
                     label="작성자"
                     placeholder="작성자명"
                     required
-                    width="full"
                   />
                   <FormSelect
                     name="category"
                     value={formData.category || ''}
-                    onChange={(value) => setFormData({ ...formData, category: value })}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     options={[
                       { value: 'development', label: 'Development' },
                       { value: 'design', label: 'Design' },
@@ -495,7 +441,6 @@ export const ManagementPage: React.FC = () => {
                     ]}
                     label="카테고리"
                     placeholder="카테고리 선택"
-                    size="md"
                   />
                 </div>
                 <FormTextarea
@@ -522,21 +467,21 @@ export const ManagementPage: React.FC = () => {
           size="large"
           showFooter
           footerContent={
-            <>
-              <Button variant="secondary" size="md" onClick={() => {
+            <div className="flex justify-end gap-2">
+              <Button variant="secondary" onClick={() => {
                 setIsEditModalOpen(false);
                 setFormData({});
                 setSelectedItem(null);
               }}>
                 취소
               </Button>
-              <Button variant="primary" size="md" onClick={handleUpdate}>
+              <Button variant="primary" onClick={handleUpdate}>
                 수정 완료
               </Button>
-            </>
+            </div>
           }
         >
-          <div>
+          <div className="space-y-4">
             {selectedItem && (
               <Alert variant="info">
                 ID: {selectedItem.id} | 생성일: {selectedItem.createdAt}
@@ -553,8 +498,6 @@ export const ManagementPage: React.FC = () => {
                   label="사용자명"
                   placeholder="사용자명을 입력하세요"
                   required
-                  width="full"
-                  fieldType="username"
                 />
                 <FormInput
                   name="email"
@@ -564,33 +507,29 @@ export const ManagementPage: React.FC = () => {
                   placeholder="이메일을 입력하세요"
                   type="email"
                   required
-                  width="full"
-                  fieldType="email"
                 />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid grid-cols-2 gap-4">
                   <FormSelect
                     name="role"
                     value={formData.role || 'user'}
-                    onChange={(value) => setFormData({ ...formData, role: value })}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     options={[
                       { value: 'user', label: '사용자' },
                       { value: 'moderator', label: '운영자' },
                       { value: 'admin', label: '관리자' },
                     ]}
                     label="역할"
-                    size="md"
                   />
                   <FormSelect
                     name="status"
                     value={formData.status || 'active'}
-                    onChange={(value) => setFormData({ ...formData, status: value })}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     options={[
                       { value: 'active', label: '활성' },
                       { value: 'inactive', label: '비활성' },
                       { value: 'suspended', label: '정지' },
                     ]}
                     label="상태"
-                    size="md"
                   />
                 </div>
               </>
@@ -603,10 +542,8 @@ export const ManagementPage: React.FC = () => {
                   label="제목"
                   placeholder="게시글 제목을 입력하세요"
                   required
-                  width="full"
-                  fieldType="postTitle"
                 />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid grid-cols-2 gap-4">
                   <FormInput
                     name="author"
                     value={formData.author || ''}
@@ -614,12 +551,11 @@ export const ManagementPage: React.FC = () => {
                     label="작성자"
                     placeholder="작성자명"
                     required
-                    width="full"
                   />
                   <FormSelect
                     name="category"
                     value={formData.category || ''}
-                    onChange={(value) => setFormData({ ...formData, category: value })}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     options={[
                       { value: 'development', label: 'Development' },
                       { value: 'design', label: 'Design' },
@@ -627,7 +563,6 @@ export const ManagementPage: React.FC = () => {
                     ]}
                     label="카테고리"
                     placeholder="카테고리 선택"
-                    size="md"
                   />
                 </div>
                 <FormTextarea

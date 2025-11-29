@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
+import * as React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
+  description?: string;
   children: React.ReactNode;
   size?: 'small' | 'medium' | 'large';
   showFooter?: boolean;
@@ -14,46 +23,35 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   title,
+  description,
   children,
   size = 'medium',
   showFooter = false,
   footerContent,
 }) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const modalClasses = ['modal-content', `modal-${size}`].join(' ');
+  const sizeClasses = {
+    small: 'sm:max-w-md',
+    medium: 'sm:max-w-lg',
+    large: 'sm:max-w-2xl',
+  };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className={modalClasses} onClick={(e) => e.stopPropagation()}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className={sizeClasses[size]}>
         {title && (
-          <div className="modal-header">
-            <h3 className="modal-title">{title}</h3>
-            <button className="modal-close" onClick={onClose}>
-              ×
-            </button>
-          </div>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            {description && <DialogDescription>{description}</DialogDescription>}
+          </DialogHeader>
         )}
-        <div className="modal-body">
-          {children}
-        </div>
+        <div>{children}</div>
         {showFooter && footerContent && (
-          <div className="modal-footer">
+          <DialogFooter>
             {footerContent}
-          </div>
+          </DialogFooter>
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
+

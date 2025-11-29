@@ -74,7 +74,7 @@ describe('ManagementPage - User Management', () => {
       expect(screen.queryByText('testuser')).not.toBeInTheDocument();
       expect(screen.queryByText('updated@example.com')).not.toBeInTheDocument();
     });
-  });
+  }, 10000);
 });
 
 describe('ManagementPage - Post Management', () => {

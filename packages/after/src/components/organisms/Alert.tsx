@@ -1,6 +1,10 @@
-import React from 'react';
+import * as React from "react";
+import {
+  Alert as ShadcnAlert,
+  AlertTitle,
+  AlertDescription,
+} from "@/components/ui/alert";
 
-// Alert - Different styling approach with inconsistent variants
 interface AlertProps {
   children: React.ReactNode;
   variant?: 'info' | 'success' | 'warning' | 'error' | 'default';
@@ -26,20 +30,24 @@ export const Alert: React.FC<AlertProps> = ({
     }
   };
 
-  const alertClasses = ['alert', `alert-${variant}`].join(' ');
-
   return (
-    <div className={alertClasses}>
-      {showIcon && <div className="alert-icon">{getIcon()}</div>}
-      <div className="alert-content">
-        {title && <div className="alert-title">{title}</div>}
-        <div className="alert-body">{children}</div>
+    <ShadcnAlert variant={variant} className="relative">
+      <div className="flex items-start gap-3">
+        {showIcon && <div className="text-lg">{getIcon()}</div>}
+        <div className="flex-1">
+          {title && <AlertTitle>{title}</AlertTitle>}
+          <AlertDescription>{children}</AlertDescription>
+        </div>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="text-2xl leading-none hover:opacity-70 transition-opacity"
+          >
+            ×
+          </button>
+        )}
       </div>
-      {onClose && (
-        <button onClick={onClose} className="alert-close">
-          ×
-        </button>
-      )}
-    </div>
+    </ShadcnAlert>
   );
 };
+
