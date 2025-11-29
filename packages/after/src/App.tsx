@@ -1,14 +1,17 @@
 import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Header } from './components/Header';
 import { ManagementPage } from './pages/ManagementPage';
 
 export const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main>
-        <ManagementPage />
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-background text-foreground">
+        <Header />
+        <main>
+          <ManagementPage />
+        </main>
+      </div>
+    </ThemeProvider>
   );
 };
