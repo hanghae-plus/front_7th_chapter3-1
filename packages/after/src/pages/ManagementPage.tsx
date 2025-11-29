@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@bento/ui/button';
-import { Badge } from '@bento/ui/badge';
-import { Alert } from '@bento/ui/alert';
 import { DismissibleAlert } from '../components/DismissibleAlert';
-import { FormInput } from '../components/FormInput';
-import { FormTextarea } from '../components/FormTextarea';
-import { FormSelect } from '../components/FormSelect';
+import { StatCard } from '../components/StatCard';
 import { userService } from '../services/userService';
 import { postService } from '../services/postService';
 import type { User } from '../services/userService';
 import type { Post } from '../services/postService';
-import { useForm } from 'react-hook-form';
-import { userSchema } from './user-schema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { postSchema } from './post-schema';
-import { FormModal } from '../components/FormModal';
-import { DataTable, type Column } from '../components/DataTable';
-import { type BadgeProps } from '@bento/ui/badge';
-import { USER_ROLE, USER_STATUS } from '../services/user-constants';
-import { POST_CATEGORY, POST_STATUS } from '../services/post-constants';
 import type { PaginatedResponse, UserStats, PostStats } from '../services/types';
-import { StatCard } from '../components/StatCard';
+import { UserFormModal, UserTable } from '../features/users';
+import { PostFormModal, PostTable } from '../features/posts';
 
 type EntityType = 'user' | 'post';
-type Entity = User | Post;
 
 export const ManagementPage: React.FC = () => {
   const [entityType, setEntityType] = useState<EntityType>('post');
@@ -38,20 +24,25 @@ export const ManagementPage: React.FC = () => {
     total: 0,
     stats: { total: 0, published: 0, draft: 0, archived: 0, totalViews: 0 },
   });
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Entity | null>(null);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+
+  const [modalState, setModalState] = useState<{
+    open: boolean;
+    mode: 'create' | 'edit';
+    selectedUser?: User | null;
+    selectedPost?: Post | null;
+  }>({ open: false, mode: 'create' });
+
+  const [alert, setAlert] = useState<{
+    show: boolean;
+    type: 'success' | 'error';
+    message: string;
+  }>({ show: false, type: 'success', message: '' });
+
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     loadData(currentPage);
-    setIsCreateModalOpen(false);
-    setIsEditModalOpen(false);
-    setSelectedItem(null);
+    setModalState({ open: false, mode: 'create' });
   }, [entityType, currentPage]);
 
   const loadData = async (page: number) => {
@@ -63,110 +54,34 @@ export const ManagementPage: React.FC = () => {
         const result = await postService.getPaginated(page, 10);
         setPostData(result);
       }
-    } catch (error: any) {
-      setErrorMessage('데이터를 불러오는데 실패했습니다');
-      setShowErrorAlert(true);
+    } catch {
+      showAlert('error', '데이터를 불러오는데 실패했습니다');
     }
   };
 
-  const handleUserCreate = async (data: UserFormData) => {
-    try {
-      await userService.create({
-        username: data.username,
-        email: data.email,
-        role: data.role || 'user',
-        status: data.status || 'active',
-      });
-
-      await loadData(currentPage);
-      setIsCreateModalOpen(false);
-      userReset();
-      setAlertMessage('사용자가 생성되었습니다');
-      setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || '생성에 실패했습니다');
-      setShowErrorAlert(true);
-    }
+  const showAlert = (type: 'success' | 'error', message: string) => {
+    setAlert({ show: true, type, message });
   };
 
-  const handlePostCreate = async (data: PostFormData) => {
-    try {
-      await postService.create({
-        title: data.title,
-        content: data.content || '',
-        author: data.author,
-        category: data.category,
-      });
-
-      await loadData(currentPage);
-      setIsCreateModalOpen(false);
-      postReset();
-      setAlertMessage('게시글이 생성되었습니다');
-      setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || '생성에 실패했습니다');
-      setShowErrorAlert(true);
-    }
+  const handleSuccess = (message: string) => {
+    showAlert('success', message);
+    loadData(currentPage);
   };
 
-  const handleEdit = (item: Entity) => {
-    setSelectedItem(item);
-
-    if (entityType === 'user') {
-      const user = item as User;
-      userReset({
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        status: user.status,
-      });
-    } else {
-      const post = item as Post;
-      postReset({
-        title: post.title,
-        content: post.content,
-        author: post.author,
-        category: post.category,
-      });
-    }
-
-    setIsEditModalOpen(true);
+  const handleError = (message: string) => {
+    showAlert('error', message);
   };
 
-  const handleUserUpdate = async (data: UserFormData) => {
-    if (!selectedItem) return;
-
-    try {
-      await userService.update(selectedItem.id, data);
-
-      await loadData(currentPage);
-      setIsEditModalOpen(false);
-      userReset();
-      setSelectedItem(null);
-      setAlertMessage('사용자가 수정되었습니다');
-      setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || '수정에 실패했습니다');
-      setShowErrorAlert(true);
-    }
+  const handleCreate = () => {
+    setModalState({ open: true, mode: 'create' });
   };
 
-  const handlePostUpdate = async (data: PostFormData) => {
-    if (!selectedItem) return;
+  const handleEditUser = (user: User) => {
+    setModalState({ open: true, mode: 'edit', selectedUser: user });
+  };
 
-    try {
-      await postService.update(selectedItem.id, data);
-
-      await loadData(currentPage);
-      setIsEditModalOpen(false);
-      postReset();
-      setSelectedItem(null);
-      setAlertMessage('게시글이 수정되었습니다');
-      setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || '수정에 실패했습니다');
-      setShowErrorAlert(true);
-    }
+  const handleEditPost = (post: Post) => {
+    setModalState({ open: true, mode: 'edit', selectedPost: post });
   };
 
   const handleDelete = async (id: number) => {
@@ -178,19 +93,14 @@ export const ManagementPage: React.FC = () => {
       } else {
         await postService.delete(id);
       }
-
-      await loadData(currentPage);
-      setAlertMessage('삭제되었습니다');
-      setShowSuccessAlert(true);
+      showAlert('success', '삭제되었습니다');
+      loadData(currentPage);
     } catch (error: any) {
-      setErrorMessage(error.message || '삭제에 실패했습니다');
-      setShowErrorAlert(true);
+      showAlert('error', error.message || '삭제에 실패했습니다');
     }
   };
 
   const handleStatusAction = async (id: number, action: 'publish' | 'archive' | 'restore') => {
-    if (entityType !== 'post') return;
-
     try {
       if (action === 'publish') {
         await postService.publish(id);
@@ -200,13 +110,11 @@ export const ManagementPage: React.FC = () => {
         await postService.restore(id);
       }
 
-      await loadData(currentPage);
       const message = action === 'publish' ? '게시' : action === 'archive' ? '보관' : '복원';
-      setAlertMessage(`${message}되었습니다`);
-      setShowSuccessAlert(true);
+      showAlert('success', `${message}되었습니다`);
+      loadData(currentPage);
     } catch (error: any) {
-      setErrorMessage(error.message || '작업에 실패했습니다');
-      setShowErrorAlert(true);
+      showAlert('error', error.message || '작업에 실패했습니다');
     }
   };
 
@@ -232,181 +140,7 @@ export const ManagementPage: React.FC = () => {
     }
   };
 
-  const userTableColumns: Column<User>[] = [
-    { key: 'id', label: 'ID', width: '60px' },
-    { key: 'username', label: '사용자명', width: '150px' },
-    { key: 'email', label: '이메일' },
-    {
-      key: 'role',
-      label: '역할',
-      width: '120px',
-      render: (row: User, _: unknown) => {
-        let type: BadgeProps['variant'] = 'primary';
-        if (row.role === 'admin') type = 'danger';
-        if (row.role === 'moderator') type = 'warning';
-        if (row.role === 'user') type = 'primary';
-        // if (row.role === 'guest') type = 'secondary';
-        return <Badge variant={type}>{USER_ROLE[row.role]}</Badge>;
-      },
-    },
-    {
-      key: 'status',
-      label: '상태',
-      width: '120px',
-
-      render: (row: User, _: unknown) => {
-        let type: BadgeProps['variant'] = 'primary';
-        if (row.status === 'active') type = 'success';
-        if (row.status === 'inactive') type = 'warning';
-        if (row.status === 'suspended') type = 'danger';
-        return <Badge variant={type}>{USER_STATUS[row.status]}</Badge>;
-      },
-    },
-    { key: 'createdAt', label: '생성일', width: '120px' },
-    { key: 'lastLogin', label: '마지막 로그인', width: '140px' },
-    {
-      key: 'actions',
-      label: '관리',
-      width: '200px',
-      render: (row: User, _: unknown) => {
-        return (
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button size="sm" variant="primary" onClick={() => handleEdit(row)}>
-              수정
-            </Button>
-            <Button size="sm" variant="danger" onClick={() => handleDelete(row.id)}>
-              삭제
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
-
-  const postTableColumns: Column<Post>[] = [
-    { key: 'id', label: 'ID', width: '60px' },
-    { key: 'title', label: '제목' },
-    { key: 'author', label: '작성자', width: '120px' },
-    {
-      key: 'category',
-      label: '카테고리',
-      width: '140px',
-      render: (row: Post, _: unknown) => {
-        let type: BadgeProps['variant'] = 'secondary';
-        if (row.category === 'development') type = 'primary';
-        if (row.category === 'design') type = 'info';
-        if (row.category === 'accessibility') type = 'danger';
-        return (
-          <Badge variant={type} shape="pill">
-            {POST_CATEGORY[row.category as keyof typeof POST_CATEGORY]}
-          </Badge>
-        );
-      },
-    },
-    {
-      key: 'status',
-      label: '상태',
-      width: '120px',
-      render: (row: Post, _: unknown) => {
-        let type: BadgeProps['variant'] = 'primary';
-        if (row.status === 'published') type = 'success';
-        if (row.status === 'draft') type = 'warning';
-        if (row.status === 'archived') type = 'primary';
-        // if (row.status === 'pending') type = 'info';
-        // if (row.status === 'rejected') type = 'danger';
-        return <Badge variant={type}>{POST_STATUS[row.status]}</Badge>;
-      },
-    },
-    {
-      key: 'views',
-      label: '조회수',
-      width: '100px',
-      render: (row: Post, _: unknown) => {
-        return <>{row.views?.toLocaleString() || '0'}</>;
-      },
-    },
-    { key: 'createdAt', label: '작성일', width: '120px' },
-    {
-      key: 'actions',
-      label: '관리',
-      width: '250px',
-      render: (row: Post, _: unknown) => {
-        return (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <Button size="sm" variant="primary" onClick={() => handleEdit(row)}>
-              수정
-            </Button>
-            {row.status === 'draft' && (
-              <Button
-                size="sm"
-                variant="success"
-                onClick={() => handleStatusAction(row.id, 'publish')}
-              >
-                게시
-              </Button>
-            )}
-            {row.status === 'published' && (
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => handleStatusAction(row.id, 'archive')}
-              >
-                보관
-              </Button>
-            )}
-            {row.status === 'archived' && (
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={() => handleStatusAction(row.id, 'restore')}
-              >
-                복원
-              </Button>
-            )}
-            <Button size="sm" variant="danger" onClick={() => handleDelete(row.id)}>
-              삭제
-            </Button>
-          </div>
-        );
-      },
-    },
-  ];
-
   const stats = getStats();
-
-  type UserFormData = z.infer<typeof userSchema>;
-  const {
-    register: userRegister,
-    handleSubmit: userHandleSubmit,
-    formState: { errors: userErrors, isSubmitting: isUserSubmitting },
-    reset: userReset,
-  } = useForm<UserFormData>({
-    resolver: zodResolver(userSchema),
-    mode: 'onChange',
-    defaultValues: {
-      username: '',
-      email: '',
-      role: 'user',
-      status: 'active',
-    },
-  });
-
-  type PostFormData = z.infer<typeof postSchema>;
-  const {
-    register: postRegister,
-    handleSubmit: postHandleSubmit,
-    formState: { errors: postErrors, isSubmitting: isPostSubmitting },
-    reset: postReset,
-  } = useForm<PostFormData>({
-    resolver: zodResolver(postSchema),
-    mode: 'onChange',
-    defaultValues: {
-      title: '',
-      content: '',
-      author: '',
-      category: 'development',
-    },
-  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -436,31 +170,19 @@ export const ManagementPage: React.FC = () => {
 
           <div>
             <div className="mb-6 text-right">
-              <Button variant="primary" size="md" onClick={() => setIsCreateModalOpen(true)}>
+              <Button variant="primary" size="md" onClick={handleCreate}>
                 새로 만들기
               </Button>
             </div>
 
-            {showSuccessAlert && (
+            {alert.show && (
               <div className="mb-4">
                 <DismissibleAlert
-                  variant="success"
-                  title="성공"
-                  onClose={() => setShowSuccessAlert(false)}
+                  variant={alert.type}
+                  title={alert.type === 'success' ? '성공' : '오류'}
+                  onClose={() => setAlert({ ...alert, show: false })}
                 >
-                  {alertMessage}
-                </DismissibleAlert>
-              </div>
-            )}
-
-            {showErrorAlert && (
-              <div className="mb-4">
-                <DismissibleAlert
-                  variant="error"
-                  title="오류"
-                  onClose={() => setShowErrorAlert(false)}
-                >
-                  {errorMessage}
+                  {alert.message}
                 </DismissibleAlert>
               </div>
             )}
@@ -475,32 +197,29 @@ export const ManagementPage: React.FC = () => {
 
             <div className="border border-border bg-card overflow-auto">
               {entityType === 'user' ? (
-                <DataTable<User>
-                  columns={userTableColumns}
+                <UserTable
                   data={userData.results}
-                  striped
                   pagination={{
                     page: currentPage,
                     pageSize: 10,
                     totalCount: userData.total,
-                    onPageChange: (page: number) => {
-                      setCurrentPage(page);
-                    },
+                    onPageChange: setCurrentPage,
                   }}
+                  onEdit={handleEditUser}
+                  onDelete={handleDelete}
                 />
               ) : (
-                <DataTable<Post>
-                  columns={postTableColumns}
+                <PostTable
                   data={postData.results}
-                  striped
                   pagination={{
                     page: currentPage,
                     pageSize: 10,
                     totalCount: postData.total,
-                    onPageChange: (page: number) => {
-                      setCurrentPage(page);
-                    },
+                    onPageChange: setCurrentPage,
                   }}
+                  onEdit={handleEditPost}
+                  onDelete={handleDelete}
+                  onStatusAction={handleStatusAction}
                 />
               )}
             </div>
@@ -508,257 +227,27 @@ export const ManagementPage: React.FC = () => {
         </div>
       </div>
 
-      <FormModal
-        open={isCreateModalOpen}
-        onOpenChange={setIsCreateModalOpen}
-        title={`새 ${entityType === 'user' ? '사용자' : '게시글'} 만들기`}
-        size="lg"
-        onSubmit={
-          entityType === 'user'
-            ? userHandleSubmit(handleUserCreate)
-            : postHandleSubmit(handlePostCreate)
-        }
-        onCancel={() => {
-          setIsCreateModalOpen(false);
-          if (entityType === 'user') userReset();
-          if (entityType === 'post') postReset();
-        }}
-        submitText="생성"
-        cancelText="취소"
-        isSubmitting={entityType === 'user' ? isUserSubmitting : isPostSubmitting}
-      >
-        <div>
-          {entityType === 'user' ? (
-            <>
-              <FormInput
-                id="username"
-                label="사용자명"
-                placeholder="사용자명을 입력하세요"
-                required
-                width="full"
-                invalid={!!userErrors.username}
-                invalidText={userErrors.username?.message}
-                {...userRegister('username')}
-              />
-              <FormInput
-                id="email"
-                label="이메일"
-                placeholder="이메일을 입력하세요"
-                type="email"
-                required
-                width="full"
-                invalid={!!userErrors.email}
-                invalidText={userErrors.email?.message}
-                {...userRegister('email')}
-              />
-              <div className="grid grid-cols-[1fr_1fr] gap-4">
-                <FormSelect
-                  id="role"
-                  options={[
-                    { value: 'user', label: '사용자' },
-                    { value: 'moderator', label: '운영자' },
-                    { value: 'admin', label: '관리자' },
-                  ]}
-                  label="역할"
-                  placeholder="역할 선택"
-                  invalid={!!userErrors.role}
-                  invalidText={userErrors.role?.message}
-                  {...userRegister('role')}
-                />
-                <FormSelect
-                  id="status"
-                  options={[
-                    { value: 'active', label: '활성' },
-                    { value: 'inactive', label: '비활성' },
-                    { value: 'suspended', label: '정지' },
-                  ]}
-                  label="상태"
-                  placeholder="상태 선택"
-                  invalid={!!userErrors.status}
-                  invalidText={userErrors.status?.message}
-                  {...userRegister('status')}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <FormInput
-                id="title"
-                label="제목"
-                placeholder="게시글 제목을 입력하세요"
-                required
-                width="full"
-                invalid={!!postErrors.title}
-                invalidText={postErrors.title?.message}
-                {...postRegister('title')}
-              />
-              <div className="grid grid-cols-[1fr_1fr] gap-4">
-                <FormInput
-                  id="author"
-                  label="작성자"
-                  placeholder="작성자명"
-                  required
-                  width="full"
-                  invalid={!!postErrors.author}
-                  invalidText={postErrors.author?.message}
-                  {...postRegister('author')}
-                />
-                <FormSelect
-                  id="category"
-                  options={[
-                    { value: 'development', label: 'Development' },
-                    { value: 'design', label: 'Design' },
-                    { value: 'accessibility', label: 'Accessibility' },
-                  ]}
-                  label="카테고리"
-                  placeholder="카테고리 선택"
-                  invalid={!!postErrors.category}
-                  invalidText={postErrors.category?.message}
-                  {...postRegister('category')}
-                />
-              </div>
-              <FormTextarea
-                id="content"
-                label="내용"
-                placeholder="게시글 내용을 입력하세요"
-                rows={6}
-                invalid={!!postErrors.content}
-                invalidText={postErrors.content?.message}
-                {...postRegister('content')}
-              />
-            </>
-          )}
-        </div>
-      </FormModal>
+      {entityType === 'user' && (
+        <UserFormModal
+          open={modalState.open}
+          onOpenChange={open => setModalState({ ...modalState, open })}
+          mode={modalState.mode}
+          user={modalState.selectedUser}
+          onSuccess={handleSuccess}
+          onError={handleError}
+        />
+      )}
 
-      <FormModal
-        open={isEditModalOpen}
-        onOpenChange={setIsEditModalOpen}
-        onCancel={() => {
-          setIsEditModalOpen(false);
-          if (entityType === 'user') userReset();
-          if (entityType === 'post') postReset();
-          setSelectedItem(null);
-        }}
-        onSubmit={
-          entityType === 'user'
-            ? userHandleSubmit(handleUserUpdate)
-            : postHandleSubmit(handlePostUpdate)
-        }
-        submitText="수정 완료"
-        cancelText="취소"
-        title={`${entityType === 'user' ? '사용자' : '게시글'} 수정`}
-        size="lg"
-        isSubmitting={entityType === 'user' ? isUserSubmitting : isPostSubmitting}
-      >
-        <div>
-          {selectedItem && (
-            <Alert variant="info">
-              ID: {selectedItem.id} | 생성일: {selectedItem.createdAt}
-              {entityType === 'post' && ` | 조회수: ${(selectedItem as Post).views}`}
-            </Alert>
-          )}
-
-          {entityType === 'user' ? (
-            <>
-              <FormInput
-                id="username"
-                label="사용자명"
-                placeholder="사용자명을 입력하세요"
-                required
-                width="full"
-                invalid={!!userErrors.username}
-                invalidText={userErrors.username?.message}
-                {...userRegister('username')}
-              />
-              <FormInput
-                id="email"
-                label="이메일"
-                placeholder="이메일을 입력하세요"
-                type="email"
-                required
-                width="full"
-                invalid={!!userErrors.email}
-                invalidText={userErrors.email?.message}
-                {...userRegister('email')}
-              />
-              <div className="grid grid-cols-[1fr_1fr] gap-4">
-                <FormSelect
-                  id="role"
-                  options={[
-                    { value: 'user', label: '사용자' },
-                    { value: 'moderator', label: '운영자' },
-                    { value: 'admin', label: '관리자' },
-                  ]}
-                  label="역할"
-                  invalid={!!userErrors.role}
-                  invalidText={userErrors.role?.message}
-                  {...userRegister('role')}
-                />
-                <FormSelect
-                  id="status"
-                  options={[
-                    { value: 'active', label: '활성' },
-                    { value: 'inactive', label: '비활성' },
-                    { value: 'suspended', label: '정지' },
-                  ]}
-                  label="상태"
-                  invalid={!!userErrors.status}
-                  invalidText={userErrors.status?.message}
-                  {...userRegister('status')}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <FormInput
-                id="title"
-                label="제목"
-                placeholder="게시글 제목을 입력하세요"
-                required
-                width="full"
-                invalid={!!postErrors.title}
-                invalidText={postErrors.title?.message}
-                {...postRegister('title')}
-              />
-              <div className="grid grid-cols-[1fr_1fr] gap-4">
-                <FormInput
-                  id="author"
-                  label="작성자"
-                  placeholder="작성자명"
-                  required
-                  width="full"
-                  invalid={!!postErrors.author}
-                  invalidText={postErrors.author?.message}
-                  {...postRegister('author')}
-                />
-                <FormSelect
-                  id="category"
-                  options={[
-                    { value: 'development', label: 'Development' },
-                    { value: 'design', label: 'Design' },
-                    { value: 'accessibility', label: 'Accessibility' },
-                  ]}
-                  label="카테고리"
-                  placeholder="카테고리 선택"
-                  invalid={!!postErrors.category}
-                  invalidText={postErrors.category?.message}
-                  {...postRegister('category')}
-                />
-              </div>
-              <FormTextarea
-                id="content"
-                label="내용"
-                placeholder="게시글 내용을 입력하세요"
-                rows={6}
-                invalid={!!postErrors.content}
-                invalidText={postErrors.content?.message}
-                {...postRegister('content')}
-              />
-            </>
-          )}
-        </div>
-      </FormModal>
+      {entityType === 'post' && (
+        <PostFormModal
+          open={modalState.open}
+          onOpenChange={open => setModalState({ ...modalState, open })}
+          mode={modalState.mode}
+          post={modalState.selectedPost}
+          onSuccess={handleSuccess}
+          onError={handleError}
+        />
+      )}
     </div>
   );
 };
