@@ -1,0 +1,12 @@
+@import "./tokens.css";
+
+/*
+ * Bento UI Foundation Styles
+ *
+ * This file provides:
+ * 1. CSS variables for theming (via tokens.css)
+ * 2. Dark mode support via .dark class
+ *
+ * All primitives use CSS arbitrary values (e.g., bg-[var(--primary)])
+ * so no Tailwind @theme or @source is required.
+ */
