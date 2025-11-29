@@ -1,10 +1,23 @@
-import React from 'react';
+import React from "react";
+import {
+  Card as UICard,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card";
+import { cn } from "@/lib/utils";
 
+/**
+ * Card 컴포넌트
+ *
+ * shadcn/ui Card를 사용한 카드 컴포넌트입니다.
+ */
 interface CardProps {
   children?: React.ReactNode;
   title?: string;
   subtitle?: string;
-  variant?: 'default' | 'bordered' | 'elevated' | 'flat';
+  variant?: "default" | "bordered" | "elevated" | "flat";
   headerActions?: React.ReactNode;
 }
 
@@ -12,23 +25,36 @@ export const Card: React.FC<CardProps> = ({
   children,
   title,
   subtitle,
-  variant = 'default',
+  variant = "default",
   headerActions,
 }) => {
-  const cardClasses = ['card', `card-${variant}`].join(' ');
+  const variantClasses = {
+    default: "shadow-[var(--shadow-card-default)]",
+    bordered: "border border-[var(--color-border-tertiary)] shadow-none",
+    elevated: "shadow-[var(--shadow-card-elevated)]",
+    flat: "border border-[var(--color-border-quaternary)] shadow-none bg-[var(--color-bg-tertiary)]",
+  };
 
   return (
-    <div className={cardClasses}>
+    <UICard
+      className={cn("card", `card-${variant}`, variantClasses[variant], "mb-4")}
+    >
       {(title || subtitle || headerActions) && (
-        <div className="card-header">
-          <div>
-            {title && <h3 className="card-title">{title}</h3>}
-            {subtitle && <p className="card-subtitle">{subtitle}</p>}
+        <CardHeader className="card-header">
+          <div className="flex justify-between items-center w-full">
+            <div>
+              {title && <CardTitle className="card-title">{title}</CardTitle>}
+              {subtitle && (
+                <CardDescription className="card-subtitle">
+                  {subtitle}
+                </CardDescription>
+              )}
+            </div>
+            {headerActions && <div>{headerActions}</div>}
           </div>
-          {headerActions && <div>{headerActions}</div>}
-        </div>
+        </CardHeader>
       )}
-      <div className="card-body">{children}</div>
-    </div>
+      <CardContent className="card-body">{children}</CardContent>
+    </UICard>
   );
 };

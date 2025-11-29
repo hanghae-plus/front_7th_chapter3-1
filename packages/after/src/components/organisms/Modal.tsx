@@ -1,11 +1,24 @@
-import React, { useEffect } from 'react';
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
+/**
+ * Modal 컴포넌트
+ *
+ * shadcn/ui Dialog를 사용한 모달 컴포넌트입니다.
+ * 접근성과 포커스 관리가 자동으로 처리됩니다.
+ */
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   showFooter?: boolean;
   footerContent?: React.ReactNode;
 }
@@ -15,45 +28,25 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
-  size = 'medium',
+  size = "medium",
   showFooter = false,
   footerContent,
 }) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const modalClasses = ['modal-content', `modal-${size}`].join(' ');
-
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className={modalClasses} onClick={(e) => e.stopPropagation()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent size={size}>
         {title && (
-          <div className="modal-header">
-            <h3 className="modal-title">{title}</h3>
-            <button className="modal-close" onClick={onClose}>
-              ×
-            </button>
-          </div>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+          </DialogHeader>
         )}
-        <div className="modal-body">
+        <div className="p-[var(--modal-body-padding)] overflow-y-auto flex-1">
           {children}
         </div>
         {showFooter && footerContent && (
-          <div className="modal-footer">
-            {footerContent}
-          </div>
+          <DialogFooter>{footerContent}</DialogFooter>
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
