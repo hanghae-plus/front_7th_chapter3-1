@@ -20,7 +20,7 @@ import { DataTable, type Column } from '../components/DataTable';
 import { type BadgeProps } from '@bento/ui/badge';
 import { USER_ROLE, USER_STATUS } from '../services/user-constants';
 import { POST_CATEGORY, POST_STATUS } from '../services/post-constants';
-import type { PaginatedResponse } from '../services/types';
+import type { PaginatedResponse, UserStats, PostStats } from '../services/types';
 import { StatCard } from '../components/StatCard';
 
 type EntityType = 'user' | 'post';
@@ -28,7 +28,16 @@ type Entity = User | Post;
 
 export const ManagementPage: React.FC = () => {
   const [entityType, setEntityType] = useState<EntityType>('post');
-  const [data, setData] = useState<PaginatedResponse<Entity>>({ results: [], total: 0 });
+  const [userData, setUserData] = useState<PaginatedResponse<User, UserStats>>({
+    results: [],
+    total: 0,
+    stats: { total: 0, active: 0, inactive: 0, suspended: 0, admins: 0 },
+  });
+  const [postData, setPostData] = useState<PaginatedResponse<Post, PostStats>>({
+    results: [],
+    total: 0,
+    stats: { total: 0, published: 0, draft: 0, archived: 0, totalViews: 0 },
+  });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Entity | null>(null);
@@ -47,15 +56,13 @@ export const ManagementPage: React.FC = () => {
 
   const loadData = async (page: number) => {
     try {
-      let result: PaginatedResponse<Entity>;
-
       if (entityType === 'user') {
-        result = await userService.getPaginated(page, 10);
+        const result = await userService.getPaginated(page, 10);
+        setUserData(result);
       } else {
-        result = await postService.getPaginated(page, 10);
+        const result = await postService.getPaginated(page, 10);
+        setPostData(result);
       }
-
-      setData(result);
     } catch (error: any) {
       setErrorMessage('데이터를 불러오는데 실패했습니다');
       setShowErrorAlert(true);
@@ -205,46 +212,22 @@ export const ManagementPage: React.FC = () => {
 
   const getStats = () => {
     if (entityType === 'user') {
-      const users = data.results as User[];
+      const { stats } = userData;
       return {
-        total: users.length,
-        stat1: {
-          label: '활성',
-          value: users.filter(u => u.status === 'active').length,
-        },
-        stat2: {
-          label: '비활성',
-          value: users.filter(u => u.status === 'inactive').length,
-        },
-        stat3: {
-          label: '정지',
-          value: users.filter(u => u.status === 'suspended').length,
-        },
-        stat4: {
-          label: '관리자',
-          value: users.filter(u => u.role === 'admin').length,
-        },
+        total: stats.total,
+        stat1: { label: '활성', value: stats.active },
+        stat2: { label: '비활성', value: stats.inactive },
+        stat3: { label: '정지', value: stats.suspended },
+        stat4: { label: '관리자', value: stats.admins },
       };
     } else {
-      const posts = data.results as Post[];
+      const { stats } = postData;
       return {
-        total: posts.length,
-        stat1: {
-          label: '게시됨',
-          value: posts.filter(p => p.status === 'published').length,
-        },
-        stat2: {
-          label: '임시저장',
-          value: posts.filter(p => p.status === 'draft').length,
-        },
-        stat3: {
-          label: '보관됨',
-          value: posts.filter(p => p.status === 'archived').length,
-        },
-        stat4: {
-          label: '총 조회수',
-          value: posts.reduce((sum, p) => sum + p.views, 0),
-        },
+        total: stats.total,
+        stat1: { label: '게시됨', value: stats.published },
+        stat2: { label: '임시저장', value: stats.draft },
+        stat3: { label: '보관됨', value: stats.archived },
+        stat4: { label: '총 조회수', value: stats.totalViews },
       };
     }
   };
@@ -494,12 +477,12 @@ export const ManagementPage: React.FC = () => {
               {entityType === 'user' ? (
                 <DataTable<User>
                   columns={userTableColumns}
-                  data={data.results as User[]}
+                  data={userData.results}
                   striped
                   pagination={{
                     page: currentPage,
                     pageSize: 10,
-                    totalCount: data.total,
+                    totalCount: userData.total,
                     onPageChange: (page: number) => {
                       setCurrentPage(page);
                     },
@@ -508,12 +491,12 @@ export const ManagementPage: React.FC = () => {
               ) : (
                 <DataTable<Post>
                   columns={postTableColumns}
-                  data={data.results as Post[]}
+                  data={postData.results}
                   striped
                   pagination={{
                     page: currentPage,
                     pageSize: 10,
-                    totalCount: data.total,
+                    totalCount: postData.total,
                     onPageChange: (page: number) => {
                       setCurrentPage(page);
                     },
