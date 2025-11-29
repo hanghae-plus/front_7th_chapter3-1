@@ -1,5 +1,5 @@
-import type { PaginatedResponse, PostStats } from './types';
-import { POST_CATEGORY, POST_STATUS } from './post-constants';
+import type { PaginatedResponse, PostStats } from '../types';
+import { POST_CATEGORY, POST_STATUS } from './constants';
 
 export interface Post {
   id: number;

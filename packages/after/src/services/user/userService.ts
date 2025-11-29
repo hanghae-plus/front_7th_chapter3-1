@@ -1,5 +1,5 @@
-import type { PaginatedResponse, UserStats } from './types';
-import { USER_ROLE, USER_STATUS } from './user-constants';
+import type { PaginatedResponse, UserStats } from '../types';
+import { USER_ROLE, USER_STATUS } from './constants';
 
 export interface User {
   id: number;

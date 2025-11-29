@@ -1,8 +1,8 @@
 import { Button } from '@bento/ui/button';
 import { Badge, type BadgeProps } from '@bento/ui/badge';
 import { DataTable, type Column } from '../../components/DataTable';
-import type { Post } from '../../services/postService';
-import { POST_CATEGORY, POST_STATUS } from '../../services/post-constants';
+import type { Post } from '../../services/post/postService';
+import { POST_CATEGORY, POST_STATUS } from '../../services/post/constants';
 
 interface PostTableProps {
   data: Post[];
@@ -17,13 +17,7 @@ interface PostTableProps {
   onStatusAction: (id: number, action: 'publish' | 'archive' | 'restore') => void;
 }
 
-export function PostTable({
-  data,
-  pagination,
-  onEdit,
-  onDelete,
-  onStatusAction,
-}: PostTableProps) {
+export function PostTable({ data, pagination, onEdit, onDelete, onStatusAction }: PostTableProps) {
   const columns: Column<Post>[] = [
     { key: 'id', label: 'ID', width: '60px' },
     { key: 'title', label: '제목' },

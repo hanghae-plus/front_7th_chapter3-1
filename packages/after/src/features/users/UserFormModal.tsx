@@ -5,8 +5,8 @@ import { Alert } from '@bento/ui/alert';
 import { FormModal } from '../../components/FormModal';
 import { FormInput } from '../../components/FormInput';
 import { FormSelect } from '../../components/FormSelect';
-import { userService } from '../../services/userService';
-import type { User } from '../../services/userService';
+import { userService } from '../../services/user/userService';
+import type { User } from '../../services/user/userService';
 import { userSchema, type UserFormData } from './user-schema';
 
 interface UserFormModalProps {

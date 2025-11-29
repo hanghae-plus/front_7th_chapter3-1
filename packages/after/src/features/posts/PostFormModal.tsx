@@ -6,8 +6,8 @@ import { FormModal } from '../../components/FormModal';
 import { FormInput } from '../../components/FormInput';
 import { FormSelect } from '../../components/FormSelect';
 import { FormTextarea } from '../../components/FormTextarea';
-import { postService } from '../../services/postService';
-import type { Post } from '../../services/postService';
+import { postService } from '../../services/post/postService';
+import type { Post } from '../../services/post/postService';
 import { postSchema, type PostFormData } from './post-schema';
 
 interface PostFormModalProps {

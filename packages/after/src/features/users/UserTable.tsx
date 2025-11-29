@@ -1,8 +1,8 @@
 import { Button } from '@bento/ui/button';
 import { Badge, type BadgeProps } from '@bento/ui/badge';
 import { DataTable, type Column } from '../../components/DataTable';
-import type { User } from '../../services/userService';
-import { USER_ROLE, USER_STATUS } from '../../services/user-constants';
+import type { User } from '../../services/user/userService';
+import { USER_ROLE, USER_STATUS } from '../../services/user/constants';
 
 interface UserTableProps {
   data: User[];
