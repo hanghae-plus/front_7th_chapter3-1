@@ -87,8 +87,7 @@ export const Sizes: Story = {
   render: () => (
     <div className="space-y-4 w-[300px]">
       <FormSelect id="select-sm" label="Small" options={roleOptions} size="sm" />
-      <FormSelect id="select-md" label="Medium (기본)" options={roleOptions} size="md" />
-      <FormSelect id="select-lg" label="Large" options={roleOptions} size="lg" />
+      <FormSelect id="select-md" label="Medium (기본)" options={roleOptions} size="default" />
     </div>
   ),
 };
@@ -106,7 +105,7 @@ export const Interactive: Story = {
           label="역할"
           options={roleOptions}
           value={role}
-          onChange={(e) => setRole(e.target.value)}
+          onChange={e => setRole(e.target.value)}
           onBlur={() => setTouched({ ...touched, role: true })}
           required
           invalid={touched.role && !role}
@@ -117,7 +116,7 @@ export const Interactive: Story = {
           label="부서"
           options={categoryOptions}
           value={department}
-          onChange={(e) => setDepartment(e.target.value)}
+          onChange={e => setDepartment(e.target.value)}
           helpText="선택 사항입니다."
         />
         <div className="pt-4 text-sm text-gray-600">

@@ -27,7 +27,7 @@ const columns: Column<User>[] = [
   {
     key: 'status',
     label: '상태',
-    render: (row) => (
+    render: row => (
       <Badge variant={row.status === 'active' ? 'success' : 'secondary'}>
         {row.status === 'active' ? '활성' : '비활성'}
       </Badge>
@@ -76,7 +76,7 @@ export const ClickableRows: Story = {
     <DataTable
       columns={columns}
       data={sampleUsers}
-      onRowClick={(row) => alert(`Clicked: ${row.name}`)}
+      onRowClick={row => alert(`Clicked: ${row.name}`)}
       striped
     />
   ),

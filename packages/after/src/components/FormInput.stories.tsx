@@ -84,7 +84,7 @@ export const Interactive: Story = {
           label="사용자명"
           placeholder="3자 이상 입력하세요"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value)}
           onBlur={() => setTouched(true)}
           required
           invalid={touched && !isValid}
@@ -114,7 +114,7 @@ export const FormExample: Story = {
           label="이름"
           placeholder="홍길동"
           value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          onChange={e => setForm({ ...form, name: e.target.value })}
           required
         />
         <FormInput
@@ -123,7 +123,7 @@ export const FormExample: Story = {
           type="email"
           placeholder="example@email.com"
           value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={e => setForm({ ...form, email: e.target.value })}
           required
           helpText="업무용 이메일을 권장합니다."
         />
@@ -133,7 +133,7 @@ export const FormExample: Story = {
           type="tel"
           placeholder="010-1234-5678"
           value={form.phone}
-          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          onChange={e => setForm({ ...form, phone: e.target.value })}
         />
       </div>
     );

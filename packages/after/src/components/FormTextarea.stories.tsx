@@ -85,7 +85,7 @@ export const Interactive: Story = {
           label="게시글 내용"
           placeholder="내용을 입력하세요..."
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={e => setValue(e.target.value)}
           onBlur={() => setTouched(true)}
           rows={5}
           required
@@ -100,10 +100,8 @@ export const Interactive: Story = {
           helpText={!touched || isValid ? `${minLength}자 이상, ${maxLength}자 이하` : undefined}
         />
         <div className="text-right text-sm text-gray-500">
-          <span className={value.length > maxLength ? 'text-red-500' : ''}>
-            {value.length}
-          </span>
-          /{maxLength}
+          <span className={value.length > maxLength ? 'text-red-500' : ''}>{value.length}</span>/
+          {maxLength}
         </div>
       </div>
     );
@@ -125,7 +123,7 @@ export const FormExample: Story = {
           label="요약"
           placeholder="간단한 요약을 입력하세요..."
           value={form.summary}
-          onChange={(e) => setForm({ ...form, summary: e.target.value })}
+          onChange={e => setForm({ ...form, summary: e.target.value })}
           rows={2}
           helpText="한두 문장으로 요약하세요."
         />
@@ -134,7 +132,7 @@ export const FormExample: Story = {
           label="본문"
           placeholder="본문 내용을 입력하세요..."
           value={form.content}
-          onChange={(e) => setForm({ ...form, content: e.target.value })}
+          onChange={e => setForm({ ...form, content: e.target.value })}
           rows={6}
           required
         />

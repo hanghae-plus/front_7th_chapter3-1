@@ -72,7 +72,7 @@ export const WithForm: Story = {
               label="이름"
               placeholder="이름을 입력하세요"
               value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onChange={e => setForm({ ...form, name: e.target.value })}
               required
             />
             <FormInput
@@ -81,7 +81,7 @@ export const WithForm: Story = {
               type="email"
               placeholder="example@email.com"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onChange={e => setForm({ ...form, email: e.target.value })}
               required
             />
           </div>
@@ -180,7 +180,7 @@ export const CustomFooter: Story = {
           title="커스텀 푸터 모달"
           footer={
             <div className="flex justify-between w-full">
-              <Button variant="destructive" onClick={() => alert('삭제!')}>
+              <Button variant="danger" onClick={() => alert('삭제!')}>
                 삭제
               </Button>
               <div className="flex gap-2">

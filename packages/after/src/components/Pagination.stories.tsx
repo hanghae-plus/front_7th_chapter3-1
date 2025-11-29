@@ -17,9 +17,7 @@ type Story = StoryObj<typeof Pagination>;
 export const Default: Story = {
   render: function Render() {
     const [page, setPage] = useState(1);
-    return (
-      <Pagination page={page} pageSize={10} totalCount={100} onPageChange={setPage} />
-    );
+    return <Pagination page={page} pageSize={10} totalCount={100} onPageChange={setPage} />;
   },
 };
 
@@ -53,18 +51,14 @@ export const LastPage: Story = {
 export const SmallDataset: Story = {
   render: function Render() {
     const [page, setPage] = useState(1);
-    return (
-      <Pagination page={page} pageSize={10} totalCount={25} onPageChange={setPage} />
-    );
+    return <Pagination page={page} pageSize={10} totalCount={25} onPageChange={setPage} />;
   },
 };
 
 export const LargeDataset: Story = {
   render: function Render() {
     const [page, setPage] = useState(1);
-    return (
-      <Pagination page={page} pageSize={20} totalCount={500} onPageChange={setPage} />
-    );
+    return <Pagination page={page} pageSize={20} totalCount={500} onPageChange={setPage} />;
   },
 };
 
@@ -90,7 +84,7 @@ export const Interactive: Story = {
           <label className="text-sm">페이지 크기:</label>
           <select
             value={pageSize}
-            onChange={(e) => {
+            onChange={e => {
               setPageSize(Number(e.target.value));
               setPage(1);
             }}
