@@ -1,4 +1,4 @@
-import type { PaginatedResponse } from './types';
+import type { PaginatedResponse, UserStats } from './types';
 import { USER_ROLE, USER_STATUS } from './user-constants';
 
 export interface User {
@@ -64,12 +64,21 @@ export const userService = {
     return getUsers();
   },
 
-  async getPaginated(page: number, pageSize: number): Promise<PaginatedResponse<User>> {
+  async getPaginated(page: number, pageSize: number): Promise<PaginatedResponse<User, UserStats>> {
     const users = getUsers();
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
     const data = users.slice(start, end);
-    return { results: data, total: users.length };
+
+    const stats: UserStats = {
+      total: users.length,
+      active: users.filter(u => u.status === 'active').length,
+      inactive: users.filter(u => u.status === 'inactive').length,
+      suspended: users.filter(u => u.status === 'suspended').length,
+      admins: users.filter(u => u.role === 'admin').length,
+    };
+
+    return { results: data, total: users.length, stats };
   },
 
   async getById(id: number): Promise<User | null> {

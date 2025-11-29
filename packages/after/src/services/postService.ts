@@ -1,4 +1,4 @@
-import type { PaginatedResponse } from './types';
+import type { PaginatedResponse, PostStats } from './types';
 import { POST_CATEGORY, POST_STATUS } from './post-constants';
 
 export interface Post {
@@ -182,12 +182,21 @@ export const postService = {
     return getPosts();
   },
 
-  async getPaginated(page: number, pageSize: number): Promise<PaginatedResponse<Post>> {
+  async getPaginated(page: number, pageSize: number): Promise<PaginatedResponse<Post, PostStats>> {
     const posts = getPosts();
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
     const data = posts.slice(start, end);
-    return { results: data, total: posts.length };
+
+    const stats: PostStats = {
+      total: posts.length,
+      published: posts.filter(p => p.status === 'published').length,
+      draft: posts.filter(p => p.status === 'draft').length,
+      archived: posts.filter(p => p.status === 'archived').length,
+      totalViews: posts.reduce((sum, p) => sum + p.views, 0),
+    };
+
+    return { results: data, total: posts.length, stats };
   },
 
   async getById(id: number): Promise<Post | null> {
