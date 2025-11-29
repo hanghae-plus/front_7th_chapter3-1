@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// TODO:  improve includes check
 export const postSchema = z.object({
   title: z
     .string()
@@ -14,3 +13,5 @@ export const postSchema = z.object({
   content: z.string(),
   category: z.enum(['development', 'design', 'accessibility']),
 });
+
+export type PostFormData = z.infer<typeof postSchema>;
