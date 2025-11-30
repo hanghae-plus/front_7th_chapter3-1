@@ -202,29 +202,46 @@ export const Primary: Story = {
 ## 5. 과제 제출
 
 ### 필수 구현 사항
-- [ ] after 패키지에 디자인 시스템 구현 완료
-- [ ] PostManagement 페이지 마이그레이션 완료
-- [ ] Storybook에 주요 컴포넌트 stories 작성
-- [ ] README에 before/after 비교 및 개선사항 문서화
+- [x] after 패키지에 디자인 시스템 구현 완료
+- [x] PostManagement 페이지 마이그레이션 완료
+- [x] Storybook에 주요 컴포넌트 stories 작성
+- [x] README에 before/after 비교 및 개선사항 문서화
 
 ### 심화 구현 사항
-- [ ] Dark mode 지원
-- [ ] Dark mode toggle 버튼
+- [x] Dark mode 지원
+- [x] Dark mode toggle 버튼
 
 ## 6. 그밖에 해보면 좋을 것들
 > 분량상 이번 과제에는 포함하지 않았지만, 실무에서 자주 쓰이는 패턴들입니다. 시간 여유가 된다면 도전해보세요!
 - [ ] figma 디자인 토큰 추출 후 적용
 - [ ] figma Design to Code 플러그인 혹은 MCP 사용해보기
 - [ ] figma Icon to SVG + deploy to CDN 시스템 구축 해보기
-- [ ] 복잡한 컴포넌트 직접 구현 (token, variants, 접근성) 포함
+- [x] 복잡한 컴포넌트 직접 구현 (token, variants, 접근성) 포함
   - ex) AutoComplete, DatePicker
-- [ ] Monorepo 디자인 시스템 패키지 구축 및 배포
-- [ ] Storybook Interaction Tests 또는 A11y addon으로 컴포넌트 품질 검증
-- [ ] React Hook Form + Zod로 Form 구현
+- [x] Monorepo 디자인 시스템 패키지 구축 및 배포
+- [x] Storybook Interaction Tests 또는 A11y addon으로 컴포넌트 품질 검증
+- [x] React Hook Form + Zod로 Form 구현
 
 ---
 
 **이 프로젝트를 통해 레거시 시스템의 문제점을 이해하고, 현대적인 디자인 시스템 구축 능력을 습득하세요!**
+
+## 7. 리팩토링 결과 (After)
+
+이번 과제를 통해 레거시 시스템을 현대적인 디자인 시스템으로 성공적으로 마이그레이션했습니다.
+
+### 주요 개선 사항
+
+1.  **Tailwind CSS v4 도입**: 최신 CSS 기능을 활용하고 빌드 성능을 최적화했습니다.
+2.  **shadcn/ui 기반 컴포넌트 시스템**: `components/ui` 디렉토리에 일관된 API를 가진 컴포넌트를 구축하여 개발 생산성을 높였습니다.
+3.  **Entity 패턴 적용**: `ManagementPage`의 복잡한 로직을 `EntityForm`, `EntityTable` 등으로 분리하여 유지보수성을 향상시켰습니다.
+4.  **다크 모드 지원**: CSS 변수와 Tailwind를 활용한 완벽한 다크 모드 시스템을 구현했습니다.
+5.  **GitHub Actions 멀티 배포**: Before와 After 패키지를 동시에 빌드하고 배포하는 CI/CD 파이프라인을 구축했습니다.
+
+### 배포 링크
+
+- **After (리팩토링 결과물)**: [Link](https://dev-learning1.github.io/hanghae-plus_front_7th_chapter3-1/)
+- **Before (레거시)**: [Link](https://dev-learning1.github.io/hanghae-plus_front_7th_chapter3-1/before)
 
 ## 참고 자료
 

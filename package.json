@@ -18,7 +18,10 @@
     "test:after": "pnpm --filter @front_lite_chapter3-1/after test",
     "test:run": "pnpm -r test:run",
     "test:run:before": "pnpm --filter @front_lite_chapter3-1/before test:run",
-    "test:run:after": "pnpm --filter @front_lite_chapter3-1/after test:run"
+    "test:run:after": "pnpm --filter @front_lite_chapter3-1/after test:run",
+    "preview": "pnpm -r preview",
+    "preview:after": "pnpm --filter @front_lite_chapter3-1/after preview",
+    "preview:before": "pnpm --filter @front_lite_chapter3-1/before preview"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
