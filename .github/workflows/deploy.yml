@@ -1,0 +1,81 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # -------------------------------------------------------------
+      # 1. Build Main Application (Only 'after' package)
+      # -------------------------------------------------------------
+      - name: Build Main Application
+        # after 패키지만 필터링하여 빌드합니다. (Output: packages/after/dist)
+        run: pnpm --filter @front_lite_chapter3-1/after build
+
+      - name: Build Storybook Documentation
+        # Storybook 빌드 (Output: packages/after/storybook-static)
+        run: pnpm --filter @front_lite_chapter3-1/after run build-storybook
+
+      # -------------------------------------------------------------
+      # 2. Merge Artifacts into /dist/storybook
+      # -------------------------------------------------------------
+      - name: Prepare Unified Artifact
+        run: |
+          cd packages/after
+          # 1. artifacts 폴더 생성
+          mkdir -p dist/storybook
+          # 2. Storybook 빌드 결과물(storybook-static)을 dist/storybook/으로 복사
+          cp -r storybook-static/. dist/storybook
+          # 3. 임시 폴더 삭제
+          rm -rf storybook-static
+          # 4. CI 빌드 파일 정리 (선택 사항)
+          rm -rf node_modules
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # packages/after/dist 폴더 전체를 업로드 (Main App + Storybook)
+          path: packages/after/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

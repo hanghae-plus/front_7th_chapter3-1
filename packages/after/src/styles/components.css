@@ -1,603 +1,301 @@
-* {
-  margin:0;
-  padding:0;
-}
-
-/* Button styles */
-.btn {
-  display: inline-block;
-  font-family: Arial, sans-serif;
-  font-weight: normal;
-  line-height: 1.5;
-  border-radius: 3px;
-  cursor: pointer;
-  border: 1px solid;
-  white-space: nowrap;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background-color: #1976d2;
-  color: #fff;
-  border-color: #1565c0;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #1565c0;
-}
-
-.btn-secondary {
-  background-color: #f5f5f5;
-  color: #333;
-  border-color: #ddd;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background-color: #e0e0e0;
-}
-
-.btn-danger {
-  background-color: #d32f2f;
-  color: #fff;
-  border-color: #c62828;
-}
-
-.btn-danger:hover:not(:disabled) {
-  background-color: #c62828;
-}
-
-.btn-success {
-  background-color: #388e3c;
-  color: #fff;
-  border-color: #2e7d32;
-}
-
-.btn-success:hover:not(:disabled) {
-  background-color: #2e7d32;
-}
-
-.btn-sm {
-  padding: 6px 12px;
-  font-size: 13px;
-}
-
-.btn-md {
-  padding: 10px 20px;
-  font-size: 14px;
-}
-
-.btn-lg {
-  padding: 12px 24px;
-  font-size: 15px;
-}
-
-.btn-fullwidth {
-  width: 100%;
-}
-
-/* Form Input styles */
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 6px;
-  color: #333;
-  font-size: 13px;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-}
-
-.form-input,
-.form-select {
-  width: 100%;
-  padding: 8px 10px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  color: #000;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  background-color: #fff;
-  box-sizing: border-box;
-}
-
-.form-input:focus,
-.form-select:focus {
-  border-color: #1976d2;
-  outline: none;
-}
-
-.form-input.error,
-.form-select.error {
-  border-color: #d32f2f;
-}
-
-.form-input:disabled,
-.form-select:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
-.form-helper-text {
-  color: #666;
-  font-size: 12px;
-  font-family: Arial, sans-serif;
-  margin-top: 4px;
-}
-
-.form-helper-text.error {
-  color: #d32f2f;
-}
-
-.input-width-small { width: 200px; }
-.input-width-medium { width: 300px; }
-.input-width-large { width: 400px; }
-.input-width-full { width: 100%; }
-
-/* Card styles */
-.card {
-  border-radius: 4px;
-  margin-bottom: 16px;
-  overflow: hidden;
-  background-color: #fff;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-.card-default {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),
-              0px 1px 1px 0px rgba(0,0,0,0.14),
-              0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.card-bordered {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: none;
-}
-
-.card-elevated {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.12),
-              0px 1px 2px 0px rgba(0,0,0,0.08),
-              0px 1px 4px 0px rgba(0,0,0,0.08);
-}
-
-.card-flat {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: none;
-  background-color: #fafafa;
-}
-
-.card-header {
-  padding: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fafafa;
-}
-
-.card-title {
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.6;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.card-subtitle {
-  margin: 4px 0 0 0;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.43;
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.card-body {
-  padding: 20px;
-}
-
-/* Badge styles */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  line-height: 1;
-  white-space: nowrap;
-  border-radius: 3px;
-}
-
-.badge-pill {
-  border-radius: 10px;
-}
-
-.badge-primary { background-color: #1976d2; color: #fff; }
-.badge-secondary { background-color: #757575; color: #fff; }
-.badge-success { background-color: #388e3c; color: #fff; }
-.badge-danger { background-color: #d32f2f; color: #fff; }
-.badge-warning { background-color: #f57c00; color: #fff; }
-.badge-info { background-color: #0288d1; color: #fff; }
-
-.badge-small {
-  padding: 0px 4px;
-  font-size: 0.625rem;
-  height: 16px;
-}
-
-.badge-medium {
-  padding: 0px 8px;
-  font-size: 0.75rem;
-  height: 20px;
-}
-
-.badge-large {
-  padding: 0px 10px;
-  font-size: 0.8125rem;
-  height: 24px;
-}
-
-/* Alert styles */
-.alert {
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  border-radius: 3px;
-  border: 1px solid;
-  font-family: Arial, sans-serif;
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.alert-info {
-  background-color: #e3f2fd;
-  border-color: #90caf9;
-  color: #0d47a1;
-}
-
-.alert-success {
-  background-color: #e8f5e9;
-  border-color: #81c784;
-  color: #1b5e20;
-}
-
-.alert-warning {
-  background-color: #fff3e0;
-  border-color: #ffb74d;
-  color: #e65100;
-}
-
-.alert-error {
-  background-color: #ffebee;
-  border-color: #e57373;
-  color: #b71c1c;
-}
-
-.alert-default {
-  background-color: #f5f5f5;
-  border-color: #bdbdbd;
-  color: #424242;
-}
-
-.alert-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.alert-content {
-  flex: 1;
-}
-
-.alert-title {
-  font-weight: bold;
-  margin-bottom: 4px;
-  font-size: 15px;
-}
-
-.alert-body {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.alert-close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  padding: 0 4px;
-  margin-left: auto;
-  flex-shrink: 0;
-}
-
-/* Select styles - handled by form-input styles above */
-
-/* Checkbox styles */
-.checkbox-wrapper {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 12px;
-  cursor: pointer;
-}
-
-.checkbox-wrapper.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.checkbox-container {
-  position: relative;
-  margin-right: 8px;
-  margin-top: 2px;
-}
-
-.checkbox-input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkbox-custom {
-  height: 16px;
-  width: 16px;
-  border: 2px solid #d1d5db;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease-in-out;
-  cursor: pointer;
-  background-color: #ffffff;
-}
-
-.checkbox-custom.checked {
-  background-color: #1976d2;
-  border-color: #1976d2;
-}
-
-.checkbox-custom.disabled {
-  cursor: not-allowed;
-}
-
-.checkbox-checkmark {
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: bold;
-  display: none;
-}
-
-.checkbox-checkmark.visible {
-  display: block;
-}
-
-.checkbox-label {
-  font-size: 14px;
-  color: #374151;
-  cursor: pointer;
-  line-height: 1.4;
-  user-select: none;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-.checkbox-label.error {
-  color: #ef4444;
-}
-
-.checkbox-label.disabled {
-  cursor: not-allowed;
-}
-
-.checkbox-hint {
-  color: #6b7280;
-  font-size: 12px;
-  margin-top: 2px;
-  margin-left: 24px;
-  display: block;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-.checkbox-error {
-  color: #ef4444;
-  font-size: 12px;
-  margin-top: 2px;
-  margin-left: 24px;
-  display: block;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-/* Textarea styles */
-.form-textarea {
-  width: 100%;
-  min-height: 6em;
-  padding: 16.5px 14px;
-  font-size: 16px;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  font-weight: 400;
-  line-height: 1.1876em;
-  color: rgba(0, 0, 0, 0.87);
-  border: 1px solid rgba(0, 0, 0, 0.23);
-  border-radius: 4px;
-  background-color: #fff;
-  box-sizing: border-box;
-  transition: border-color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-  outline: none;
-  resize: vertical;
-}
-
-.form-textarea:focus {
-  border-color: #1976d2;
-  border-width: 2px;
-  padding: 15.5px 13px;
-}
-
-.form-textarea.error {
-  border-color: #d32f2f;
-}
-
-.form-textarea:disabled {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-/* Loading spinner */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.spinner {
-  animation: spin 1.4s linear infinite;
-}
-
-/* Table styles */
-.table-container {
-  overflow-x: auto;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  font-size: 0.875rem;
-  background-color: #fff;
-}
-
-.table thead {
-  background-color: #fafafa;
-}
-
-.table th {
-  padding: 16px;
-  text-align: left;
-  font-weight: 500;
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
-}
-
-.table td {
-  padding: 16px;
-  color: rgba(0, 0, 0, 0.87);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.table-striped tbody tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
-.table-bordered {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.table-bordered th,
-.table-bordered td {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.table-hover tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 16px;
-}
-
-.modal-content {
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),
-              0px 24px 38px 3px rgba(0,0,0,0.14),
-              0px 9px 46px 8px rgba(0,0,0,0.12);
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-}
-
-.modal-small {
-  width: 100%;
-  max-width: 400px;
-}
-
-.modal-medium {
-  width: 100%;
-  max-width: 600px;
-}
-
-.modal-large {
-  width: 100%;
-  max-width: 900px;
-}
-
-.modal-header {
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 28px;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.54);
-  cursor: pointer;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.modal-close:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-.modal-body {
-  padding: 24px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.modal-footer {
-  padding: 16px 24px;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+/* 1. Tailwind v4 엔진 로드 */
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* 3. 테마 설정 (기존과 동일, Semantic Mapping을 사용하므로 수정 불필요) */
+@theme {
+  /* Semantic Colors */
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-gray-solid: var(--legacy-gray-solid);
+
+  /* BDS Legacy Utilities */
+  --color-bum-bg-page: var(--legacy-bg-page);
+
+  --color-bum-blue-main: var(--legacy-blue-main);
+  --color-bum-blue-light: var(--legacy-blue-light);
+  --color-bum-blue-border: var(--legacy-blue-border);
+  --color-bum-blue-dark: var(--legacy-blue-dark);
+
+  --color-bum-green-main: var(--legacy-green-main);
+  --color-bum-green-light: var(--legacy-green-light);
+  --color-bum-green-border: var(--legacy-green-border);
+  --color-bum-green-dark: var(--legacy-green-dark);
+
+  --color-bum-orange-main: var(--legacy-orange-main);
+  --color-bum-orange-light: var(--legacy-orange-light);
+  --color-bum-orange-border: var(--legacy-orange-border);
+
+  --color-bum-red-main: var(--legacy-red-main);
+  --color-bum-red-light: var(--legacy-red-light);
+  --color-bum-red-border: var(--legacy-red-border);
+  --color-bum-red-dark: var(--legacy-red-dark);
+
+  --color-bum-gray-main: var(--legacy-gray-700);
+  --color-bum-gray-light: var(--legacy-gray-100);
+  --color-bum-gray-200: var(--legacy-gray-200);
+  --color-bum-gray-300: var(--legacy-gray-300);
+  --color-bum-gray-350: var(--legacy-gray-350);
+  --color-bum-gray-border: var(--legacy-gray-border);
+  --color-bum-gray-500: var(--legacy-gray-500);
+  --color-bum-gray-600: var(--legacy-gray-600);
+  --color-bum-gray-700: var(--legacy-gray-700);
+  --color-bum-gray-800: var(--legacy-gray-800);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    /* ==================================================================
+       LIGHT MODE (Legacy Values Kept Intact)
+       ================================================================== */
+
+    /* Page & Background */
+    --legacy-bg-page: #f0f0f0;
+    --legacy-white: #ffffff;
+    --legacy-black: #000000;
+
+    /* Blue (Brand) */
+    --legacy-blue-main: #1775d2;
+    --legacy-blue-dark: #1565c0;
+    --legacy-blue-light: #e3f2fd;
+    --legacy-blue-border: #90caf9;
+
+    /* Green (Success) */
+    --legacy-green-main: #388e3c;
+    --legacy-green-dark: #2e7d32;
+    --legacy-green-light: #e8f5e9;
+    --legacy-green-border: #81c784;
+
+    /* Red (Danger) */
+    --legacy-red-main: #d32f2f;
+    --legacy-red-dark: #c62828;
+    --legacy-red-light: #ffebee;
+    --legacy-red-border: #e57373;
+
+    /* Orange (Warning) */
+    --legacy-orange-main: #f57c00;
+    --legacy-orange-light: #fff3e0;
+    --legacy-orange-border: #ffb74d;
+
+    /* Info & Grays */
+    --legacy-info-main: #0288d1;
+    --legacy-gray-50: #fafafa;
+    --legacy-gray-100: #f5f5f5;
+    --legacy-gray-200: #e0e0e0;
+    --legacy-gray-300: #dddddd;
+    --legacy-gray-350: #cccccc;
+    --legacy-gray-400: #999999;
+    --legacy-gray-500: #999999;
+    --legacy-gray-600: #666666;
+    --legacy-gray-border: #bdbdbd;
+    --legacy-gray-700: #424242;
+    --legacy-gray-800: #333333;
+    --legacy-gray-solid: #757474;
+
+    --legacy-radius: 0.25rem;
+
+    /* Semantic Mapping (Light) */
+    --background: var(--legacy-white);
+    --foreground: var(--legacy-gray-800);
+    --card: var(--legacy-white);
+    --card-foreground: var(--legacy-gray-800);
+    --popover: var(--legacy-white);
+    --popover-foreground: var(--legacy-gray-800);
+    --primary: var(--legacy-blue-main);
+    --primary-foreground: var(--legacy-white);
+    --secondary: var(--legacy-gray-100);
+    --secondary-foreground: var(--legacy-gray-800);
+    --destructive: var(--legacy-red-main);
+    --destructive-foreground: var(--legacy-white);
+    --success: var(--legacy-green-main);
+    --success-foreground: var(--legacy-white);
+    --warning: var(--legacy-orange-main);
+    --warning-foreground: var(--legacy-white);
+    --info: var(--legacy-info-main);
+    --info-foreground: var(--legacy-white);
+    --muted: var(--legacy-gray-100);
+    --muted-foreground: var(--legacy-gray-400);
+    --accent: var(--legacy-gray-100);
+    --accent-foreground: var(--legacy-blue-main);
+    --border: var(--legacy-gray-300);
+    --input: var(--legacy-gray-300);
+    --ring: var(--legacy-blue-main);
+    --radius: var(--legacy-radius);
+  }
+
+  /* ==================================================================
+     DARK MODE (A11y Optimized)
+     * 접근성 원칙: 배경은 어둡게, 텍스트는 밝게, 테두리는 은은하게
+     * 눈부심 방지를 위해 Pure Black 대신 Slate-950 계열 사용
+     * 색상 대비율(Contrast Ratio) 4.5:1 이상 확보 목표
+     ================================================================== */
+  .dark {
+    /* [Base Surfaces] 깊이감 있는 어두운 배경 */
+    --background: #020817; /* Slate 950 */
+    --foreground: #f8fafc; /* Slate 50 */
+
+    /* Page Background: 카드와 구분되도록 더 어둡게 */
+    --legacy-bg-page: #0f172a; /* Slate 900 */
+
+    /* Card & Popover: 배경보다 한 단계 밝아 위계 표현 */
+    --card: #1e293b; /* Slate 800 */
+    --card-foreground: #f8fafc;
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+
+    /* [Actions] */
+    /* Primary: 어두운 배경에서 잘 보이도록 Blue 400~500 계열 사용 (너무 쨍한 Blue 600 지양) */
+    --primary: #60a5fa; /* Blue 400 */
+    --primary-foreground: #0f172a; /* Dark Text for contrast */
+
+    /* Secondary: 다크모드에서는 짙은 회색이 보조 역할 */
+    --secondary: #334155; /* Slate 700 */
+    --secondary-foreground: #f8fafc;
+
+    /* Muted & Accent */
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8; /* Slate 400 */
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+
+    /* Destructive: 너무 밝은 빨강은 눈 아픔. 적당한 채도 유지 */
+    --destructive: #ef4444; /* Red 500 */
+    --destructive-foreground: #ffffff;
+
+    /* Borders & Inputs: 배경에 묻히지 않는 은은한 테두리 */
+    --border: #334155; /* Slate 700 */
+    --input: #334155;
+    --ring: #3b82f6; /* Blue 500 */
+
+    /* [Status Colors] */
+    /* 뱃지 텍스트는 밝게, 배경은 투명도를 주어 은은하게 */
+    --success: #4ade80; /* Green 400 */
+    --success-foreground: #022c22; /* Green 950 */
+
+    --warning: #fbbf24; /* Amber 400 */
+    --warning-foreground: #451a03; /* Amber 950 */
+
+    --info: #38bdf8; /* Sky 400 */
+    --info-foreground: #082f49; /* Sky 950 */
+
+    /* 보관됨 뱃지: 너무 어두우면 안 보임, 밝은 회색으로 변경 */
+    --legacy-gray-solid: #94a3b8; /* Slate 400 */
+
+    /* ==================================================
+       [BDS Legacy Utilities Override] - ManagementPage 통계 카드용
+       * 전략: 파스텔톤 배경(Light) -> 어두운 투명 배경(Dark)
+       * 텍스트: 짙은 색(Light) -> 밝은 색(Dark)
+       ================================================== */
+
+    /* Blue Card (전체/관리자) */
+    --legacy-blue-light: #172554; /* Blue 950 (Deep Background) */
+    --legacy-blue-border: #1e40af; /* Blue 800 (Subtle Border) */
+    --legacy-blue-main: #60a5fa; /* Blue 400 (Readable Text) */
+    --legacy-blue-dark: #93c5fd; /* Hover Text */
+
+    /* Green Card (활성/게시됨) */
+    --legacy-green-light: #052e16; /* Green 950 */
+    --legacy-green-border: #166534; /* Green 800 */
+    --legacy-green-main: #4ade80; /* Green 400 */
+    --legacy-green-dark: #86efac;
+
+    /* Orange Card (비활성/임시저장) */
+    --legacy-orange-light: #451a03; /* Amber 950 */
+    --legacy-orange-border: #9a3412; /* Amber 800 */
+    --legacy-orange-main: #fbbf24; /* Amber 400 */
+
+    /* Red Card (정지/보관됨) */
+    --legacy-red-light: #450a0a; /* Red 950 */
+    --legacy-red-border: #991b1b; /* Red 800 */
+    --legacy-red-main: #f87171; /* Red 400 */
+    --legacy-red-dark: #fca5a5;
+
+    /* Gray Card (관리자/조회수) */
+    --legacy-gray-100: #1e293b; /* Slate 800 (Card BG) */
+    --legacy-gray-border: #334155; /* Slate 700 (Border) */
+    --legacy-gray-200: #334155; /* Hover BG */
+    --legacy-gray-300: #475569; /* Input Border */
+    --legacy-gray-350: #475569; /* Tab Border */
+
+    /* Text Colors Inversion */
+    --legacy-gray-600: #94a3b8; /* Slate 400 (Subtext) */
+    --legacy-gray-700: #cbd5e1; /* Slate 300 (Strong Text) */
+    --legacy-gray-800: #f1f5f9; /* Slate 100 (Main Text) */
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+  }
 }
