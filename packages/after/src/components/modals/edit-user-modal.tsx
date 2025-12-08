@@ -1,0 +1,102 @@
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { Alert, AlertDescription } from "../ui/alert";
+import { useCallback, useEffect, useState } from "react";
+import { userService, type User } from "@/services/userService";
+import { Form } from "../ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import UserForm, {
+  userFormSchema,
+  type UserFormValues,
+} from "@/components/forms/user-form";
+
+interface EditUserModalProps {
+  open: boolean;
+  onClose?: () => void;
+  onSubmit: (id: number, data: UserFormValues) => void | Promise<void>;
+  selectedId: number;
+}
+
+const EditUserModal = ({
+  open,
+  onClose,
+  onSubmit,
+  selectedId,
+}: EditUserModalProps) => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const form = useForm<UserFormValues>({
+    resolver: zodResolver(userFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      username: "",
+      email: "",
+      role: "",
+      status: "",
+    },
+  });
+
+  const fetchUser = useCallback(async () => {
+    const user = await userService.getById(selectedId);
+    if (user) {
+      setUser(user);
+      form.reset({
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        status: user.status,
+      });
+    }
+  }, [selectedId, form]);
+
+  const handleSubmit = async (data: UserFormValues) => {
+    await onSubmit(selectedId, data);
+    onClose?.();
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [selectedId, fetchUser]);
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <DialogHeader>
+              <DialogTitle>사용자 수정</DialogTitle>
+            </DialogHeader>
+            <DialogBody>
+              <Alert variant="info" className="mb-4">
+                <AlertDescription>
+                  ID: {user?.id} | 생성일: {user?.createdAt}
+                </AlertDescription>
+              </Alert>
+              <UserForm form={form} />
+            </DialogBody>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">취소</Button>
+              </DialogClose>
+              <Button type="submit" variant="primary">
+                수정 완료
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default EditUserModal;
