@@ -1,5 +1,7 @@
 # Chapter3-1. UI 컴포넌트 모듈화와 디자인 시스템
 
+https://jumoooo.github.io/front_7th_chapter3-1/
+
 ## 기본과제: 레거시 디자인 시스템 분석 및 이해
 
 이번 과제는 레거시 디자인 시스템의 문제점을 파악하고, 현대적인 디자인 시스템으로 마이그레이션하는 것입니다. 실무에서 자주 마주치는 일관성 없는 컴포넌트 API, 혼재된 스타일링 방식, 부족한 타입 안전성 등의 문제를 직접 경험하고 개선해봅니다.
@@ -201,26 +203,32 @@ export const Primary: Story = {
 
 ## 5. 과제 제출
 
-### 필수 구현 사항
-- [ ] after 패키지에 디자인 시스템 구현 완료
-- [ ] PostManagement 페이지 마이그레이션 완료
-- [ ] Storybook에 주요 컴포넌트 stories 작성
-- [ ] README에 before/after 비교 및 개선사항 문서화
+## 필수 과제
 
-### 심화 구현 사항
-- [ ] Dark mode 지원
-- [ ] Dark mode toggle 버튼
+### 1. 디자인 시스템 구축
+- [x] TailwindCSS 설정 및 디자인 토큰 정의
+- [x] shadcn/ui 컴포넌트 설치 (Button, Input, Select, Card, Table 등)
+- [x] CVA를 활용한 variants 패턴 적용
+- [x] 일관된 스타일 시스템 구축
 
-## 6. 그밖에 해보면 좋을 것들
-> 분량상 이번 과제에는 포함하지 않았지만, 실무에서 자주 쓰이는 패턴들입니다. 시간 여유가 된다면 도전해보세요!
-- [ ] figma 디자인 토큰 추출 후 적용
-- [ ] figma Design to Code 플러그인 혹은 MCP 사용해보기
-- [ ] figma Icon to SVG + deploy to CDN 시스템 구축 해보기
-- [ ] 복잡한 컴포넌트 직접 구현 (token, variants, 접근성) 포함
-  - ex) AutoComplete, DatePicker
-- [ ] Monorepo 디자인 시스템 패키지 구축 및 배포
-- [ ] Storybook Interaction Tests 또는 A11y addon으로 컴포넌트 품질 검증
-- [ ] React Hook Form + Zod로 Form 구현
+### 2. Before 패키지 분석
+- [x] Before 패키지 실행 및 전체 코드 탐색
+- [x] 스타일링, 컴포넌트 설계, 폼 관리 측면에서 문제점 파악
+- [x] 개선이 필요한 부분과 그 이유 정리
+
+### 3. 컴포넌트 개편
+- [x] UI와 비즈니스 로직 분리
+- [x] 순수한 UI 컴포넌트로 재구성
+- [x] 일관된 컴포넌트 API 설계
+- [x] 적절한 컴포넌트 구조 설계
+
+---
+
+## 심화 과제
+
+- [x] Dark Mode 완전 지원 (CSS Variables + Tailwind)
+- [x] Design Token 시스템 고도화 (색상 팔레트, 타이포그래피 스케일)
+- [x] 뷰와 비즈니스로직이 분리되도록 
 
 ---
 
@@ -253,3 +261,79 @@ export const Primary: Story = {
 ### Atomic Design
 - [Atomic Design Methodology](https://atomicdesign.bradfrost.com/)
 - [Atomic Design과 React](https://fe-developers.kakaoent.com/2022/220505-how-page-part-use-atomic-design-system/)
+
+
+## 과제 회고
+
+> 과제를 진행하면서 느낀 점, 배운 점을 자유롭게 작성해주세요.
+
+### Before 패키지에서 발견한 문제점
+1. 컴포넌트 통합 문제
+atoms 단위 컴포넌트에 비즈니스 로직이 많이 포함되어 있었습니다. 예를 들어, Button 컴포넌트에 entityType, action, entity 같은 도메인 타입이 들어가 UI 컴포넌트가 도메인 로직까지 책임지고 있었습니다. 이로 인해 재사용성이 떨어지고 역할이 명확하지 않았습니다.
+
+2. 컴포넌트 폴더 구조 문제
+atoms/molecules/organisms 구조는 실제 개발 과정에서 컴포넌트를 찾기 어려웠습니다. 어떤 컴포넌트가 어느 레벨인지 고민하는 시간이 필요했고, 분류 기준 자체가 모호했습니다.
+
+3. 타입 관리 문제
+타입이 컴포넌트 내부에 정의되어 있어 재사용이 필요한 타입이 여러 곳에서 중복될 가능성이 있었습니다. 예를 들어, ManagementPage.tsx 내부에 EntityType, Entity 같은 타입이 선언되어 있었습니다.
+
+4. 스타일링 문제
+인라인 스타일이 많아 유지보수가 어려웠습니다. 전체적으로 하드코딩된 값이 많았고, 스타일이 일관되지 않았습니다.
+
+5. 접근성 문제
+키보드 접근성이 제대로 구성되어 있지 않았고, 시맨틱 HTML 요소가 부족했습니다. 추가로 index.html의 title도 명확하지 않아 접근성 측면에서 개선이 필요했습니다.
+
+6. 사용하지 않는 컴포넌트
+Badge 컴포넌트처럼 선언되어 있지만 실제로 사용되지 않는 코드가 남아 있었습니다.
+
+### 개편 과정에서 집중한 부분
+
+1. UI와 비즈니스 로직 분리
+가장 중점을 둔 부분은 UI 컴포넌트와 비즈니스 로직을 명확히 분리하는 것이었습니다. 약 800줄이 넘는 ManagementPage.tsx에서 모든 비즈니스 로직을 useEntityManagement 훅으로 분리하고, 페이지 단에서는 UI만 렌더링하도록 개편했습니다. 이를 통해 책임이 명확해지고 테스트와 재사용이 훨씬 쉬워졌습니다.
+
+2. 디자인 시스템 구축
+TailwindCSS 4.x와 KRDS 디자인 토큰을 기반으로 일관된 디자인 시스템을 구성했습니다. Primitive Token과 Semantic Token을 구분하여 CSS Variables로 관리했으며, 다크 모드도 지원할 수 있도록 설계했습니다.
+
+3. CVA를 활용한 variants 패턴 적용
+Class Variance Authority(CVA)를 사용해 조건문 기반으로 작성된 Button 스타일 로직을 선언형으로 정리했습니다. variant와 size 등을 옵션으로 관리하도록 만들어 타입 안정성과 확장성을 높였습니다.
+
+4. 역할 기반 폴더 구조 도입
+기존의 atomic 구조를 버리고 역할 기반 구조로 전환했습니다. components/ui/는 순수 UI 컴포넌트, components/domain/management/는 도메인 컴포넌트로 배치해 구조를 더 명확하게 했습니다.
+
+5. 타입 안전성 개선
+공통 타입을 src/types/domain.ts로 분리해 중앙에서 관리하도록 했습니다. 이를 통해 타입 재사용성과 안정성이 모두 향상되었습니다.
+
+6. 접근성 개선
+시맨틱 HTML 요소를 적극적으로 적용하고, ARIA 속성도 추가했습니다. 탭 구조의 키보드 네비게이션도 수정해 접근성을 높였습니다. 또한 index.html의 title을 명확하게 수정했습니다.
+
+### 사용한 기술 스택 경험
+TailwindCSS 4.x
+디자인 토큰을 CSS 변수 기반으로 관리한다는 점이 특히 편리했습니다. 기존의 하드코딩된 색상을 토큰으로 전환하면서 전체적인 스타일 일관성을 확보할 수 있었습니다.
+
+CVA(Class Variance Authority)
+스타일 조건문을 대폭 줄이고, 선언적 방식으로 variants를 관리할 수 있었습니다. 타입스크립트와도 잘 맞아 안전하게 작성할 수 있었습니다.
+
+shadcn/ui
+처음 사용해봤는데, 복사해 사용하는 방식 덕분에 완전히 통제 가능한 컴포넌트를 사용할 수 있어 좋았습니다. Radix UI 기반이라 접근성이 기본적으로 좋아 개발이 편했습니다.
+
+Storybook
+컴포넌트를 독립적으로 테스트하고 문서화할 수 있어 개발 효율이 높아졌습니다. 특히 접근성 애드온을 통해 문제점을 빠르게 확인할 수 있었습니다.
+
+KRDS 디자인 토큰
+공공기관의 디자인 기준을 경험해 볼 수 있었고, Primitive/Semantic 토큰 구조가 체계적이라 적용하는 과정이 명확했습니다.
+
+### 어려웠던 점과 해결 방법
+1. 다크 모드 구현의 어려움
+일부 컴포넌트에서 배경색이 제대로 변경되지 않는 문제가 있었습니다. 원인은 Before 패키지에 하드코딩된 색상 값 때문이었습니다. 이를 해결하기 위해 Semantic Tokens로 전환하고 .dark 기반의 토큰을 구성했습니다. 하지만 Before 디자인을 그대로 따라야 한다는 제약이 있어 인라인 스타일 일부가 남아 있고, 현재는 다크 모드 토글 기능은 구현되어 있지만, 일부 컴포넌트에서 배경색이 완전히 변경되지 않는 상태입니다.
+
+2. 타입 변환 문제
+Entity 타입(User | Post)을 Record<string, unknown>로 변환할 때 타입 오류가 발생했습니다. 구조적 호환성 문제였고, 이중 캐스팅을 사용해 해결했습니다.
+
+3. 컴포넌트 분리 과정의 복잡성
+거대한 파일을 분리하는 과정에서 로직의 책임을 어디에 둘지 판단하기가 어려웠습니다. 순서를 정해 우선 훅을 만들고, 이후 UI 컴포넌트를 분리하는 방식으로 해결했습니다.
+
+4. 파일명 대소문자 이슈(Linux 환경)
+Windows에서는 문제가 없었지만 GitHub Actions에서는 대소문자 불일치로 오류가 발생했습니다. forceConsistentCasingInFileNames: true 옵션을 적용해 예방했습니다.
+
+5. Before 디자인 유지와 개선 사이의 균형
+Before 디자인을 그대로 유지하면서 인라인 스타일 제거와 디자인 토큰 도입을 함께 진행해야 하는 점이 어려웠습니다. shadcn/ui는 그대로 유지하고, 일부 레거시 컴포넌트만 사용하여 균형을 맞추는 방법을 택했습니다.

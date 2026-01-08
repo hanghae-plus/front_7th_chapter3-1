@@ -1,19 +1,42 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+/// <reference types="vitest/config" />
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+const dirname =
+  typeof __dirname !== "undefined"
+    ? __dirname
+    : path.dirname(new URL(import.meta.url).pathname);
+
+// GitHub Pages 배포를 위한 base 경로 설정
+// 저장소 이름이 URL에 포함되므로 저장소 이름을 base 경로로 설정
+const base: string =
+  process.env.NODE_ENV === "production" ? "/front_7th_chapter3-1/" : "";
+
+export default defineConfig(({ command }) => {
+  // 빌드 모드에서는 test 설정 제외
+  const isBuild = command === "build";
+
+  return {
+    base, // GitHub Pages 배포 경로 설정
+    plugins: [react(), tailwindcss()],
+    resolve: {
+      alias: {
+        "@": path.resolve(dirname, "./src"),
+      },
     },
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/test/setup.ts',
-    css: true,
-  },
-})
+    // test 설정은 개발/테스트 환경에서만 사용
+    ...(isBuild
+      ? {}
+      : {
+          test: {
+            globals: true,
+            environment: "jsdom",
+            setupFiles: "./src/test/setup.ts",
+            css: true,
+          },
+        }),
+  };
+});
