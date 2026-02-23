@@ -1,0 +1,332 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@import "../tokens/primitive.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ============================================
+    Colors - Backgrounds (Light Mode)
+  ============================================ */
+  --color-app-background: var(--white);
+  --color-app-background-muted: var(--gray-50);
+  --color-app-card: var(--white);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Button backgrounds */
+  --color-primary: var(--blue-400);
+  --color-primary-hover: var(--blue-500);
+  --color-secondary: var(--gray-100);
+  --color-secondary-hover: var(--gray-200);
+  --color-danger: var(--red-500);
+  --color-danger-hover: var(--red-600);
+  --color-success: var(--green-500);
+  --color-success-hover: var(--green-600);
+  --color-warning: var(--orange-500);
+  --color-warning-hover: var(--orange-900);
+  --color-info: var(--cyan-500);
+  --color-info-hover: var(--blue-500);
+  --color-muted: var(--gray-500);
+
+  /* Alert backgrounds */
+  --color-alert-danger: var(--red-50);
+  --color-alert-info: var(--blue-50);
+  --color-alert-success: var(--green-50);
+  --color-alert-warning: var(--orange-50);
+  --color-alert-muted: var(--gray-100);
+
+  /* Alert borders (for border-{name} utilities) */
+  --color-alert-danger-border: var(--red-200);
+  --color-alert-success-border: var(--green-200);
+  --color-alert-info-border: var(--blue-200);
+  --color-alert-warning-border: var(--orange-200);
+  --color-alert-muted-border: var(--gray-400);
+
+  /* Table backgrounds */
+  --color-table-row: var(--gray-50);
+  --color-table-row-hover: var(--gray-100);
+
+  /* ============================================
+  Colors - Text (Light Mode)
+  ============================================ */
+  --color-app-foreground: var(--gray-800);
+  --color-app-card-foreground: rgba(0, 0, 0, 0.87);
+  --color-popover-foreground: rgba(0, 0, 0, 0.87);
+  --color-app-primary-foreground: var(--white);
+  --color-app-secondary-foreground: var(--gray-800);
+  --color-app-danger-foreground: var(--white);
+  --color-app-success-foreground: var(--white);
+  --color-app-warning-foreground: var(--white);
+  --color-app-info-foreground: var(--white);
+  --color-app-muted-foreground: var(--gray-700);
+  --color-app-accent-foreground: var(--gray-800);
+  --color-app-text-secondary: var(--gray-700);
+  --color-app-text-tertiary: var(--gray-550);
+  --color-text-disabled: var(--gray-500);
+  --color-success-alert-foreground: var(--green-900);
+  --color-danger-alert-foreground: var(--red-500);
+  --color-warning-alert-foreground: var(--orange-500);
+  --color-info-alert-foreground: var(--blue-400);
+  --color-muted-alert-foreground: var(--gray-700);
+
+  /* Card title colors (for variant-specific card titles) */
+  --color-card-title-info: var(--blue-400);
+  --color-card-title-success: var(--green-500);
+  --color-card-title-warning: var(--orange-500);
+  --color-card-title-danger: var(--red-500);
+  --color-card-title-muted: var(--gray-700);
+
+  /* ============================================
+  Colors - Borders
+  ============================================ */
+  --color-border: var(--gray-400);
+  --color-border-light: var(--gray-250);
+  --color-border-strong: rgba(0, 0, 0, 0.12);
+  --color-border-primary: var(--blue-500);
+  --color-border-danger: var(--red-600);
+  --color-border-success: var(--green-600);
+  --color-input: var(--gray-400);
+  --color-ring: var(--blue-400);
+  --color-table-border: rgba(0, 0, 0, 0.12);
+  --color-table-container-border: var(--gray-250);
+
+  /* ============================================
+  Radius (for rounded-* utilities)
+  ============================================ */
+  --radius: 4px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 10px;
+  --radius-full: 50%;
+
+  /* ============================================
+  Typography
+  ============================================ */
+  --font-family-sans: "Arial", "Apple SD Gothic Neo", sans-serif;
+  --font-family-heading: "Roboto", "Helvetica", "Arial", sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --leading-tight: 1.1;
+  --leading-normal: 1.4;
+  --leading-relaxed: 1.5;
+
+  /* ============================================
+  Spacing
+  ============================================ */
+  --spacing-0: 0px;
+  --spacing-1: var(--spacing-4);
+  --spacing-2: var(--spacing-8);
+  --spacing-3: var(--spacing-12);
+  --spacing-4: var(--spacing-16);
+  --spacing-5: var(--spacing-20);
+  --spacing-6: var(--spacing-24);
+
+  /* ============================================
+  Z-index
+  ============================================ */
+  --z-header: 40;
+  --z-dropdown: 45;
+  --z-modal: 50;
+}
+
+:root {
+  color: var(--color-app-foreground);
+  background-color: var(--color-app-background);
+  font-family: var(--font-family-sans);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-app-background text-app-foreground text-base;
+  }
+
+  h1 {
+    @apply text-2xl font-bold text-app-foreground;
+  }
+  h2 {
+    @apply text-xl font-semibold text-app-foreground;
+  }
+  h3 {
+    @apply text-lg font-semibold text-app-foreground;
+  }
+  h4 {
+    @apply text-base font-medium text-app-foreground;
+  }
+
+  .text-subtle {
+    @apply text-sm text-app-muted-foreground;
+  }
+
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    @apply cursor-pointer;
+  }
+}
+
+/* Dark mode color overrides */
+.dark {
+  /* Backgrounds */
+  --color-app-background: var(--black);
+  --color-app-background-muted: var(--gray-800);
+  --color-app-card: var(--gray-700);
+  --color-overlay: var(--black);
+
+  /* Button backgrounds */
+  --color-primary: var(--blue-500);
+  --color-primary-hover: var(--blue-400);
+  --color-secondary: var(--gray-600);
+  --color-secondary-hover: var(--gray-500);
+  --color-danger: var(--red-500);
+  --color-danger-hover: var(--red-600);
+  --color-success: var(--green-500);
+  --color-success-hover: var(--green-600);
+  --color-warning: var(--orange-500);
+  --color-warning-hover: var(--orange-900);
+  --color-info: var(--cyan-500);
+  --color-info-hover: var(--blue-500);
+  --color-muted: var(--gray-500);
+
+  /* Alert backgrounds (using primitive colors) */
+  --color-alert-danger: var(--red-900);
+  --color-alert-info: var(--blue-900);
+  --color-alert-success: var(--green-900);
+  --color-alert-warning: var(--orange-900);
+  --color-alert-muted: var(--gray-700);
+
+  /* Alert borders */
+  --color-alert-danger-border: var(--red-600);
+  --color-alert-success-border: var(--green-600);
+  --color-alert-info-border: var(--blue-500);
+  --color-alert-warning-border: var(--orange-500);
+  --color-alert-muted-border: var(--gray-600);
+
+  /* Table backgrounds */
+  --color-table-row: var(--gray-700);
+  --color-table-row-hover: var(--gray-800);
+
+  /* Text colors */
+  --color-app-foreground: var(--white);
+  --color-app-card-foreground: var(--gray-100);
+  --color-popover-foreground: var(--gray-100);
+  --color-app-primary-foreground: var(--white);
+  --color-app-danger-foreground: var(--white);
+  --color-app-success-foreground: var(--white);
+  --color-app-warning-foreground: var(--white);
+  --color-app-info-foreground: var(--white);
+  --color-app-muted-foreground: var(--gray-100);
+  --color-app-accent-foreground: var(--gray-100);
+  --color-app-text-secondary: var(--gray-300);
+  --color-app-text-tertiary: var(--gray-400);
+  --color-text-disabled: var(--gray-500);
+  --color-success-alert-foreground: var(--green-200);
+  --color-danger-alert-foreground: var(--red-200);
+  --color-warning-alert-foreground: var(--orange-200);
+  --color-info-alert-foreground: var(--blue-200);
+  --color-muted-alert-foreground: var(--gray-300);
+
+  /* Card title colors (lighter for dark mode) */
+  --color-card-title-info: var(--blue-200);
+  --color-card-title-success: var(--green-200);
+  --color-card-title-warning: var(--orange-200);
+  --color-card-title-danger: var(--red-200);
+  --color-card-title-muted: var(--gray-300);
+
+  /* Borders */
+  --color-border: var(--gray-600);
+  --color-border-light: var(--gray-700);
+  --color-border-strong: var(--gray-500);
+  --color-border-primary: var(--blue-400);
+  --color-border-danger: var(--red-500);
+  --color-border-success: var(--green-500);
+  --color-input: var(--gray-600);
+  --color-ring: var(--blue-400);
+  --color-table-border: var(--gray-600);
+  --color-table-container-border: var(--gray-700);
+}
+
+@layer utilities {
+  .rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+  .rounded-md {
+    border-radius: var(--radius-md);
+  }
+  .rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+  .rounded-xs {
+    border-radius: var(--radius-xs);
+  }
+  .rounded-full {
+    border-radius: var(--radius-full);
+  }
+
+  /* Explicit utilities that use CSS variables (dark mode will work via CSS variable override) */
+  .bg-app-background {
+    background-color: var(--color-app-background);
+  }
+  .bg-app-background-muted {
+    background-color: var(--color-app-background-muted);
+  }
+  .bg-app-card {
+    background-color: var(--color-app-card);
+  }
+  .text-app-foreground {
+    color: var(--color-app-foreground);
+  }
+  .text-app-muted-foreground {
+    color: var(--color-app-muted-foreground);
+  }
+  .text-app-text-secondary {
+    color: var(--color-app-text-secondary);
+  }
+  .text-app-text-tertiary {
+    color: var(--color-app-text-tertiary);
+  }
+  .text-app-card-foreground {
+    color: var(--color-app-card-foreground);
+  }
+  .text-app-primary-foreground {
+    color: var(--color-app-primary-foreground);
+  }
+  .text-app-secondary-foreground {
+    color: var(--color-app-secondary-foreground);
+  }
+  .text-app-danger-foreground {
+    color: var(--color-app-danger-foreground);
+  }
+  .text-app-success-foreground {
+    color: var(--color-app-success-foreground);
+  }
+  .text-app-warning-foreground {
+    color: var(--color-app-warning-foreground);
+  }
+  .text-app-info-foreground {
+    color: var(--color-app-info-foreground);
+  }
+  .text-app-accent-foreground {
+    color: var(--color-app-accent-foreground);
+  }
+  .text-alert-muted {
+    color: var(--color-muted-alert-foreground);
+  }
+  .bg-table-row {
+    background-color: var(--color-table-row);
+  }
+  .bg-table-row-hover {
+    background-color: var(--color-table-row-hover);
+  }
+  .hover\:bg-table-row-hover:hover {
+    background-color: var(--color-table-row-hover);
+  }
+}

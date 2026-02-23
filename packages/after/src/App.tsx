@@ -1,11 +1,11 @@
-import React from 'react'
-import { Header } from './components/organisms'
-import { ManagementPage } from './pages/ManagementPage'
-import './styles/components.css'
+import React from "react";
+import { Header } from "@/components/Header";
+import { ManagementPage } from "./pages/ManagementPage";
+import "./styles/index.css";
 
 export const App: React.FC = () => {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f7fafc' }}>
+    <div className="min-h-screen bg-app-background">
       <Header />
       <main>
         <ManagementPage />
